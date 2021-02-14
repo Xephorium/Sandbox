@@ -1,0 +1,43 @@
+
+//////////////////////////
+/// GitHub Cheat Sheet ///
+//////////////////////////
+
+
+/*--- Overview ---*/
+
+GitHub is basically just a fancy code collaboration tool. It allows us to work on the same project from afar
+without emailing zip files or exchanging a flash drive.
+
+
+/*--- First Time Setup ---*/
+
+1. Create an account [Follow Xephorium! :) ]
+     https://github.com/
+2. Install github (See tutorial below for Windows instructions)
+     https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+3. Now, go to our project site!
+     https://github.com/Xephorium/Sandbox
+4. Copy the repository link (under green code dropdown)
+5. Navigate to desired project folder in command line. Enter the following:
+     git clone https://github.com/Xephorium/Sandbox
+6. The project is now downloaded! From now on, we'll be easily synchronized by command line. A couple basic commands below:
+     git pull             -->  Update local project with server changes
+     git reset --hard     -->  Disregard local changes & reset to last known server state (might have to do this before pull)
+
+We'll add to this as we go, but this should be enough to get us up and running!
+
+
+/*--- Commands ---*/
+
+git reset --hard                    // Revert all local changes (Exception: command won't delete new local files)
+git checkout "Folder\File"          // Revert changes to specific file
+git pull                            // Pull remote commits to local
+git add -A                          // Track all local changes for commit
+        "Folder"                    // Track specific folder for commit
+        "Folder\Subfolder"          // Track specific folder for commit
+        "Folder\File.txt"           // Track specific file for commit
+git commit -m "Make Changes"        // Commit changes locally with specific message
+git commit --amend -m "New Message" // Modify message of last commit (Only works if you haven't pushed yet!)
+git log                             // List all project commits ('q' to exit)
+git push                            // Push local commits to server
