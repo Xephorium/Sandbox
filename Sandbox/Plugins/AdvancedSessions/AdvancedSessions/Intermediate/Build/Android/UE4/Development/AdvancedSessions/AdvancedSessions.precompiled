@@ -1,0 +1,10 @@
+{
+	"OutputFiles": [
+		"Module.AdvancedSessions.cppa7.o",
+		"Module.AdvancedSessions.cppa8.o",
+		"Module.AdvancedSessions.gen.1_of_2.cppa7.o",
+		"Module.AdvancedSessions.gen.2_of_2.cppa7.o",
+		"Module.AdvancedSessions.gen.1_of_2.cppa8.o",
+		"Module.AdvancedSessions.gen.2_of_2.cppa8.o"
+	]
+}
