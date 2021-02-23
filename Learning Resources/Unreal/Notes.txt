@@ -1,0 +1,135 @@
+
+//////////////////////////////
+/// Learning Unreal Engine ///
+//////////////////////////////
+
+02.07.2021
+
+Things Unreal Already Does Better Than Unity
+- First/third person movement WITH physics-enabled object collisions!
+- Instant (usable) controller support
+- Elevator physics
+- Multiplayer support (SO much better holy shit)
+
+Basic Project Structure
+- Blueprint
+  > An object and it's associated code! Basically a Unity prefab. Difference is that a
+    Blueprint has one associated code class, which you can change in the EventGraph.
+- Level/Map
+  > A game world.
+  > Consists of a map, player(s), and scripted game events.
+  > Basic logic of level can be added/altered through Blueprints > Open Level Blueprint.
+- Game Instance
+  > Persistent across entire game session. (Including loading new levels.)
+  > Global! (Accessable from all Blueprints)
+  > Useful for both local and networked games.
+  > Meant for highest level config (Player login, session data, etc)
+- Game Mode
+  > Which character class player controls, game-specific HUD, etc. Basically config of the gametype
+    being played. Also tracks scores/points/whatever.
+  > Multiplayer: Runs on server. God class that keeps track of "match" info. (ie. Slayer time/score)
+  > In both cases, the Game Mode is meant to encapsulate game rules and state.
+  > Resets with new level load?
+- Game State
+  > Multiplayer! Runs on client. Local state class that's updated in real time by GameMode class.
+  > Responds to updates by changing things on client. (UI, player loc, world state, etc.)
+
+
+02.08.2021
+
+Widget Blueprint
+- A chunk of UI, which has a lifecycle and can be scripted. Ranges in scale from an entire
+  menu screen to a button which another Widget Blueprint can add to its own list.
+- Designer: Visualization of the Widget Blueprint's layout.
+- Graph: Nodes representing the WB's lifecycle and logic.
+  > Event Construct: Beginning of lifecycle. Can be used to grab references.
+
+
+02.11.2021
+
+In the last few days, I've learned how to setup menus and how we'll eventually give them controller
+support. The learning in those areas is almost done. In the interest of forward momentum, I won't
+let myself get too drawn into perfecting what were always intended to be prototypes. Today, my
+goal will be to finish the Menu test project by setting it up to launch a first person level with
+KBM. Then, that framework can serve as the starting point for network integration.
+
+Menu Lessons
+- Focus is fickle! To consistently register both keypresses and UI item interactions in a Widget:
+  > After adding widget to viewport in GameInstance, call "Set Input Mode Game And UI".
+  > In Widget, set keyboard focus to self (Widget) whenever "Event On Focus Lost" is fired.
+  > Set all buttons (or other interatctive components) not focusable.
+
+
+02.14.2021
+
+Setting a Packaged (built) game's default resolution and fullscreen settings:
+- Go to <build folder>\WindowsNoEditor\Sandbox\Saved\Config\WindowsNoEditor
+- Open "GameUserSettings.ini"
+- Change ResolutionSizeX, ResolutionSizeY, and FullscreenMode to the desired values.
+  Note: FullscreenMode --> (0: Fullscreen, 1, Borderless, 2: Windowed)
+
+
+02.20.2021
+
+Networking
+- Enabling Steam Online Subsystem:
+  0. Setup Guide: https://docs.unrealengine.com/en-US/ProgrammingAndScripting/Online/Steam/index.html
+  1. Enable plugin from Edit > Plugins
+  2. Visual Studio 2019 must be installed with the "C++ toolchain"
+  3. Appropriate DLL's must be copied from Steam folder to Unreal folder (see guide)
+  4. Add appripriate lines to DefaultEngine.ini (see guide)
+  5. Add steam_appid.txt (see guide)
+- Enabling Advanced Sessions Plugin:
+  0. https://forums.unrealengine.com/community/community-content-tools-and-tutorials/41043-advanced-sessions-plugin
+  1. Download two package folders, move folders to <Project Directory>/Plugins/AdvancedSessions. (Put both in that dir.)
+  2. Create blank C++ file anywhere in project to force compile of all C++ files. (Then, delete.)
+- MUST open a new level set to "listen" while hosting! Kind of an annoyance, but looks
+  like there's no way aaround it in Unreal. New Design:
+
+  Start --> [Start] --> Loading (Host) -->  Lobby --> (invite/join) --> [Start] --> Level
+                           |                ^
+                           |                |
+                           v                |
+                         Error -> [Retry] --'
+                           |
+                           v
+                       [Offline] --> LocalLobby --> [Start] --> Level
+
+
+02.22.2021
+
+Networking 2
+- Project Classes Revisited
+  > Source: https://docs.unrealengine.com/en-US/InteractiveExperiences/Networking/Blueprints/index.html
+  > Main Classes
+    + GameInstance     - Exist on server & clients. Do not communicate with each other.
+    + GameMode         - Exists only on server. Info clients don't need (like server map weapon settings).
+    + GameState        - Exists on server & clients. Synced! Place for score replication from server to clients.
+                         Contains PlayerArray with PlayerState objects for each connected player.
+    + PlayerController - One on client, list on server. Client instance replicated from correct server PC. For
+                         conveying events only one player might be aware of, like minimap ping. Resets on level load.
+    + PlayerState      - Synced list exists on both server & clients. Good for keeping track of health or kills.
+                         Resets on level load.
+    + Pawn             - Exists on server & all clients. Game object everyone should know about (fusion coil)
+  > Other Notes
+    + Replication is one-way. Server to client. To inform the server of changes, a client needs to call a
+      replicated "Run on server" event.
+    + "Has Authority" node can be used to determine ownership of an "Actor". For our cases, it's greatest use
+      will be establishing different logic for the clients and server.
+  > Replication settings
+    + None       - No replication. Duh.
+    + Replicated - Client values automatically updated when server value changes. Client will then see new value
+                   on next read.
+    + RepNotify  - Client will fire a function whenever the server's value changes. Useful for things that need
+                   to be propigated and handled immediately.
+  > GameMode vs GameState
+    + Source: https://docs.unrealengine.com/en-US/InteractiveExperiences/Framework/GameMode/index.html
+    + GameMode (Server only)
+      - Handles level transitions!
+    + GameState (Synced b/t server and clients)
+      - Game duration.
+      - Base class of current GameMode.
+
+Sandbox Multiplayer Architecture
+- LobbyGameState
+  > BeginPlay: if (hasAuthority) { announce player join to GameState } // Called only by clients joining lobby
