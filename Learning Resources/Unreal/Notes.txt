@@ -136,5 +136,5 @@ Sandbox Multiplayer Architecture
 
 Lessons
 - The client GameState cannot be used to trigger events in the server GameState. Any calls will be dropped
-  regardless of replication status. To trigger a server event from a client, call the event from
-  PlayerController with "run on server".
+  regardless of replication status. To trigger a server event from a client, call a PlayerController event
+  set to "run on server", which will then call handle server-side behavior in the server's GameState.
