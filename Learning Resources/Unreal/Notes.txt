@@ -133,3 +133,8 @@ Networking 2
 Sandbox Multiplayer Architecture
 - LobbyGameState
   > BeginPlay: if (hasAuthority) { announce player join to GameState } // Called only by clients joining lobby
+
+Lessons
+- The client GameState cannot be used to trigger events in the server GameState. Any calls will be dropped
+  regardless of replication status. To trigger a server event from a client, call the event from
+  PlayerController.
