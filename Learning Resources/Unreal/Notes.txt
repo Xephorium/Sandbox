@@ -131,8 +131,12 @@ Networking 2
       - Base class of current GameMode.
 
 Sandbox Multiplayer Architecture
-- LobbyGameState
-  > BeginPlay: if (hasAuthority) { announce player join to GameState } // Called only by clients joining lobby
+- LobbyPlayerController
+  > On BeginPlay, every LobbyPlayerController calls the ServerHandlePlayerJoin event on its GameState, which
+    (only if running on the server) executes a multicast event ClientHandlePlayerJoin to notify all client
+    GameStates that a player has joined the lobby. This works without executing a specific server method
+    because the server list keeps it's own replicated list of CharacterControllers. When a new player joins
+    the lobby, their CharacterController is automatically created on both the server and client. Pretty cool!
 
 Lessons
 - The client GameState cannot be used to trigger events in the server GameState. Any calls will be dropped
