@@ -179,3 +179,5 @@ Lessons
   3. Package & run the project.
   4. Change DefaultGameUserSettings.ini to fullscreen mode 1 and useDeskResForFullscreen=False
   5. Profit
+- Texture2D structs cannot be replicated across the network! For steam Avatars, each client needs
+  to independently download the data.
