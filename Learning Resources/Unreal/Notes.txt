@@ -142,3 +142,20 @@ Lessons
 - The client GameState cannot be used to trigger events in the server GameState. Any calls will be dropped
   regardless of replication status. To trigger a server event from a client, call a PlayerController event
   set to "run on server", which will then call handle server-side behavior in the server's GameState.
+
+
+02.24.2021
+
+Lessons
+- The AdvancedSessions function RequestSteamFriendInfo is asynchronous! Especially if you're loading the
+  player's avater, it's gonna take a second to download the info. Soooo, to keep the server PlayerList
+  (which is replicated to clients) up to date requires first calling the method for all players, then
+  waiting for the call to complete. A fairly efficient way to do this is via a loop:
+
+    while (notDownloaded)
+      delay .1 seconds
+      check list for complete data
+
+  However, while loops do not support delay nodes in Unreal (probably wise). So building the loop requires
+  use of our own customized while loop, contained in a Macro! It's called CheckOnInterval in the LobbyGameState
+  and is pretty damn neat.
