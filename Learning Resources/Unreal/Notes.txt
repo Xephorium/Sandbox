@@ -159,3 +159,23 @@ Lessons
   However, while loops do not support delay nodes in Unreal (probably wise). So building the loop requires
   use of our own customized while loop, contained in a Macro! It's called CheckOnInterval in the LobbyGameState
   and is pretty damn neat.
+- Getting Packaged builds is a little more complicated than I thought. :/ What worked this time:
+  1. Delete build GameUserSettings.ini
+  2. Add project DefaultGameUserSettings.ini with the following:
+
+      [/Script/Engine.GameUserSettings]
+      bUseVSync=True
+      ResolutionSizeX=2560
+      ResolutionSizeY=1440
+      LastUserConfirmedResolutionSizeX=2560
+      LastUserConfirmedResolutionSizeY=1440
+      WindowPosX=-1
+      WindowPosY=-1
+      bUseDesktopResolutionForFullscreen=True
+      FullscreenMode=0
+      LastConfirmedFullscreenMode=0
+      Version=5
+
+  3. Package & run the project.
+  4. Change DefaultGameUserSettings.ini to fullscreen mode 1 and useDeskResForFullscreen=False
+  5. Profit
