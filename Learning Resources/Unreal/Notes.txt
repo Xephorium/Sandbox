@@ -181,3 +181,15 @@ Lessons
   5. Profit
 - Texture2D structs cannot be replicated across the network! For steam Avatars, each client needs
   to independently download the data.
+
+
+02.24.2021
+
+Old Lobby Network Design: Server GameState notified when player joins/leaves. Server GameState updates
+                          PlayerInfoList, sends data to all client GameStates.
+New Lobby Network Design: Server notified when player joins. Updates PlayerIDList, sends id's to clients, who
+                          independently asynchronously download player info
+
+Multiplayer Compendium Notes:
+  1. Actor: A class which can replicate properties.
+  2. Replication must be enabled at both the class and variable level.
