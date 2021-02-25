@@ -187,9 +187,16 @@ Lessons
 
 Old Lobby Network Design: Server GameState notified when player joins/leaves. Server GameState updates
                           PlayerInfoList, sends data to all client GameStates.
-New Lobby Network Design: Server notified when player joins. Updates PlayerIDList, sends id's to clients, who
-                          independently asynchronously download player info
+New Lobby Network Design: Server GameMode notified when player joins or leaves. Updates server GameState's
+                          list of PlayerControllers and tells it clients need to refresh their lists. Server GameState then runs through PlayercontrollerList, firing a custom "execute on owner" event for each PlayerController. Each client PlayerController then asks its corresponding GameState to queue Steam for the name and avatar of each player in the PlayerArray, a built-in, replicated field of the GameState. Once the data is refreshed, it's displayed in a widget on the client. WOO HOO! We're networking!  
 
 Multiplayer Compendium Notes:
   1. Actor: A class which can replicate properties.
-  2. Replication must be enabled at both the class and variable level.
+  2. Replication must be enabled at both the class and variable level. Only works from server to client! Never
+     the other way around.
+  3. RPC (Remote Procedure Calls)
+       > Event that executes elsewhere. Can be Server > Client, Client > Server, or a group.
+  4. Ownership plays a massive role in whether and how RPC's work. In general, an RPC will only fire when
+     called from an owning Actor. The client owns its PlayerController (even though the server has a copy).
+     The Server owns the GameState (even though each client has a copy). For more info, see pages 58-60 of
+     the multiplayer compendium.
