@@ -232,10 +232,12 @@ Multiplayer Stuff
   4. Clients automatically load lobby level.
 
 > End Game (Desired)
-  1. On server, PauseWidget calls MatchGameMode event "End Game".
-  2. On server, MatchGameMode initiates travel, calls MatchGameState event "Handle Game End".
-  3. On server, MatchGameState calls client event "Handle Game End" for each PlayerController.
-  4. On clients, PlayerControllers clear UI & show loading screen. Automatically begin loading lobby level.
-  5. On server, LobbyGameState calls client event "Handle Lobby Load" for each PlayerController.
-  6. On clients, PlayerController clears UI & shows LobbyWidget.
+  1. Server  - PauseWidget calls MatchGameMode event "End Game".
+  2. Server  - MatchGameMode begins 4 second timer, calls MatchGameState event "Handle Game End".
+  3. Server  - MatchGameState calls client event "Handle Game End" for each PlayerController.
+  4. Clients - PlayerControllers show MatchEndWidget & wait 4s before showing LoadingWidget.
+  5. Server  - MatchGameMode timer expires. Initiates a server travel to LobbyLevel.
+  6. Clients - Automatically begin loading LobbyLevel.
+  5. Server  - On load, LobbyGameState calls client event "Handle Lobby Load" for each PlayerController.
+  6. Clients - PlayerController clears UI & shows LobbyWidget.
   
