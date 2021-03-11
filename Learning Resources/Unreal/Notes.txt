@@ -200,3 +200,15 @@ Multiplayer Compendium Notes:
      called from an owning Actor. The client owns its PlayerController (even though the server has a copy).
      The Server owns the GameState (even though each client has a copy). For more info, see pages 58-60 of
      the multiplayer compendium.
+
+
+03.10.2021
+
+Multiplayer Stuff
+  - PlayerControllers should call "Destroy Session" when "Event End Play" is fired. This happens
+    whenever the host closes the session. It's also a good idea to create a client event "On Kick" which the host will call when kicking a player. This event should then open the default level (Main Menu, Start, whatever) and destroy the session.
+  - In general, when a player leaves lobby: destroy session, open desired level.
+  - Event for launching game goes in GameMode.
+    > Execute Console Command!
+    > "servertravel /Game/Maps/MapName"
+    > Also, make sure "Use Seamless Travel" is enabled in GameMode class settings.
