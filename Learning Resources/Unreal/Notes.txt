@@ -211,4 +211,31 @@ Multiplayer Stuff
   - Event for launching game goes in GameMode.
     > Execute Console Command!
     > "servertravel /Game/Maps/MapName"
-    > Also, make sure "Use Seamless Travel" is enabled in GameMode class settings.
+    > Also, make sure "Use Seamless Travel" is enabled in GameMode class defaults.
+
+
+03.11.2021
+
+---- GameMode Class Architecture ----
+
+  LobbyGameMode
+  MatchGameMode // Base match GameMode. Includes event "End Game", which return server to lobby.
+    FirstPersonGameMode // Child of MatchGameMode. Includes rules specific to First Person games.
+
+
+---- Match Lifecycle Events ----
+
+> End Game (Current)
+  1. On server, PauseWidget calls SandboxGameInstance event "End Game".
+  2. On server, SandboxGameInstance calls MatchGameMode event "End Game".
+  3. On server, MatchGameMode initiates a server travel (loads new level).
+  4. Clients automatically load lobby level.
+
+> End Game (Desired)
+  1. On server, PauseWidget calls MatchGameMode event "End Game".
+  2. On server, MatchGameMode initiates travel, calls MatchGameState event "Handle Game End".
+  3. On server, MatchGameState calls client event "Handle Game End" for each PlayerController.
+  4. On clients, PlayerControllers clear UI & show loading screen. Automatically begin loading lobby level.
+  5. On server, LobbyGameState calls client event "Handle Lobby Load" for each PlayerController.
+  6. On clients, PlayerController clears UI & shows LobbyWidget.
+  
