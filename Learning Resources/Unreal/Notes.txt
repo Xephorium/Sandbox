@@ -216,11 +216,22 @@ Multiplayer Stuff
 
 03.11.2021
 
----- GameMode Class Architecture ----
+---- Base Class Architecture ----
 
+GameMode
   LobbyGameMode
   MatchGameMode // Base match GameMode. Includes event "End Game", which return server to lobby.
     FirstPersonGameMode // Child of MatchGameMode. Includes rules specific to First Person games.
+
+GameState
+  LobbyGameState
+  MatchGameState // Base match GameState.
+    FirstPersonGameState // Child of MatchGameState.
+
+PlayerController
+  LobbyPlayerController
+  MatchPlayerController
+    FirstPersonPlayerController
 
 
 ---- Match Lifecycle Events ----
@@ -232,12 +243,30 @@ Multiplayer Stuff
   4. Clients automatically load lobby level.
 
 > End Game (Desired)
-  1. Server  - PauseWidget calls MatchGameMode event "End Game".
-  2. Server  - MatchGameMode begins 4 second timer, calls MatchGameState event "Handle Game End".
-  3. Server  - MatchGameState calls client event "Handle Game End" for each PlayerController.
-  4. Clients - PlayerControllers show MatchEndWidget & wait 4s before showing LoadingWidget.
-  5. Server  - MatchGameMode timer expires. Initiates a server travel to LobbyLevel.
-  6. Clients - Automatically begin loading LobbyLevel.
-  5. Server  - On load, LobbyGameState calls client event "Handle Lobby Load" for each PlayerController.
-  6. Clients - PlayerController clears UI & shows LobbyWidget.
-  
+  1. Server - PauseWidget calls MatchPlayerController event "End Match".
+  1. Server - MatchPlayerController calls MatchGameMode event "End Match".
+  2. Server - MatchGameMode begins 4 second timer, calls the multicast MatchGameState event
+              "Handle Match End".
+  3. Client - Each MatchGameState calls its client MatchPlayerController's "Handle Match End".
+  4. Client - MatchPlayerControllers show MatchEndWidget & wait 5s before showing LoadingWidget.
+  5. Server - MatchGameMode timer expires. Initiates a server travel to LobbyLevel.
+  6. Client - Automatically begin loading LobbyLevel.
+  7. Server - On LobbyLevel load, LobbyGameMode calls multicast LobbyGameState event
+              "Handle Lobby Load".
+  8. Client - Each LobbyGameState calls its client LobbyPlayerController's "Handle Lobby Load".
+  9. Client - LobbyPlayerController clears UI, shows LobbyWidget, & updates playerlist.
+
+
+---- Main Menu Lifecycle ----
+
+> Engine Load
+  1. Default level (StartLevel) loaded, with accompanying Mode, State, PlayerController.
+  2. StartPlayerController adds StartWidget to view, queues fade in animation.
+
+
+---- New Architectural Principles ----
+
+1. PlayerController is the driver of each level. Adds/animates/responds to widgets. Triggers
+   server events and responds to those events on the client.
+2. Widgets should be as stateless as possible. View-layer. Driven by and delegate events to
+   PlayerController.
