@@ -288,3 +288,8 @@ Lessons
     PlayerController's lifecycle. It might not be available! The cast will succeed anyway though,
     which is a nightmare for troubleshooting. This is why the LobbyPlayerController's event
     RefreshPlayerList waits before calling the LobbyGameState's RefreshPlayerList event. The delay ensures the LobbyGameState has been created and replicated.
+
+Fade Speeds
+  Slow Fade In   - 2.00s (.5x)
+  Normal Fade In - 0.33s (3x)
+  Fade Out       - 0.08s (12.5x)
