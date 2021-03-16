@@ -293,3 +293,8 @@ Fade Speeds
   Slow Fade In   - 2.00s (.5x)
   Normal Fade In - 0.33s (3x)
   Fade Out       - 0.08s (12.5x)
+
+
+03.15.2021
+
+Input Smoothing: ((sin(((5(x))/(3.14159)) - (3.14159/2)) + 1) / 2)*(1/.51038)
