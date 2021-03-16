@@ -297,4 +297,7 @@ Fade Speeds
 
 03.15.2021
 
-Input Smoothing: ((sin(((5(x))/(3.14159)) - (3.14159/2)) + 1) / 2)*(1/.51038)
+Input Smoothing:
+  > ( ((((sin((((5*x)/3.141590)-(3.141590/2))))+1)/2)*(1/0.510380)) * 0.8) + (x * 0.2)
+  > Gradually ramps up strength of input float from [0,1]. Just plot it on WolframAlpha lol
+  > Optimized: ((sin(x*1.5916-1.57)+1)*0.7836)+(x/5)
