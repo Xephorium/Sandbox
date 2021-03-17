@@ -298,6 +298,32 @@ Fade Speeds
 03.15.2021
 
 Input Smoothing:
-  > ( ((((sin((((5*x)/3.141590)-(3.141590/2))))+1)/2)*(1/0.510380)) * 0.8) + (x * 0.2)
+  > ( ((((sin((((5*x)/3.141590)-(3.141590/2))))+1)/2)*(1/0.510380)) * 0.6) + (x * 0.4)
   > Gradually ramps up strength of input float from [0,1]. Just plot it on WolframAlpha lol
-  > Optimized: ((sin(x*1.5916-1.57)+1)*0.7836)+(x/5)
+  > Optimized: ((sin(x*1.5915-1.5707)+1)*0.5877)+(x*0.4)
+
+
+03.16.2021
+
+More Lessons
+  1. Enabling the steam overlay/subsystem disables gamepad input for Unreal projects! It
+     works in viewport, but doesn't register input when packaged. This is because Steam wants
+     you to use their Controller API, which is universal and gives the user advanced control
+     of input mapping. That said, the Steam Controller API only works with C++! So, at long last,
+     we've arrived at the need to code.
+  2. Unreal Course - Converting Blueprints to C++
+       - Components: "A type of Object that Actors can attach to themselves as sub-objects. Components are useful for sharing common behaviors, such as the ability to display a visual representation, play sounds. They can also represent project-specific concepts, such as the way a vehicle interprets input and changes its own velocity and orientation. For example, a project with user-controllable cars, aircraft, and boats could implement the differences in vehicle control and movement by changing which Component a vehicle Actor uses."
+         > I should be using components for FPS gamepad input translation!
+         > Also, maybe for showing widgets?
+         > Course example: Grabber component, which allows a player character to grab items in the world.
+      - C++ has no awareness of Blueprints! Blueprints can inheret from C++ and actively recompile during development. But, it doesn't go the other way.
+         > One exception: Overridden interface functions. If a Blueprint overrides a C++ interface, another C++ class can call its function(s).
+      - BP_ prefix is to distinguish between blueprints and their corresponding C++ classes.
+      - C++
+         > "#pragma" is a compiler pre-process directive. ( https://www.geeksforgeeks.org/pragma-directive-in-c-c/ ). It turns certain C++ features on and off depending what's supported by each compiler. "#pragma once" simply guarantees any header files are included only once to avoid duplicate header content loading.
+      - "UCLASS( ... )" is an example of a pre-process directive used to reduce boilerplate! These tags can be added to classes and methods to specify behavior. "UCLASS" specifically uses class specifiers to set properties of an Unreal class like its group and whether it can be referenced in Blurprints.
+      - Woah. Apparently making changes in C++ requires closing Unreal, compiling the C++, and reopening Unreal Engine? There'a button to recompile, but the internet says it's notoriously
+      glitchy. God I hope this isn't true.
+      - Constuctor Call:
+         > ComponentTick.bCanEverTick = true; // Determines whether class' tick method is used.
+         > Value is overridden with true if Blueprint uses tick event.
