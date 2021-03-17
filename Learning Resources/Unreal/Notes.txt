@@ -327,3 +327,12 @@ More Lessons
       - Constuctor Call:
          > ComponentTick.bCanEverTick = true; // Determines whether class' tick method is used.
          > Value is overridden with true if Blueprint uses tick event.
+
+
+03.17.2021
+
+Problem - When trying to open the project in the Unreal Launcher, an error appears:
+          "The following modules are missing or built with a different engine version." Clicking
+          build results in an error that the project could not be built.
+Solution - Component missing. Install new component for "Unreal Games Launcher". Might be under
+           "Not finding what you're looking for? Install more tools and features."
