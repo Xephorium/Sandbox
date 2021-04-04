@@ -7,8 +7,8 @@
 /IGNORE:4221
 /NODEFAULTLIB
 "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.gen.cpp.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Default.rc2.res"
-/OUT:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\UE4Editor-AdvancedSteamSessions.lib"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.gen.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Default.rc2.res"
+/OUT:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\UE4Editor-AdvancedSteamSessions.lib"
 /INCLUDE:IMPLEMENT_MODULE_AdvancedSteamSessions

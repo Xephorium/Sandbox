@@ -31,7 +31,7 @@
 /wd4244
 /wd4838
 /I .
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Source\AdvancedSessions\Private"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Source\AdvancedSessions\Private"
 /I ..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4Editor\Inc\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem\Source
@@ -240,9 +240,9 @@
 /I Editor\Kismet\Public
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\ClothingSystemRuntimeInterface
 /I Runtime\ClothingSystemRuntimeInterface\Public
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSessions"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Source"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Source\AdvancedSessions\Classes"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSessions"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Source"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Source\AdvancedSessions\Classes"
 /I ThirdParty\PhysX3\PxShared\include
 /I ThirdParty\PhysX3\PxShared\include\cudamanager
 /I ThirdParty\PhysX3\PxShared\include\filebuf
@@ -275,9 +275,9 @@
 /FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
 /Yu"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
 /Fp"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp"
-/FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Definitions.AdvancedSessions.h"
-/Fo"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp"
+/FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Definitions.AdvancedSessions.h"
+/Fo"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp.obj"
 /TP
 /GR-
 /W4

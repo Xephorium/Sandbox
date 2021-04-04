@@ -31,7 +31,7 @@
 /wd4244
 /wd4838
 /I .
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Source\AdvancedSteamSessions\Private"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\Private"
 /I ..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4Editor\Inc\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem\Source
@@ -240,13 +240,13 @@
 /I Editor\Kismet\Public
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\ClothingSystemRuntimeInterface
 /I Runtime\ClothingSystemRuntimeInterface\Public
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSteamSessions"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Source"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSteamSessions"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source"
 /I ..\Plugins\Online\OnlineSubsystemSteam\Source\Private
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Source\AdvancedSteamSessions\Classes"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSessions"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Source"
-/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Source\AdvancedSessions\Classes"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\Classes"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Inc\AdvancedSessions"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Source"
+/I "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Source\AdvancedSessions\Classes"
 /I ThirdParty\Steamworks\Steamv147\sdk\public
 /I ..\Plugins\Online\OnlineSubsystemSteam\Intermediate\Build\Win64\UE4Editor\Inc\OnlineSubsystemSteam
 /I ..\Plugins\Online\OnlineSubsystemSteam
@@ -284,9 +284,9 @@
 /FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
 /Yu"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
 /Fp"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp"
-/FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Definitions.AdvancedSteamSessions.h"
-/Fo"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp"
+/FI"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Definitions.AdvancedSteamSessions.h"
+/Fo"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSteamSessions\Module.AdvancedSteamSessions.cpp.obj"
 /TP
 /GR-
 /W4

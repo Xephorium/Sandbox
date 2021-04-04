@@ -13,35 +13,35 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define ADVANCEDSESSIONS_BlueprintDataDefinitions_generated_h
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_321_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_321_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FSessionsSearchSetting_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FSessionsSearchSetting>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_310_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_310_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FSessionPropertyKeyPair_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FSessionPropertyKeyPair>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_274_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_274_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPFriendInfo_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPFriendInfo>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_249_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_249_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPFriendPresenceInfo_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPFriendPresenceInfo>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_238_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_238_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPOnlineRecentPlayer_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct(); \
 	typedef FBPOnlineUser Super;
@@ -49,21 +49,21 @@ template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPFriendPres
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPOnlineRecentPlayer>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_224_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_224_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPOnlineUser_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPOnlineUser>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_150_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_150_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPUniqueNetId_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
 
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPUniqueNetId>();
 
-#define Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_48_GENERATED_BODY \
+#define Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h_48_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FBPUserOnlineAccount_Statics; \
 	ADVANCEDSESSIONS_API static class UScriptStruct* StaticStruct();
 
@@ -71,7 +71,7 @@ template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPUniqueNetI
 template<> ADVANCEDSESSIONS_API UScriptStruct* StaticStruct<struct FBPUserOnlineAccount>();
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID Sandbox_Plugins_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h
+#define CURRENT_FILE_ID Sandbox_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_BlueprintDataDefinitions_h
 
 
 #define FOREACH_ENUM_EONLINECOMPARISONOPREDUX(op) \

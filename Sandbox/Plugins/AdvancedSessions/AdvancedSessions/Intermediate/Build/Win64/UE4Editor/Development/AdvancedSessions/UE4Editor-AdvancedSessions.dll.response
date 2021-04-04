@@ -34,10 +34,10 @@
 /NODEFAULTLIB:"LIBCPD"
 /FUNCTIONPADMIN
 "C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Intermediate\Build\Win64\SandboxEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.cpp.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.2_of_2.cpp.obj"
-"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Default.rc2.res"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.1_of_2.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Module.AdvancedSessions.gen.2_of_2.cpp.obj"
+"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\Default.rc2.res"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4Editor\Development\OnlineSubsystem\UE4Editor-OnlineSubsystem.lib"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\Sockets\UE4Editor-Sockets.lib"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\Networking\UE4Editor-Networking.lib"
@@ -70,8 +70,8 @@
 "setupapi.lib"
 "dwmapi.lib"
 "imm32.lib"
-/OUT:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Binaries\Win64\UE4Editor-AdvancedSessions.dll"
-/IMPLIB:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\UE4Editor-AdvancedSessions.suppressed.lib"
-/PDB:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\Binaries\Win64\UE4Editor-AdvancedSessions.pdb"
+/OUT:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Binaries\Win64\UE4Editor-AdvancedSessions.dll"
+/IMPLIB:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\UE4Editor\Development\AdvancedSessions\UE4Editor-AdvancedSessions.suppressed.lib"
+/PDB:"C:\Users\Xephorium\Home\Projects\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSessions\Binaries\Win64\UE4Editor-AdvancedSessions.pdb"
 /ignore:4078
 /INCLUDE:IMPLEMENT_MODULE_AdvancedSessions
