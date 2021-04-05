@@ -336,3 +336,22 @@ Problem - When trying to open the project in the Unreal Launcher, an error appea
           build results in an error that the project could not be built.
 Solution - Component missing. Install new component for "Unreal Games Launcher". Might be under
            "Not finding what you're looking for? Install more tools and features."
+
+
+04.05.2021
+
+    C++ Notes
+      - Basic process for adding new C++ base class:
+          1. Rename blueprint SandboxGameInstance to BP_SandboxGameInstance.
+          2. Create new C++ class called SandboxGameInstance through the editor, giving it a base
+             class of AdvancedFriendsGameInstance.
+          3. Set BP_SandboxGameInstance's base class to the new C++ SandboxGameInstance.
+          4. Manually update the project's GameInstance in settings. (This looks like it's done
+             automatically, but it doesn't work. Idk why. Just set thee GameInstance to something
+             else and then to the new BP_SandboxGameInstance.)
+          5. BP_SandboxGameInstance can now call C++ functions from its base class!
+      - Add new C++ files through the Unreal Editor! Adds all kinds of build configuration and
+        makes it not impossible to get imports working properly.
+      - Unreal projects use FString class for string management.
+      - UFUNCTION(BlueprintCallable) preprocess directive makes a function callable from
+        blueprints, with optional parameters! :)
