@@ -355,3 +355,84 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
       - Unreal projects use FString class for string management.
       - UFUNCTION(BlueprintCallable) preprocess directive makes a function callable from
         blueprints, with optional parameters! :)
+
+
+06.18.2021
+
+  Unreal Review
+    - Unreal Project built out of Actors (generic objects).
+    - Actors built from Components (functionality/mesh/camera).
+    - Character is a Pawn with a bunch of default behavior. A Pawn is an Actor that can
+      receive inputs from the user. An actor is the basic building block of Unreal!
+
+  C++
+    - Function CreateDefaultSubobject() used to create a new component!
+
+      /*--- Header ---*/
+      // Declares UStaticMeshComponent object called BulletMesh with approriate editor
+      // metadata tags. Class is a modifier that "forward declares" the UStaticMeshComponent
+      // class. In other words, we don't need to #include the class in the header because the
+      // "class" keyword tells the compiler it will be in the .cpp file.
+      UPROPERTY(EditAnywhere, Category="Components")
+      class UStaticMeshComponent* BulletMesh;
+
+      /*--- CPP ---*/
+      // Creates new StaticMesh component with name "BulletMesh"
+      BulletMesh = CreateDefaultSubobject<UStaticMeshComponent>("BulletMesh");
+
+    - Can set root component of actor with method SetRootCoponent(<component object here>);
+    - Can create blueprints from C++ classes in the editor too! Kinda like prefabs. Update
+      when code changes.
+    - Accessing object properties is weird in C++.
+
+      Object.Field = 1.f;  // Normal Coding Language
+      Object->Field = 1.f; // C++
+
+    - Logging:
+
+      UE_LOG(LogTemp, Warning, TEXT("Testing testing 123")); // Prints to log file.
+
+    - Referencing Blueprint Actor in CPP:
+
+      /*--- Header ---*/
+      // Declares object that subtypes ABullet called BulletBP. "class" keyword is forward
+      // declaration of the class so we don't need the import in the header. Now, value can
+      // be set in the editor!
+      UPROPERTY(EditAnywhere, Category="Shooting")
+      TSubclassOf<class ABullet> BulletBP;
+
+    - Spawning actors:
+
+      // Get spawn Transform (location)
+      FTransform SpawnTransform = GetActorTransform();
+      // Move Location slightly above player (bullet is too big lol)
+      SpawnTransform.TransformPosition(FVector(0.f, 0.f, 100.f));
+
+      // Get Spawn Parameters
+      // Contains optional initializaton info about the spawned object.
+      FActorSpawnParameters SpawnParams;
+
+      // Need reference to world to spawn. Holds all actors. Can call GetWorld method from
+      // any actor. "A" prefix means Actor. 
+      GetWorld()->SpawnActor<ABullet>(BulletBP, SpawnTransform, SpawnParams);
+
+    - Networked function calls! To run code specifically on the server:
+
+      /*--- Header ---*/
+      UFUNCTION(Server, Reliable) // Execute on server, execute reliably
+      void ServerShoot();
+
+      /*--- C++ ---*/
+      void ALearningCharacter::Shoot() {
+          if (Role < ROLE_Authority) {
+              // Client!
+              ServerShoot();
+              return;
+          } else if (Role == ROLE_AUTHORITY) {
+              // Server!
+          }
+          // Actual Shoot Code Here
+      }
+      void ALearningCharacter::ServerShoot_Implementation() {
+          Shoot();
+      }
