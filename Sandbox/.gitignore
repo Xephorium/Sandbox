@@ -57,6 +57,7 @@ Binaries/*
 Plugins/*/Binaries/*
 
 # Builds
+Intermediate/*
 Build/*
 
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
