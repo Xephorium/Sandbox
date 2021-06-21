@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "AdvancedFriendsGameInstance.h"
-#include "Containers/UnrealString.h"
 
 #include "SandboxGameInstance.generated.h"
 
