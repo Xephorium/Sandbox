@@ -436,3 +436,23 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
       void ALearningCharacter::ServerShoot_Implementation() {
           Shoot();
       }
+
+
+06.25.2021
+
+  Unreal C++ Structure
+    1. Solution - A container for C++ projects. A Solution (.sln) is what you open in
+       Visual Studio or Rider and houses as many projects/plugins are needed to make the
+       game work.
+    2. Module - A collection of relevant code. Everything in a solution is built out of
+       types of Modules. Each one has a file "Name.Build.cs" that specifies how it should be
+       built and which other modules it needs to function properly.
+    3. Project - A type of Module that corresponds to a game! In addition to their build file
+       and lots of source code, each Project has a "Name.cpp" file, which defines it as an
+       Unreal game Module.
+    4. Plugin - A collection of self-contained, secondary Modules. Like a folder full of
+       libraries in Java. Except it's not a folder, and the things inside are Modules. Each
+       Plugin has a "Name.uplugin" file, which specifies the Modules contained within it.
+    5. Filter - An IDE-specific way to organize source/resource files. Think of it like a
+       folder, but one that doesn't actually correspond to directory structure, is mainteined
+       somewhere in the solution's configuration, is needlessly confusing, and I hate it.
