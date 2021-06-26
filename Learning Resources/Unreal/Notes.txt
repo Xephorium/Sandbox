@@ -449,10 +449,17 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
        built and which other modules it needs to function properly.
     3. Project - A type of Module that corresponds to a game! In addition to their build file
        and lots of source code, each Project has a "Name.cpp" file, which defines it as an
-       Unreal game Module.
-    4. Plugin - A collection of self-contained, secondary Modules. Like a folder full of
-       libraries in Java. Except it's not a folder, and the things inside are Modules. Each
-       Plugin has a "Name.uplugin" file, which specifies the Modules contained within it.
+       Unreal game Module. It also has a "Name.uproject" file, which lists any Plugins it
+       depends on and a "Name.Target.cs", which defines how the Project should be built.
+    4. Plugin - A collection of self-contained Modules w/ secondary behavior. Like a folder
+       full of libraries in Java. Except it's not a folder, and the things inside are Modules.
+       Each Plugin has a "Name.uplugin" file, which specifies the Modules contained within it.
     5. Filter - An IDE-specific way to organize source/resource files. Think of it like a
        folder, but one that doesn't actually correspond to directory structure, is mainteined
        somewhere in the solution's configuration, is needlessly confusing, and I hate it.
+
+
+06.26.2021
+
+  When Rider can't open Project: Navigate to .uprroject file in Explorer. Right click,
+    "Generate Visual Studio Project Files".
