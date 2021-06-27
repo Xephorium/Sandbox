@@ -362,8 +362,8 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
   Unreal Review
     - Unreal Project built out of Actors (generic objects).
     - Actors built from Components (functionality/mesh/camera).
-    - Character is a Pawn with a bunch of default behavior. A Pawn is an Actor that can
-      receive inputs from the user. An actor is the basic building block of Unreal!
+    - A Pawn is an Actor that can receive inputs from the user.
+    - Character is a Pawn with a bunch of default behavior.
 
   C++
     - Function CreateDefaultSubobject() used to create a new component!
