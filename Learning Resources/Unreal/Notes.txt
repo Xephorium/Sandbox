@@ -473,6 +473,12 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
           Build (drop down arrow) -> Build Lighting Only
       > To Adjust Lightmap Resolutions 
           Build (drop down arrow) -> Lighting Info > Lighting StaticMesh Info...
+      > Relevant Lightmass Settings (World Settings > Lightmass)
+          > Static Lighting Level Scale: [0-1] // Represents bake sample detail. 0.1 = 10x detail.
+          > Indirect Lighting Quality // Needs to multiply with above to = 1. If SLLS = .1, this = 10.
+          > Num Indirect Lighting Bounces // Duh. Functionally nonexistant improvement above 10.
+          > Num Sky Lighting Bounces // Same as above.
+          > Indirect Lighting Smoothness // Smooths result. VERY sensitive. Best not above 1.2
     - Bugs & Fixes
       > Lightmap resolution cannot be manually adjusted after a successful bake until Unreal
         Editor is closed and reopened. It's dumb. I don't understand it. But, it's true.
