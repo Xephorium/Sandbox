@@ -480,13 +480,21 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
           > Num Sky Lighting Bounces // Same as above.
           > Indirect Lighting Smoothness // Smooths result. VERY sensitive. Best not above 1.2
     - Bugs & Fixes
-      > Lightmap resolution cannot be manually adjusted after a successful bake until Unreal
+      > Lightmap resolution cannot be manually adjusted after a successful bake until the Unreal
         Editor is closed and reopened. It's dumb. I don't understand it. But, it's true.
-      > Corner Light Bleed: Seems to be solvable using two methods in conjunction.
+      > Corner Light Bleed: An absurd, ubiquitous problem with even more absurd solutions. Some
+        of the following help depending on the circumstances. Ultimately, which is dependent on
+        each project's needs. (I want to die.)
           1. Wrap entire map in a light barrier with a noteworthy thickness, using holes
-             to allow light through to important areas.
-          2. Avoid corner overlaps. Planes should end at exactly the same edge if possible.
-             For some reason, outside areas are shaded brighter, resulting in slight bleed.
+             to allow light through to windowed areas.
+          2. Avoid seams like the plague. Faces should end at exactly the same edge and remain
+             connected if possible. For some reason, even tiny outside areas are shaded brighter, resulting in slight bleed.
+          3. Snap UV layout to pixels when unwrapping if possible. Partial pixel overlap often results
+             in bleed.
+      > Baked Lighting Differences Between Meshes: Individual meshes are baked on individual
+        threads, meaning separate meshes will often bake with slightly different light levels and coloration. This is unbelievable, but somehow still true. To fix:
+          > Carefully mask transitions between separate meshes (above lightmap UV tips help).
+          > Combine necessary meshes before baking (ie. walls + trim). I hate this, but it seems to help
     - Reflection Capture
       > By default, everything looks very flat after a light bake. This is because baked
         lights are a texture and don't look good to a moving camera. There's no reflection!
