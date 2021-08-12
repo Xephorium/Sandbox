@@ -492,10 +492,18 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
           3. Snap UV layout to pixels when unwrapping if possible. Partial pixel overlap often results
              in bleed.
       > Baked Lighting Differences Between Meshes: Individual meshes are baked on individual
-        threads, meaning separate meshes will often bake with slightly different light levels and coloration. This is unbelievable, but somehow still true. To fix:
+        threads, meaning separate meshes will often bake with slightly different light levels and coloration. This points to fundamental problems with Unreal's light baking algorithm, but is somehow still true. To fix:
           > Carefully mask transitions between separate meshes (above lightmap UV tips help).
           > Combine necessary meshes before baking (ie. walls + trim). I hate this, but it seems to help
     - Reflection Capture
       > By default, everything looks very flat after a light bake. This is because baked
         lights are a texture and don't look good to a moving camera. There's no reflection!
         This is achieved with a Reflection Capture.
+
+
+08.12.2021
+
+  Material Instances
+    - Virtual Texture Streaming must be disabled on each image assigned to a parameter
+      on a material instance. Images with this enabled won't show up in the list of 
+      options.
