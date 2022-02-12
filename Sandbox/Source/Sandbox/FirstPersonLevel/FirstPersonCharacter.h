@@ -87,10 +87,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint8 bUsingMotionControllers : 1;
 
+	/** Whether character is currently flying */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	bool IsFlying;
+
 protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
+
+	/** Handles boost. */
+	void Boost();
+	void StopBoosting();
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
@@ -100,6 +108,9 @@ protected:
 
 	/** Handles stafing movement, left and right */
 	void MoveRight(float Val);
+
+	/** Handles vertical movement, up and down */
+	void MoveUp(float Val);
 
 	/**
 	 * Called via input to turn at a given rate.
@@ -125,7 +136,7 @@ protected:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
-	
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

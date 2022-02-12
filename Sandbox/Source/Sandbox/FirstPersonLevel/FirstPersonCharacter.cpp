@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "../AllLevels/Utility/LogUtility.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -29,7 +30,7 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 0.0f, 64.f)); // Position the camera
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 0.0f, 58.5f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
@@ -82,6 +83,8 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+	
+	IsFlying = false;
 
 	// Activate First Person Action Set
 	// const InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle( "Set_FirstPerson" );
@@ -136,6 +139,10 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::OnFire);
 
+	// Bind boost events
+	PlayerInputComponent->BindAction("Boost", IE_Pressed, this, &AFirstPersonCharacter::Boost);
+	PlayerInputComponent->BindAction("Boost", IE_Released, this, &AFirstPersonCharacter::StopBoosting);
+
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
 
@@ -144,6 +151,7 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveUp", this, &AFirstPersonCharacter::MoveUp);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -201,6 +209,10 @@ void AFirstPersonCharacter::OnFire()
 		}
 	}
 }
+
+void AFirstPersonCharacter::Boost() { }
+
+void AFirstPersonCharacter::StopBoosting() { }
 
 void AFirstPersonCharacter::OnResetVR()
 {
@@ -270,26 +282,29 @@ void AFirstPersonCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const 
 //	}
 //}
 
-void AFirstPersonCharacter::MoveForward(float Value)
-{
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
+
+void AFirstPersonCharacter::MoveForward(float Value) {
+	if (Value != 0.0f) {
+		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Value);
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
 
-void AFirstPersonCharacter::MoveRight(float Value)
-{
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
+void AFirstPersonCharacter::MoveRight(float Value) {
+	if (Value != 0.0f) {
+		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Value);
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 
-void AFirstPersonCharacter::TurnAtRate(float Rate)
-{
+void AFirstPersonCharacter::MoveUp(float Value) {
+	if (Value != 0.0f) {
+		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetUpVector(), Value);
+		else AddMovementInput(GetActorUpVector(), Value);
+	}
+}
+
+void AFirstPersonCharacter::TurnAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
