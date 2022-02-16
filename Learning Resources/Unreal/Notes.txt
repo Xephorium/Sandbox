@@ -507,3 +507,27 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
     - Virtual Texture Streaming must be disabled on each image assigned to a parameter
       on a material instance. Images with this enabled won't show up in the list of 
       options.
+
+
+02.15.2022
+
+  How to set packaged game resolution:
+  	1. Navigate to Build/WindowsNoEditor/<Project>/Config/DefaultGameUserSettings.ini
+  	2. Put this in there:
+	 	  [/Script/Engine.GameUserSettings]
+		  bUseVSync=False
+		  ResolutionSizeX=2560
+		  ResolutionSizeY=1440
+		  LastUserConfirmedResolutionSizeX=2560
+		  LastUserConfirmedResolutionSizeY=1440
+		  WindowPosX=-1
+		  WindowPosY=-1
+		  bUseDesktopResolutionForFullscreen=False
+		  FullscreenMode=2
+		  LastConfirmedFullscreenMode=2
+		  Version=5
+
+  How to fix virtual texture/lightmap streaming pop-in:
+  	1. Navigate to <Project>/Saved/Temp/Win64/Engine/Config.BaseEngine.ini
+  	2. Under [/Script/Engine.VirtualTexturePoolConfig], increase SizeInMegabyte
+  	   from 64 to some higher value (I did 256). Might not persist across builds?
