@@ -85,10 +85,6 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	//bUsingMotionControllers = true;
 	
 	IsFlying = false;
-
-	// Activate First Person Action Set
-	// const InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle( "Set_FirstPerson" );
-	// SteamInput()->ActivateActionSet(STEAM_INPUT_HANDLE_ALL_CONTROLLERS, FirstPersonSetHandle);
 }
 
 void AFirstPersonCharacter::BeginPlay()
@@ -110,17 +106,40 @@ void AFirstPersonCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	// Initialize SteamInput
+	SteamInput()->Init(false);
+	SteamInput()->RunFrame();
+
+	// Activate First Person Action Set
+	InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
+
+	// Get List of Connected Controllers
+	ConnectedSteamControllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
+	SteamInput()->GetConnectedControllers(ConnectedSteamControllers);
+
+	// Activate First Person Action Set
+	if (ConnectedSteamControllers[0]) {
+		SteamInput()->ActivateActionSet(ConnectedSteamControllers[0], FirstPersonSetHandle);
+	}
 }
 
-void AFirstPersonCharacter::Tick(float DeltaSeconds)
-{
-	// InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
-	// 	STEAM_INPUT_HANDLE_ALL_CONTROLLERS,
-	// 	SteamInput()->GetDigitalActionHandle( "jump" )
-	// 	);
-	// if (JumpAction.bState) {
-	// 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::White, "Jump!");
-	// }
+void AFirstPersonCharacter::Tick(float DeltaSeconds) {
+	
+	// Query Steam for Updated Inputs
+	SteamInput()->RunFrame();
+
+	// Read Controller Input
+	if (ConnectedSteamControllers[0]) {
+		InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
+			ConnectedSteamControllers[0],
+			SteamInput()->GetDigitalActionHandle("Jump")
+		);
+
+		if (JumpAction.bState) {
+			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::White, "Jump!");
+		}
+	}
 }
 
 

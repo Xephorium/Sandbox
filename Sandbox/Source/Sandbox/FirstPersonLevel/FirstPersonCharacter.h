@@ -4,6 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+
+#pragma warning(push)
+#pragma warning(disable: 4996)
+#include "Dependencies/Steam/steam_api.h"
+#pragma warning(pop)
+
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
@@ -50,6 +56,8 @@ class AFirstPersonCharacter : public ACharacter
 	/** Motion controller (left hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
+
+	InputHandle_t *ConnectedSteamControllers;
 
 public:
 	AFirstPersonCharacter();

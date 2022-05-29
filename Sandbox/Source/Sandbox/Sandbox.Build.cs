@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class Sandbox : ModuleRules
@@ -8,9 +9,11 @@ public class Sandbox : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "Steamworks" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
+
+		PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Dependencies", "Steam", "lib", "steam_api64.lib"));
 		
 		PublicIncludePaths.Add("Sandbox");
 		
