@@ -18,11 +18,11 @@ class SANDBOX_API USandboxGameInstance : public UAdvancedFriendsGameInstance {
 protected:
 	virtual void StartGameInstance() override;
 
-	public:
-		UFUNCTION(BlueprintCallable)
-		void PrintTestStringFromCode(FString text);
+public:
+	UFUNCTION(BlueprintCallable)
+	void PrintTestStringFromCode(FString text);
 
-		static constexpr char* APP_ID = RAW_APP_ID;
-		CSteamID SteamUserId;
+	CSteamID SteamUserId;
 
+	static constexpr char* APP_ID = RAW_APP_ID;
 };

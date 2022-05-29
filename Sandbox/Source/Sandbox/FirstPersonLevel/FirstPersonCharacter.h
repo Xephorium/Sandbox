@@ -4,12 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
 #pragma warning(push)
 #pragma warning(disable: 4996)
 #include "Dependencies/Steam/steam_api.h"
 #pragma warning(pop)
-
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;

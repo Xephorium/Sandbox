@@ -5,10 +5,7 @@
 void USandboxGameInstance::StartGameInstance() {
     Super::StartGameInstance();
 
-	// Test Function Call
-	UE_LOG(LogTemp, Warning, TEXT("Llamas - Begin play!"));
-
-	// Generate Steam ID, Initialize Client, Get User ID
+	// Generate Steam App ID File, Check if Steam Running, Initialize Client, & Get Steam User ID
 	FFileHelper::SaveStringToFile(TEXT(RAW_APP_ID), TEXT("steam_appid.txt"));
 	SteamAPI_RestartAppIfNecessary(atoi(APP_ID));
 	if (SteamAPI_Init()) {
