@@ -18,8 +18,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 //////////////////////////////////////////////////////////////////////////
 // AFirstPersonCharacter
 
-AFirstPersonCharacter::AFirstPersonCharacter()
-{
+AFirstPersonCharacter::AFirstPersonCharacter() {
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
@@ -41,103 +41,60 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
-
-	// Create a gun mesh component
-	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	FP_Gun->SetOnlyOwnerSee(false);			// otherwise won't be visible in the multiplayer
-	FP_Gun->bCastDynamicShadow = false;
-	FP_Gun->CastShadow = false;
-	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
-	FP_Gun->SetupAttachment(RootComponent);
-
-	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
-	FP_MuzzleLocation->SetupAttachment(FP_Gun);
-	//FP_MuzzleLocation->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-
-	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(150.0f, 0.0f, 148.0f);
-
-	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P, FP_Gun, and VR_Gun 
-	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
-
-	// Create VR Controllers.
-	R_MotionController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("R_MotionController"));
-	R_MotionController->MotionSource = FXRMotionControllerBase::RightHandSourceId;
-	R_MotionController->SetupAttachment(RootComponent);
-	L_MotionController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("L_MotionController"));
-	L_MotionController->SetupAttachment(RootComponent);
-
-	// Create a gun and attach it to the right-hand VR controller.
-	// Create a gun mesh component
-	VR_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VR_Gun"));
-	VR_Gun->SetOnlyOwnerSee(false);			// otherwise won't be visible in the multiplayer
-	VR_Gun->bCastDynamicShadow = false;
-	VR_Gun->CastShadow = false;
-	VR_Gun->SetupAttachment(R_MotionController);
-	VR_Gun->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
-
-	VR_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
-	VR_MuzzleLocation->SetupAttachment(VR_Gun);
-	//VR_MuzzleLocation->SetRelativeLocation(FVector(0.000004, 53.999992, 10.000000));
-	//VR_MuzzleLocation->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));		// Counteract the rotation of the VR gun model.
-
-	// Uncomment the following line to turn motion controllers on by default:
-	//bUsingMotionControllers = true;
 	
 	IsFlying = false;
 }
 
-void AFirstPersonCharacter::BeginPlay()
-{
+void AFirstPersonCharacter::BeginPlay() {
+
 	// Call the base class  
 	Super::BeginPlay();
 
-	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	InitializeSteamInput();
+	if (IsSteamInputAvailable()) {
 
-	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
-	if (bUsingMotionControllers)
-	{
-		VR_Gun->SetHiddenInGame(false, true);
-		Mesh1P->SetHiddenInGame(true, true);
-	}
-	else
-	{
-		VR_Gun->SetHiddenInGame(true, true);
-		Mesh1P->SetHiddenInGame(false, true);
-	}
+		// Print Status
+		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Active");
 
-	// Initialize SteamInput
-	SteamInput()->Init(false);
-	SteamInput()->RunFrame();
+		// Refresh Input
+		SteamInput()->RunFrame();
 
-	// Activate First Person Action Set
-	InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
+		// Activate First Person Action Set
+		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
 
-	// Get List of Connected Controllers
-	ConnectedSteamControllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
-	SteamInput()->GetConnectedControllers(ConnectedSteamControllers);
+		// Get List of Connected Controllers
+		ConnectedSteamControllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
+		SteamInput()->GetConnectedControllers(ConnectedSteamControllers);
 
-	// Activate First Person Action Set
-	if (ConnectedSteamControllers[0]) {
-		SteamInput()->ActivateActionSet(ConnectedSteamControllers[0], FirstPersonSetHandle);
+		// Activate First Person Action Set
+		if (ConnectedSteamControllers[0]) {
+			SteamInput()->ActivateActionSet(ConnectedSteamControllers[0], FirstPersonSetHandle);
+		}
+
+	} else {
+
+		// Print Status
+		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Unavailable (Reverting to UE4 Input)");
 	}
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 	
-	// Query Steam for Updated Inputs
-	SteamInput()->RunFrame();
+	if (IsSteamInputAvailable()) {
 
-	// Read Controller Input
-	if (ConnectedSteamControllers[0]) {
-		InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
-			ConnectedSteamControllers[0],
-			SteamInput()->GetDigitalActionHandle("Jump")
-		);
+		// Query Steam for Updated Inputs
+		SteamInput()->RunFrame();
 
-		if (JumpAction.bState) {
-			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::White, "Jump!");
+		// Read Controller Input
+		if (ConnectedSteamControllers[0]) {
+			InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
+				ConnectedSteamControllers[0],
+				SteamInput()->GetDigitalActionHandle("Jump")
+			);
+
+			if (JumpAction.bState) {
+				GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::White, "Jump!");
+			}
 		}
 	}
 }
@@ -146,26 +103,14 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
+void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
+
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
-	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::OnFire);
-
-	// Bind boost events
-	PlayerInputComponent->BindAction("Boost", IE_Pressed, this, &AFirstPersonCharacter::Boost);
-	PlayerInputComponent->BindAction("Boost", IE_Released, this, &AFirstPersonCharacter::StopBoosting);
-
-	// Enable touchscreen input
-	EnableTouchscreenMovement(PlayerInputComponent);
-
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AFirstPersonCharacter::OnResetVR);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
@@ -180,127 +125,6 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFirstPersonCharacter::LookUpAtRate);
 }
-
-void AFirstPersonCharacter::OnFire()
-{
-	// try and fire a projectile
-	if (ProjectileClass != nullptr)
-	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
-		{
-			if (bUsingMotionControllers)
-			{
-				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
-				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
-				World->SpawnActor<AFirstPersonProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
-			}
-			else
-			{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
-
-				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-				// spawn the projectile at the muzzle
-				World->SpawnActor<AFirstPersonProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			}
-		}
-	}
-
-	// try and play the sound if specified
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-	}
-
-	// try and play a firing animation if specified
-	if (FireAnimation != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
-}
-
-void AFirstPersonCharacter::Boost() { }
-
-void AFirstPersonCharacter::StopBoosting() { }
-
-void AFirstPersonCharacter::OnResetVR()
-{
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void AFirstPersonCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	if (TouchItem.bIsPressed == true)
-	{
-		return;
-	}
-	if ((FingerIndex == TouchItem.FingerIndex) && (TouchItem.bMoved == false))
-	{
-		OnFire();
-	}
-	TouchItem.bIsPressed = true;
-	TouchItem.FingerIndex = FingerIndex;
-	TouchItem.Location = Location;
-	TouchItem.bMoved = false;
-}
-
-void AFirstPersonCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	if (TouchItem.bIsPressed == false)
-	{
-		return;
-	}
-	TouchItem.bIsPressed = false;
-}
-
-//Commenting this section out to be consistent with FPS BP template.
-//This allows the user to turn without using the right virtual joystick
-
-//void AFirstPersonCharacter::TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location)
-//{
-//	if ((TouchItem.bIsPressed == true) && (TouchItem.FingerIndex == FingerIndex))
-//	{
-//		if (TouchItem.bIsPressed)
-//		{
-//			if (GetWorld() != nullptr)
-//			{
-//				UGameViewportClient* ViewportClient = GetWorld()->GetGameViewport();
-//				if (ViewportClient != nullptr)
-//				{
-//					FVector MoveDelta = Location - TouchItem.Location;
-//					FVector2D ScreenSize;
-//					ViewportClient->GetViewportSize(ScreenSize);
-//					FVector2D ScaledDelta = FVector2D(MoveDelta.X, MoveDelta.Y) / ScreenSize;
-//					if (FMath::Abs(ScaledDelta.X) >= 4.0 / ScreenSize.X)
-//					{
-//						TouchItem.bMoved = true;
-//						float Value = ScaledDelta.X * BaseTurnRate;
-//						AddControllerYawInput(Value);
-//					}
-//					if (FMath::Abs(ScaledDelta.Y) >= 4.0 / ScreenSize.Y)
-//					{
-//						TouchItem.bMoved = true;
-//						float Value = ScaledDelta.Y * BaseTurnRate;
-//						AddControllerPitchInput(Value);
-//					}
-//					TouchItem.Location = Location;
-//				}
-//				TouchItem.Location = Location;
-//			}
-//		}
-//	}
-//}
-
 
 void AFirstPersonCharacter::MoveForward(float Value) {
 	if (Value != 0.0f) {
@@ -328,23 +152,19 @@ void AFirstPersonCharacter::TurnAtRate(float Rate) {
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AFirstPersonCharacter::LookUpAtRate(float Rate)
-{
+void AFirstPersonCharacter::LookUpAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-bool AFirstPersonCharacter::EnableTouchscreenMovement(class UInputComponent* PlayerInputComponent)
-{
-	if (FPlatformMisc::SupportsTouchInput() || GetDefault<UInputSettings>()->bUseMouseForTouch)
-	{
-		PlayerInputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AFirstPersonCharacter::BeginTouch);
-		PlayerInputComponent->BindTouch(EInputEvent::IE_Released, this, &AFirstPersonCharacter::EndTouch);
+void AFirstPersonCharacter::InitializeSteamInput() {
+	if (SteamInput())
+		if (SteamInput()->Init(false)) IsSteamInputInitialized = true;
+		else IsSteamInputInitialized = false;
+	else IsSteamInputInitialized = false;
+}
 
-		//Commenting this out to be more consistent with FPS BP template.
-		//PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AFirstPersonCharacter::TouchUpdate);
-		return true;
-	}
-	
-	return false;
+bool AFirstPersonCharacter::IsSteamInputAvailable() {
+	if (SteamInput() && IsSteamInputInitialized) return true;
+	else return false;
 }
