@@ -528,6 +528,17 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
 		  Version=5
 
   How to fix virtual texture/lightmap streaming pop-in:
-  	1. Navigate to <Project>/Saved/Temp/Win64/Engine/Config.BaseEngine.ini
+  	1. Navigate to <Project>/Saved/Temp/Win64/Engine/Config/BaseEngine.ini
   	2. Under [/Script/Engine.VirtualTexturePoolConfig], increase SizeInMegabyte
   	   from 64 to some higher value (I did 256). Might not persist across builds?
+
+05.29.2022
+
+  Delegates
+    - To register a function as a delegate, it MUST be annotated with UFUNCTION().
+    - When the project won't even open (and rebuilding modules doesn't work):
+      1. Fix the code.
+      2. Delete everything in Binaries/Win64 except steam_api64.dll
+      3. Right click the .uproject > Generate Visual Studio Project Files
+      4. Open Project and rebuild modules!
+      5. Repeat 2-4 while attempting 1 as many times as needed.

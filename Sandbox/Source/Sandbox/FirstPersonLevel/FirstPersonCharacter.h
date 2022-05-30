@@ -17,6 +17,7 @@ class UCameraComponent;
 class UMotionControllerComponent;
 class UAnimMontage;
 class USoundBase;
+class USteamInputComponent;
 
 UCLASS(Blueprintable, config=Game)
 class AFirstPersonCharacter : public ACharacter {
@@ -30,6 +31,9 @@ class AFirstPersonCharacter : public ACharacter {
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	USteamInputComponent* SteamInputComponent;
 
 	InputHandle_t *ConnectedSteamControllers;
 
@@ -95,5 +99,8 @@ private:
 
 	/** Checks SteamInput initialization state & whether class returns null */
 	bool IsSteamInputAvailable();
+
+	UFUNCTION()
+	void TestFunction();
 
 };

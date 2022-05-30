@@ -11,7 +11,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
-#include "../AllLevels/Utility/LogUtility.h"
+#include "AllLevels/Utility/LogUtility.h"
+#include "Dependencies/SteamInputComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -43,6 +44,11 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 	
 	IsFlying = false;
+
+	// Create SteamInputComponent
+	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
+	SteamInputComponent->BindJumpPress(this, FName("TestFunction"));
+	
 }
 
 void AFirstPersonCharacter::BeginPlay() {
@@ -167,4 +173,8 @@ void AFirstPersonCharacter::InitializeSteamInput() {
 bool AFirstPersonCharacter::IsSteamInputAvailable() {
 	if (SteamInput() && IsSteamInputInitialized) return true;
 	else return false;
+}
+
+void AFirstPersonCharacter::TestFunction() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Testy Test");
 }
