@@ -15,80 +15,85 @@ class UAnimMontage;
 class USoundBase;
 class USteamInputComponent;
 
+/*
+ *  FirstPersonCharacter.h                          Chris Cruzen
+ *  Sandbox                                           05.29.2022
+ *
+ *  Header file for FirstPersonCharacter.cpp.
+ */
+
+
 UCLASS(Blueprintable, config=Game)
 class AFirstPersonCharacter : public ACharacter {
 
 	GENERATED_BODY()
 
+	/*--- Variables  ---*/
+
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	protected: UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
 	/** First person camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USteamInputComponent* SteamInputComponent;
 
-public:
-	AFirstPersonCharacter();
-
-protected:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-
-public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
 	/** Whether character is currently flying */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsFlying;
 
-protected:
 
-	/** Handles moving forward/backward */
-	void MoveForward(float Val);
+	/*--- Lifecycle Functions ---*/
 
-	/** Handles stafing movement, left and right */
-	void MoveRight(float Val);
+	public: AFirstPersonCharacter();
 
-	/** Handles vertical movement, up and down */
-	void MoveUp(float Val);
+	protected: virtual void BeginPlay() override;
+	protected: virtual void Tick(float DeltaSeconds) override;
+
+
+	/*--- Input Setup Functions ---*/
+
+	/** APawn Override **/
+	protected: virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
+
+	protected: void SetupSteamInputComponent();
+
+
+	/*--- Input Handling Functions ---*/
+
+	protected: void MoveForward(float Val);
+
+	protected: void MoveRight(float Val);
+
+	protected: void MoveUp(float Val);
+
+	protected: UFUNCTION()
+	void OnJumpPress();
+
+	protected: UFUNCTION()
+	void OnJumpRelease();
 
 	/**
 	 * Called via input to turn at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
-	void TurnAtRate(float Rate);
+	protected: void TurnAtRate(float Rate);
 
 	/**
 	 * Called via input to turn look up/down at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
-	void LookUpAtRate(float Rate);
-
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	// End of APawn interface
-
-public:
-	/** Returns FirstPersonCameraComponent subobject **/
-	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
-private:
-
-	UFUNCTION()
-	void OnJumpPress();
-
-	UFUNCTION()
-	void OnJumpRelease();
+	protected: void LookUpAtRate(float Rate);
 
 };

@@ -22,7 +22,7 @@ class USteamInputComponent : public UObject {
 	GENERATED_BODY()
 
 
-	/*--- Lifecycle Methods ---*/
+	/*--- Lifecycle Functions ---*/
 
 	public: void OnTick(float DeltaTime);
 

@@ -10,7 +10,7 @@
  */
 
 
-/*--- Lifecycle ---*/
+/*--- Lifecycle Functions ---*/
 
 void USteamInputComponent::OnTick(float DeltaTime) {
 	if (IsSteamInputAvailable()) {
@@ -35,7 +35,7 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 }
 
 
-/*--- Action Binding ---*/
+/*--- Action Binding Functions ---*/
 
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
 	JumpPressEvent.BindUFunction(InUserObject, InFunctionName);
@@ -48,7 +48,7 @@ void USteamInputComponent::BindJumpRelease(UObject * InUserObject, const FName &
 
 
 
-/*--- Steam API ---*/
+/*--- Steam API Functions ---*/
 
 void USteamInputComponent::SetupSteamInput() {
 

@@ -12,8 +12,17 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
-//////////////////////////////////////////////////////////////////////////
-// AFirstPersonCharacter
+/*
+ *  FirstPersonCharacter.cpp                           Chris Cruzen
+ *  Sandbox                                              05.29.2022
+ *
+ *    FirstPersonCharacter is the base character class of the first
+ *  person levels of Sandbox. It handles common logic for input and
+ *  player movement.
+ */
+
+
+/*--- Lifecycle Functions ---*/
 
 AFirstPersonCharacter::AFirstPersonCharacter() {
 
@@ -49,9 +58,7 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 void AFirstPersonCharacter::BeginPlay() {
 	Super::BeginPlay();
 
-	SteamInputComponent->SetupSteamInput();
-	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
-	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
+	SetupSteamInputComponent();
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
@@ -59,22 +66,16 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 }
 
 
-//////////////////////////////////////////////////////////////////////////
-// Input
+/*--- Input Setup Functions ---*/
 
 void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
-
-	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	// Bind jump events
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
-
-	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("MoveUp", this, &AFirstPersonCharacter::MoveUp);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -84,6 +85,16 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFirstPersonCharacter::LookUpAtRate);
 }
+
+void AFirstPersonCharacter::SetupSteamInputComponent() {
+	SteamInputComponent->SetupSteamInput();
+
+	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
+	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
+}
+
+
+/*--- Input Handlong Functions ---*/
 
 void AFirstPersonCharacter::MoveForward(float Value) {
 	if (Value != 0.0f) {
@@ -106,6 +117,15 @@ void AFirstPersonCharacter::MoveUp(float Value) {
 	}
 }
 
+void AFirstPersonCharacter::OnJumpPress() {
+	Jump();
+}
+
+void AFirstPersonCharacter::OnJumpRelease() {
+	StopJumping();
+}
+
+
 void AFirstPersonCharacter::TurnAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
@@ -114,12 +134,4 @@ void AFirstPersonCharacter::TurnAtRate(float Rate) {
 void AFirstPersonCharacter::LookUpAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AFirstPersonCharacter::OnJumpPress() {
-	Jump();
-}
-
-void AFirstPersonCharacter::OnJumpRelease() {
-	StopJumping();
 }
