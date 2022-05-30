@@ -26,19 +26,16 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 AFirstPersonCharacter::AFirstPersonCharacter() {
 
-	// Set size for collision capsule
+	// Setup Character
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
-
-	// set our turn rates for input
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
-
-	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 0.0f, 58.5f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-	
+
+	// Initialize Movement Variables
+	BaseTurnRate = 45.f;
+	BaseLookUpRate = 45.f;
 	IsFlying = false;
 
 	// Create SteamInputComponent
