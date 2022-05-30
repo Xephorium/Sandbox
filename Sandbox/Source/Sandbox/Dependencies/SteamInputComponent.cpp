@@ -14,19 +14,21 @@
 
 void USteamInputComponent::OnTick(float DeltaTime) {
 	if (IsSteamInputAvailable()) {
+		SteamInput()->RunFrame(); // Queries Steam for Updated Inputs
 
-		// Query Steam for Updated Inputs
-		SteamInput()->RunFrame();
+		// Read First Controller Input
+		if (controllers[0]) {
 
-		// Read Controller Input
-		if (ConnectedSteamControllers[0]) {
-			InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
-				ConnectedSteamControllers[0],
-				SteamInput()->GetDigitalActionHandle("Jump")
-			);
+			// Read Action Data
+			InputDigitalActionData_t JumpAction = ReadDigitalActionData("Jump");
 
-			if (JumpAction.bState) {
-				GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::White, "Jump!");
+			// Delegate Jump Input
+			if (JumpAction.bState && !IsJumpPressed) {
+				IsJumpPressed = true;
+				JumpPressEvent.Execute();
+			} else if (!JumpAction.bState && IsJumpPressed) {
+				IsJumpPressed = false;
+				JumpReleaseEvent.Execute();
 			}
 		}
 	}
@@ -37,8 +39,13 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
 	JumpPressEvent.BindUFunction(InUserObject, InFunctionName);
-	JumpPressEvent.Execute(); // Call On SteamInput Event
 }
+
+void USteamInputComponent::BindJumpRelease(UObject * InUserObject, const FName & InFunctionName) {
+	JumpReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	//JumpPressEvent.Execute(); // Call On SteamInput Event
+}
+
 
 
 /*--- Steam API ---*/
@@ -58,12 +65,12 @@ void USteamInputComponent::SetupSteamInput() {
 		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
 
 		// Get List of Connected Controllers
-		ConnectedSteamControllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
-		SteamInput()->GetConnectedControllers(ConnectedSteamControllers);
+		controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
+		SteamInput()->GetConnectedControllers(controllers);
 
 		// Activate First Person Action Set
-		if (ConnectedSteamControllers[0]) {
-			SteamInput()->ActivateActionSet(ConnectedSteamControllers[0], FirstPersonSetHandle);
+		if (controllers[0]) {
+			SteamInput()->ActivateActionSet(controllers[0], FirstPersonSetHandle);
 		}
 
 	} else {
@@ -83,4 +90,8 @@ void USteamInputComponent::InitializeSteamInput() {
 bool USteamInputComponent::IsSteamInputAvailable() {
 	if (IsSteamInputInitialized && SteamInput()) return true;
 	else return false;
+}
+
+InputDigitalActionData_t USteamInputComponent::ReadDigitalActionData(char* name) {
+	return SteamInput()->GetDigitalActionData(controllers[0], SteamInput()->GetDigitalActionHandle(name));
 }

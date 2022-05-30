@@ -43,7 +43,6 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 
 	// Create SteamInputComponent
 	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
-	//SteamInputComponent->BindJumpPress(this, FName("TestFunction"));
 	
 }
 
@@ -51,6 +50,8 @@ void AFirstPersonCharacter::BeginPlay() {
 	Super::BeginPlay();
 
 	SteamInputComponent->SetupSteamInput();
+	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
+	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
@@ -67,8 +68,8 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	check(PlayerInputComponent);
 
 	// Bind jump events
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
@@ -115,6 +116,10 @@ void AFirstPersonCharacter::LookUpAtRate(float Rate) {
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AFirstPersonCharacter::TestFunction() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Testy Test");
+void AFirstPersonCharacter::OnJumpPress() {
+	Jump();
+}
+
+void AFirstPersonCharacter::OnJumpRelease() {
+	StopJumping();
 }

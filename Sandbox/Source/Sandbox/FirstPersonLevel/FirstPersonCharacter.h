@@ -86,6 +86,9 @@ public:
 private:
 
 	UFUNCTION()
-	void TestFunction();
+	void OnJumpPress();
+
+	UFUNCTION()
+	void OnJumpRelease();
 
 };
