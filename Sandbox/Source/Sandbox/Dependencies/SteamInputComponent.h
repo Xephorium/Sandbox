@@ -2,6 +2,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#pragma warning(push)
+#pragma warning(disable: 4996)
+#include "Dependencies/Steam/steam_api.h"
+#pragma warning(pop)
 #include "SteamInputComponentDelegates.h"
 #include "SteamInputComponent.generated.h"
 
@@ -17,20 +21,39 @@ class USteamInputComponent : public UObject {
 	
 	GENERATED_BODY()
 
-public:
 
-	USteamInputComponent();
+	/*--- Lifecycle Methods ---*/
+
+	public: void OnTick(float DeltaTime);
+
 
 	/*--- Action Binding Functions ---*/
 
-	void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
 
-private:
+
+	/*--- Steam API ---*/
+
+	/** Whether SteamInput is properly initialized */
+	private: bool IsSteamInputInitialized;
+
+	/** List of connected steam controllers **/
+	private: InputHandle_t *ConnectedSteamControllers;
+
+	/** ... */
+	public: void SetupSteamInput();
+
+	/** Initializes SteamInput & records initialization state */
+	private: void InitializeSteamInput();
+
+	/** Checks SteamInput initialization state & whether class returns null */
+	public: bool IsSteamInputAvailable();
+
 
 	/*--- Action Binding Delegates ---*/
 
-	JumpPressDelegate JumpPressEvent = nullptr;
-	JumpReleaseDelegate JumpReleaseEvent = nullptr;
+	private: JumpPressDelegate JumpPressEvent = nullptr;
+	private: JumpReleaseDelegate JumpReleaseEvent = nullptr;
 
 };
 

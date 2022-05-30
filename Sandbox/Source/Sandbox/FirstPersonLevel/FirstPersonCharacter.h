@@ -4,10 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#pragma warning(push)
-#pragma warning(disable: 4996)
-#include "Dependencies/Steam/steam_api.h"
-#pragma warning(pop)
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
@@ -34,8 +30,6 @@ class AFirstPersonCharacter : public ACharacter {
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USteamInputComponent* SteamInputComponent;
-
-	InputHandle_t *ConnectedSteamControllers;
 
 public:
 	AFirstPersonCharacter();
@@ -90,15 +84,6 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 private:
-
-	/** Whether SteamInput is properly initialized */
-	bool IsSteamInputInitialized;
-
-	/** Initializes SteamInput & records initialization state */
-	void InitializeSteamInput();
-
-	/** Checks SteamInput initialization state & whether class returns null */
-	bool IsSteamInputAvailable();
 
 	UFUNCTION()
 	void TestFunction();

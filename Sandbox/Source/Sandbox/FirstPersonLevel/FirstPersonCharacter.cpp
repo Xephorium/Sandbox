@@ -7,10 +7,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet/GameplayStatics.h"
-#include "MotionControllerComponent.h"
-#include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "AllLevels/Utility/LogUtility.h"
 #include "Dependencies/SteamInputComponent.h"
 
@@ -47,62 +43,18 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 
 	// Create SteamInputComponent
 	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
-	SteamInputComponent->BindJumpPress(this, FName("TestFunction"));
+	//SteamInputComponent->BindJumpPress(this, FName("TestFunction"));
 	
 }
 
 void AFirstPersonCharacter::BeginPlay() {
-
-	// Call the base class  
 	Super::BeginPlay();
 
-	InitializeSteamInput();
-	if (IsSteamInputAvailable()) {
-
-		// Print Status
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Active");
-
-		// Refresh Input
-		SteamInput()->RunFrame();
-
-		// Activate First Person Action Set
-		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
-
-		// Get List of Connected Controllers
-		ConnectedSteamControllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
-		SteamInput()->GetConnectedControllers(ConnectedSteamControllers);
-
-		// Activate First Person Action Set
-		if (ConnectedSteamControllers[0]) {
-			SteamInput()->ActivateActionSet(ConnectedSteamControllers[0], FirstPersonSetHandle);
-		}
-
-	} else {
-
-		// Print Status
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Unavailable (Reverting to UE4 Input)");
-	}
+	SteamInputComponent->SetupSteamInput();
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
-	
-	if (IsSteamInputAvailable()) {
-
-		// Query Steam for Updated Inputs
-		SteamInput()->RunFrame();
-
-		// Read Controller Input
-		if (ConnectedSteamControllers[0]) {
-			InputDigitalActionData_t JumpAction = SteamInput()->GetDigitalActionData(
-				ConnectedSteamControllers[0],
-				SteamInput()->GetDigitalActionHandle("Jump")
-			);
-
-			if (JumpAction.bState) {
-				GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::White, "Jump!");
-			}
-		}
-	}
+	SteamInputComponent->OnTick(DeltaSeconds);
 }
 
 
@@ -161,18 +113,6 @@ void AFirstPersonCharacter::TurnAtRate(float Rate) {
 void AFirstPersonCharacter::LookUpAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AFirstPersonCharacter::InitializeSteamInput() {
-	if (SteamInput())
-		if (SteamInput()->Init(false)) IsSteamInputInitialized = true;
-		else IsSteamInputInitialized = false;
-	else IsSteamInputInitialized = false;
-}
-
-bool AFirstPersonCharacter::IsSteamInputAvailable() {
-	if (SteamInput() && IsSteamInputInitialized) return true;
-	else return false;
 }
 
 void AFirstPersonCharacter::TestFunction() {
