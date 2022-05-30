@@ -59,8 +59,8 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnMoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnMoveRight);
 	PlayerInputComponent->BindAxis("MoveUp", this, &AFirstPersonCharacter::MoveUp);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
@@ -77,6 +77,8 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->SetupSteamInput();
 
+	SteamInputComponent->BindMoveForward(this, FName("OnMoveForward"));
+	SteamInputComponent->BindMoveRight(this, FName("OnMoveRight"));
 	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
 	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
 }
@@ -84,14 +86,14 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 /*--- Input Handlong Functions ---*/
 
-void AFirstPersonCharacter::MoveForward(float Value) {
+void AFirstPersonCharacter::OnMoveForward(float Value) {
 	if (Value != 0.0f) {
 		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Value);
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
 
-void AFirstPersonCharacter::MoveRight(float Value) {
+void AFirstPersonCharacter::OnMoveRight(float Value) {
 	if (Value != 0.0f) {
 		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Value);
 		AddMovementInput(GetActorRightVector(), Value);

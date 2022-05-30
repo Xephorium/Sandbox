@@ -1,4 +1,6 @@
 #pragma once
 
+DECLARE_DELEGATE_OneParam(MoveForwardDelegate, float)
+DECLARE_DELEGATE_OneParam(MoveRightDelegate, float)
 DECLARE_DELEGATE(JumpPressDelegate)
 DECLARE_DELEGATE(JumpReleaseDelegate)

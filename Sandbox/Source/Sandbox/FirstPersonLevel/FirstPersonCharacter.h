@@ -68,9 +68,11 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Input Handling Functions ---*/
 
-	protected: void MoveForward(float Val);
+	protected: UFUNCTION()
+	void OnMoveForward(float Val);
 
-	protected: void MoveRight(float Val);
+	protected: UFUNCTION()
+	void OnMoveRight(float Val);
 
 	protected: void MoveUp(float Val);
 

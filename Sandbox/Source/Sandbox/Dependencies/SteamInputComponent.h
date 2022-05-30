@@ -34,12 +34,16 @@ class USteamInputComponent : public UObject {
 
 	/*--- Action Binding Delegates ---*/
 
+	private: MoveForwardDelegate MoveForwardEvent = nullptr;
+	private: MoveRightDelegate MoveRightEvent = nullptr;
 	private: JumpPressDelegate JumpPressEvent = nullptr;
 	private: JumpReleaseDelegate JumpReleaseEvent = nullptr;
 
 
 	/*--- Action Binding Functions ---*/
 
+	public: void BindMoveForward(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindMoveRight(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpRelease(UObject * InUserObject, const FName & InFunctionName);
 
@@ -63,6 +67,9 @@ class USteamInputComponent : public UObject {
 
 	/** Utility Method - Gets Digital Action Data from SteamInput **/
 	private: InputDigitalActionData_t ReadDigitalActionData(char* name);
+
+	/** Utility Method - Gets Analog Action Data from SteamInput **/
+	private: InputAnalogActionData_t ReadAnalogActionData(char* name);
 
 };
 

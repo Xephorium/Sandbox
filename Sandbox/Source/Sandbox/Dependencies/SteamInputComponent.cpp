@@ -20,7 +20,13 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 		if (controllers[0]) {
 
 			// Read Action Data
+			InputAnalogActionData_t MoveAction = ReadAnalogActionData("Move");
 			InputDigitalActionData_t JumpAction = ReadDigitalActionData("Jump");
+
+			// Delegate Move Input
+			MoveForwardEvent.Execute(MoveAction.y);
+			MoveRightEvent.Execute(MoveAction.x);
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.05f, FColor::White, FString::Printf(TEXT("x: %f\ny: %ff"), MoveAction.x, MoveAction.y));
 
 			// Delegate Jump Input
 			if (JumpAction.bState && !IsJumpPressed) {
@@ -36,6 +42,14 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 
 
 /*--- Action Binding Functions ---*/
+
+void USteamInputComponent::BindMoveForward(UObject * InUserObject, const FName & InFunctionName) {
+	MoveForwardEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindMoveRight(UObject * InUserObject, const FName & InFunctionName) {
+	MoveRightEvent.BindUFunction(InUserObject, InFunctionName);
+}
 
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
 	JumpPressEvent.BindUFunction(InUserObject, InFunctionName);
@@ -94,4 +108,8 @@ bool USteamInputComponent::IsSteamInputAvailable() {
 
 InputDigitalActionData_t USteamInputComponent::ReadDigitalActionData(char* name) {
 	return SteamInput()->GetDigitalActionData(controllers[0], SteamInput()->GetDigitalActionHandle(name));
+}
+
+InputAnalogActionData_t USteamInputComponent::ReadAnalogActionData(char* name) {
+	return SteamInput()->GetAnalogActionData(controllers[0], SteamInput()->GetAnalogActionHandle(name));
 }
