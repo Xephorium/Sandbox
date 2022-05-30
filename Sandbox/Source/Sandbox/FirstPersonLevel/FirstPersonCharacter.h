@@ -74,7 +74,8 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UFUNCTION()
 	void OnMoveRight(float Val);
 
-	protected: void MoveUp(float Val);
+	protected: UFUNCTION()
+	void OnLook(float ValX, float ValY);
 
 	protected: UFUNCTION()
 	void OnJumpPress();

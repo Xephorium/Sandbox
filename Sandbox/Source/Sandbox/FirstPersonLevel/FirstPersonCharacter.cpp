@@ -61,7 +61,6 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnMoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnMoveRight);
-	PlayerInputComponent->BindAxis("MoveUp", this, &AFirstPersonCharacter::MoveUp);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
 
@@ -79,6 +78,7 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 	SteamInputComponent->BindMoveForward(this, FName("OnMoveForward"));
 	SteamInputComponent->BindMoveRight(this, FName("OnMoveRight"));
+	SteamInputComponent->BindLook(this, FName("OnLook"));
 	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
 	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
 }
@@ -100,11 +100,10 @@ void AFirstPersonCharacter::OnMoveRight(float Value) {
 	}
 }
 
-void AFirstPersonCharacter::MoveUp(float Value) {
-	if (Value != 0.0f) {
-		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetUpVector(), Value);
-		else AddMovementInput(GetActorUpVector(), Value);
-	}
+void AFirstPersonCharacter::OnLook(float ValueX, float ValueY) {
+	FVector2D Input = FVector2D(ValueX / 90.0f, ValueY / 90.0f);
+	TurnAtRate(Input.X);
+	LookUpAtRate(Input.Y);
 }
 
 void AFirstPersonCharacter::OnJumpPress() {

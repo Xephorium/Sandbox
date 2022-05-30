@@ -36,6 +36,7 @@ class USteamInputComponent : public UObject {
 
 	private: MoveForwardDelegate MoveForwardEvent = nullptr;
 	private: MoveRightDelegate MoveRightEvent = nullptr;
+	private: LookDelegate LookEvent = nullptr;
 	private: JumpPressDelegate JumpPressEvent = nullptr;
 	private: JumpReleaseDelegate JumpReleaseEvent = nullptr;
 
@@ -44,6 +45,7 @@ class USteamInputComponent : public UObject {
 
 	public: void BindMoveForward(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindMoveRight(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindLook(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpRelease(UObject * InUserObject, const FName & InFunctionName);
 

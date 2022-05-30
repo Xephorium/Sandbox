@@ -21,12 +21,15 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 
 			// Read Action Data
 			InputAnalogActionData_t MoveAction = ReadAnalogActionData("Move");
+			InputAnalogActionData_t LookAction = ReadAnalogActionData("Camera");
 			InputDigitalActionData_t JumpAction = ReadDigitalActionData("Jump");
 
 			// Delegate Move Input
 			MoveForwardEvent.Execute(MoveAction.y);
 			MoveRightEvent.Execute(MoveAction.x);
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.05f, FColor::White, FString::Printf(TEXT("x: %f\ny: %ff"), MoveAction.x, MoveAction.y));
+
+			// Delegate Look Input
+			LookEvent.Execute(LookAction.x, LookAction.y);
 
 			// Delegate Jump Input
 			if (JumpAction.bState && !IsJumpPressed) {
@@ -49,6 +52,10 @@ void USteamInputComponent::BindMoveForward(UObject * InUserObject, const FName &
 
 void USteamInputComponent::BindMoveRight(UObject * InUserObject, const FName & InFunctionName) {
 	MoveRightEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindLook(UObject * InUserObject, const FName & InFunctionName) {
+	LookEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
