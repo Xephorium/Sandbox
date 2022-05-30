@@ -10,7 +10,7 @@
  */
 
 
-/*--- Lifecycle Functions ---*/
+/*--- Lifecycle ---*/
 
 void USteamInputComponent::OnTick(float DeltaTime) {
 	if (IsSteamInputAvailable()) {
@@ -35,7 +35,7 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 }
 
 
-/*--- Action Binding Functions ---*/
+/*--- Action Binding ---*/
 
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
 	JumpPressEvent.BindUFunction(InUserObject, InFunctionName);

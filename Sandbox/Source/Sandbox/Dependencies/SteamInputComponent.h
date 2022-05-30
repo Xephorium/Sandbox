@@ -52,7 +52,7 @@ class USteamInputComponent : public UObject {
 	/** List of connected steam controllers **/
 	private: InputHandle_t *controllers;
 
-	/** ... */
+	/** Prepares SteamInput library for use - to be called from BeginPlay() **/
 	public: void SetupSteamInput();
 
 	/** Initializes SteamInput & records initialization state */
