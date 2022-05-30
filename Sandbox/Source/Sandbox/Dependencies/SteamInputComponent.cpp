@@ -81,14 +81,14 @@ void USteamInputComponent::SetupSteamInput() {
 }
 
 void USteamInputComponent::InitializeSteamInput() {
-	if (SteamInput())
+	if (SteamInput() != nullptr)
 		if (SteamInput()->Init(false)) IsSteamInputInitialized = true;
 		else IsSteamInputInitialized = false;
 	else IsSteamInputInitialized = false;
 }
 
 bool USteamInputComponent::IsSteamInputAvailable() {
-	if (IsSteamInputInitialized && SteamInput()) return true;
+	if (IsSteamInputInitialized && SteamInput() != nullptr) return true;
 	else return false;
 }
 
