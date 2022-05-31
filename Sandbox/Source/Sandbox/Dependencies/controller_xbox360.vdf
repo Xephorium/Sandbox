@@ -1,0 +1,501 @@
+"controller_mappings"
+{
+	"version"		"3"
+	"revision"		"46"
+	"title"		"#Library_ControllerSaveDefaultTitle"
+	"description"		"#Library_ControllerSaveDefaultDescription"
+	"creator"		"76561198068234347"
+	"progenitor"		""
+	"url"		""
+	"export_type"		"unknown"
+	"controller_type"		"controller_xbox360"
+	"major_revision"		"0"
+	"minor_revision"		"0"
+	"Timestamp"		"1653968293"
+	"actions"
+	{
+		"FirstPersonControls"
+		{
+			"title"		"#Set_FirstPerson"
+			"legacy_set"		"0"
+			"StickPadGyro"
+			{
+				"Move"
+				{
+					"title"		"#Action_Move"
+					"input_mode"		"joystick_move"
+				}
+				"Camera"
+				{
+					"title"		"#Action_Camera"
+					"input_mode"		"absolute_mouse"
+				}
+			}
+			"AnalogTrigger"
+			{
+				"Throttle"		"#Action_Throttle"
+			}
+			"Button"
+			{
+				"Jump"		"#Action_Jump"
+				"Crouch"		"#Action_Crouch"
+				"Run"		"#Action_Run"
+				"Fly"		"#Action_Fly"
+			}
+		}
+		"MenuControls"
+		{
+			"title"		"#Set_Menu"
+			"legacy_set"		"0"
+			"Button"
+			{
+				"menu_up"		"#Menu_Up"
+				"menu_down"		"#Menu_Down"
+				"menu_left"		"#Menu_Left"
+				"menu_right"		"#Menu_Right"
+				"menu_select"		"#Menu_Select"
+				"menu_cancel"		"#Menu_Cancel"
+				"pause_menu"		"#Action_ReturnToGame"
+			}
+		}
+	}
+	"action_layers"
+	{
+	}
+	"localization"
+	{
+		"english"
+		{
+			"Set_FirstPerson"		"First Person Controls"
+			"Set_Menu"		"Menu Controls"
+			"Action_Move"		"Movement"
+			"Action_Camera"		"Camera"
+			"Action_Throttle"		"Throttle"
+			"Action_Crouch"		"Crouch"
+			"Action_Jump"		"Jump"
+			"Action_Run"		"Run"
+			"Action_Fly"		"Fly"
+			"Action_ReturnToGame"		"Return To Game"
+			"menu_up"		"Up"
+			"menu_down"		"Down"
+			"menu_left"		"Left"
+			"menu_right"		"Right"
+			"menu_select"		"Select"
+			"menu_cancel"		"Cancel"
+		}
+	}
+	"group"
+	{
+		"id"		"1"
+		"mode"		"four_buttons"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"2"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"3"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"4"
+		"mode"		"disabled"
+		"description"		""
+	}
+	"group"
+	{
+		"id"		"5"
+		"mode"		"disabled"
+		"description"		""
+	}
+	"group"
+	{
+		"id"		"6"
+		"mode"		"disabled"
+		"description"		""
+	}
+	"group"
+	{
+		"id"		"7"
+		"mode"		"joystick_move"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+	}
+	"group"
+	{
+		"id"		"8"
+		"mode"		"joystick_mouse"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+			"edge_binding_invert"		"1"
+			"output_joystick"		"2"
+		}
+	}
+	"group"
+	{
+		"id"		"9"
+		"mode"		"flickstick"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+	}
+	"group"
+	{
+		"id"		"10"
+		"mode"		"joystick_move"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+	}
+	"group"
+	{
+		"id"		"11"
+		"mode"		"dpad"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"requires_click"		"0"
+			"haptic_intensity_override"		"0"
+		}
+	}
+	"group"
+	{
+		"id"		"13"
+		"mode"		"four_buttons"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"14"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"15"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"17"
+		"mode"		"four_buttons"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"18"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"19"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"20"
+		"mode"		"joystick_move"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+	}
+	"group"
+	{
+		"id"		"21"
+		"mode"		"dpad"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"requires_click"		"0"
+			"haptic_intensity_override"		"0"
+		}
+	}
+	"group"
+	{
+		"id"		"22"
+		"mode"		"joystick_mouse"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+			"output_joystick"		"2"
+		}
+	}
+	"group"
+	{
+		"id"		"24"
+		"mode"		"four_buttons"
+		"description"		""
+		"inputs"
+		{
+			"button_a"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"game_action FirstPersonControls Jump"
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"group"
+	{
+		"id"		"25"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"26"
+		"mode"		"trigger"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"27"
+		"mode"		"joystick_mouse"
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+			"output_joystick"		"2"
+		}
+		"gameactions"
+		{
+			"FirstPersonControls"		"Camera"
+		}
+	}
+	"group"
+	{
+		"id"		"28"
+		"mode"		"joystick_move"
+		"description"		""
+		"inputs"
+		{
+			"click"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"game_action FirstPersonControls Crouch"
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+		"gameactions"
+		{
+			"FirstPersonControls"		"Move"
+		}
+	}
+	"group"
+	{
+		"id"		"29"
+		"mode"		"dpad"
+		"description"		""
+		"inputs"
+		{
+			"dpad_north"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"game_action FirstPersonControls Fly"
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+		"settings"
+		{
+			"requires_click"		"0"
+			"haptic_intensity_override"		"0"
+		}
+	}
+	"group"
+	{
+		"id"		"0"
+		"mode"		"switches"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"12"
+		"mode"		"switches"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"16"
+		"mode"		"switches"
+		"description"		""
+		"inputs"
+		{
+		}
+	}
+	"group"
+	{
+		"id"		"23"
+		"mode"		"switches"
+		"description"		""
+		"inputs"
+		{
+			"left_bumper"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"game_action FirstPersonControls Run"
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"preset"
+	{
+		"id"		"0"
+		"name"		"FirstPersonControls"
+		"group_source_bindings"
+		{
+			"23"		"switch active"
+			"24"		"button_diamond active"
+			"25"		"left_trigger active"
+			"26"		"right_trigger active"
+			"28"		"joystick active"
+			"27"		"right_joystick active"
+			"29"		"dpad active"
+		}
+	}
+	"preset"
+	{
+		"id"		"1"
+		"name"		"MenuControls"
+		"group_source_bindings"
+		{
+			"16"		"switch active"
+			"17"		"button_diamond active"
+			"18"		"left_trigger active"
+			"19"		"right_trigger active"
+		}
+	}
+	"settings"
+	{
+	}
+}

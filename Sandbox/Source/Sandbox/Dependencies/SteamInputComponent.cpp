@@ -1,4 +1,6 @@
 
+#include <iostream>
+#include <string>
 #include "SteamInputComponent.h"
 
 /*
@@ -11,7 +13,11 @@
  *  Note: SteamInput requires all possible game inputs be defined
  *        in <steam install>/controller_config/game_actions_#.vfd,
  *        where # is the steam app ID. Until an actual steam app
- *        ID is registered, 480 will work with debug builds.
+ *        ID is registered, 480 will work with debug builds. Once
+ *        the game is ready to ship, steamworks will let you
+ *        choose a game_action_manifest file to upload, which
+ *        contains the same settings and will be installed on
+ *        each user's system.
  */
 
 
@@ -144,7 +150,7 @@ void USteamInputComponent::SetupSteamInput() {
 		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
 
 		// Get List of Connected Controllers
-		controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
+		controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];	
 		SteamInput()->GetConnectedControllers(controllers);
 
 		// Activate First Person Action Set
