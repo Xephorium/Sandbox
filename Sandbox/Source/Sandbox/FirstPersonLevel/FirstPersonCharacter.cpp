@@ -79,8 +79,14 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindMoveForward(this, FName("OnMoveForward"));
 	SteamInputComponent->BindMoveRight(this, FName("OnMoveRight"));
 	SteamInputComponent->BindLook(this, FName("OnLook"));
+	SteamInputComponent->BindCrouchPress(this, FName("OnCrouchPress"));
+	SteamInputComponent->BindCrouchRelease(this, FName("OnCrouchRelease"));
 	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
 	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
+	SteamInputComponent->BindRunPress(this, FName("OnRunPress"));
+	SteamInputComponent->BindRunRelease(this, FName("OnRunRelease"));
+	SteamInputComponent->BindFlyPress(this, FName("OnFlyPress"));
+	SteamInputComponent->BindFlyRelease(this, FName("OnFlyRelease"));
 }
 
 
@@ -106,12 +112,36 @@ void AFirstPersonCharacter::OnLook(float ValueX, float ValueY) {
 	LookUpAtRate(Input.Y);
 }
 
+void AFirstPersonCharacter::OnCrouchPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Crouch Press");
+}
+
+void AFirstPersonCharacter::OnCrouchRelease() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Crouch Release");
+}
+
 void AFirstPersonCharacter::OnJumpPress() {
 	Jump();
 }
 
 void AFirstPersonCharacter::OnJumpRelease() {
 	StopJumping();
+}
+
+void AFirstPersonCharacter::OnRunPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Run Press");
+}
+
+void AFirstPersonCharacter::OnRunRelease() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Run Release");
+}
+
+void AFirstPersonCharacter::OnFlyPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Press");
+}
+
+void AFirstPersonCharacter::OnFlyRelease() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Release");
 }
 
 

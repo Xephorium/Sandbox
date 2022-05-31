@@ -78,10 +78,28 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnLook(float ValX, float ValY);
 
 	protected: UFUNCTION()
+	void OnCrouchPress();
+
+	protected: UFUNCTION()
+	void OnCrouchRelease();
+
+	protected: UFUNCTION()
 	void OnJumpPress();
 
 	protected: UFUNCTION()
 	void OnJumpRelease();
+
+	protected: UFUNCTION()
+	void OnRunPress();
+
+	protected: UFUNCTION()
+	void OnRunRelease();
+
+	protected: UFUNCTION()
+	void OnFlyPress();
+
+	protected: UFUNCTION()
+	void OnFlyRelease();
 
 	/**
 	 * Called via input to turn at a given rate.

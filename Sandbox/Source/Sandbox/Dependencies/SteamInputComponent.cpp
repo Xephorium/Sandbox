@@ -7,6 +7,11 @@
  *
  *    SteamInputComponent is a utility class that delegates input
  *  events from the SteamInput library to bound game functions.
+ * 
+ *  Note: SteamInput requires all possible game inputs be defined
+ *        in <steam install>/controller_config/game_actions_#.vfd,
+ *        where # is the steam app ID. Until an actual steam app
+ *        ID is registered, 480 will work with debug builds.
  */
 
 
@@ -22,22 +27,52 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 			// Read Action Data
 			InputAnalogActionData_t MoveAction = ReadAnalogActionData("Move");
 			InputAnalogActionData_t LookAction = ReadAnalogActionData("Camera");
+			InputDigitalActionData_t CrouchAction = ReadDigitalActionData("Crouch");
 			InputDigitalActionData_t JumpAction = ReadDigitalActionData("Jump");
+			InputDigitalActionData_t RunAction = ReadDigitalActionData("Run");
+			InputDigitalActionData_t FlyAction = ReadDigitalActionData("Fly");
 
 			// Delegate Move Input
-			MoveForwardEvent.Execute(MoveAction.y);
-			MoveRightEvent.Execute(MoveAction.x);
+			if (MoveForwardEvent.IsBound()) MoveForwardEvent.Execute(MoveAction.y);
+			if (MoveRightEvent.IsBound()) MoveRightEvent.Execute(MoveAction.x);
 
 			// Delegate Look Input
-			LookEvent.Execute(LookAction.x, LookAction.y);
+			if (LookEvent.IsBound()) LookEvent.Execute(LookAction.x, LookAction.y);
+
+			// Delegate Crouch Input
+			if (CrouchAction.bState && !IsCrouchPressed) {
+				IsCrouchPressed = true;
+				if (CrouchPressEvent.IsBound()) CrouchPressEvent.Execute();
+			} else if (!CrouchAction.bState && IsCrouchPressed) {
+				IsCrouchPressed = false;
+				if (CrouchReleaseEvent.IsBound()) CrouchReleaseEvent.Execute();
+			}
 
 			// Delegate Jump Input
 			if (JumpAction.bState && !IsJumpPressed) {
 				IsJumpPressed = true;
-				JumpPressEvent.Execute();
+				if (JumpPressEvent.IsBound()) JumpPressEvent.Execute();
 			} else if (!JumpAction.bState && IsJumpPressed) {
 				IsJumpPressed = false;
-				JumpReleaseEvent.Execute();
+				if (JumpReleaseEvent.IsBound()) JumpReleaseEvent.Execute();
+			}
+
+			// Delegate Run Input
+			if (RunAction.bState && !IsRunPressed) {
+				IsRunPressed = true;
+				if (RunPressEvent.IsBound()) RunPressEvent.Execute();
+			} else if (!RunAction.bState && IsRunPressed) {
+				IsRunPressed = false;
+				if (RunReleaseEvent.IsBound()) RunReleaseEvent.Execute();
+			}
+
+			// Delegate Fly Input
+			if (FlyAction.bState && !IsFlyPressed) {
+				IsFlyPressed = true;
+				if (FlyPressEvent.IsBound()) FlyPressEvent.Execute();
+			} else if (!FlyAction.bState && IsFlyPressed) {
+				IsFlyPressed = false;
+				if (FlyReleaseEvent.IsBound()) FlyReleaseEvent.Execute();
 			}
 		}
 	}
@@ -58,13 +93,36 @@ void USteamInputComponent::BindLook(UObject * InUserObject, const FName & InFunc
 	LookEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
+void USteamInputComponent::BindCrouchPress(UObject * InUserObject, const FName & InFunctionName) {
+	CrouchPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindCrouchRelease(UObject * InUserObject, const FName & InFunctionName) {
+	CrouchReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
 void USteamInputComponent::BindJumpPress(UObject * InUserObject, const FName & InFunctionName) {
 	JumpPressEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindJumpRelease(UObject * InUserObject, const FName & InFunctionName) {
 	JumpReleaseEvent.BindUFunction(InUserObject, InFunctionName);
-	//JumpPressEvent.Execute(); // Call On SteamInput Event
+}
+
+void USteamInputComponent::BindRunPress(UObject * InUserObject, const FName & InFunctionName) {
+	RunPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindRunRelease(UObject * InUserObject, const FName & InFunctionName) {
+	RunReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFlyPress(UObject * InUserObject, const FName & InFunctionName) {
+	FlyPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFlyRelease(UObject * InUserObject, const FName & InFunctionName) {
+	FlyReleaseEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
 

@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #pragma warning(push)
 #pragma warning(disable: 4996)
 #include "Dependencies/Steam/steam_api.h"
@@ -29,7 +28,10 @@ class USteamInputComponent : public UObject {
 
 	/*--- State Variables ---*/
 
+	private: bool IsCrouchPressed = false;
 	private: bool IsJumpPressed = false;
+	private: bool IsRunPressed = false;
+	private: bool IsFlyPressed = false;
 
 
 	/*--- Action Binding Delegates ---*/
@@ -37,8 +39,14 @@ class USteamInputComponent : public UObject {
 	private: MoveForwardDelegate MoveForwardEvent = nullptr;
 	private: MoveRightDelegate MoveRightEvent = nullptr;
 	private: LookDelegate LookEvent = nullptr;
+	private: CrouchPressDelegate CrouchPressEvent = nullptr;
+	private: CrouchReleaseDelegate CrouchReleaseEvent = nullptr;
 	private: JumpPressDelegate JumpPressEvent = nullptr;
 	private: JumpReleaseDelegate JumpReleaseEvent = nullptr;
+	private: RunPressDelegate RunPressEvent = nullptr;
+	private: RunReleaseDelegate RunReleaseEvent = nullptr;
+	private: FlyPressDelegate FlyPressEvent = nullptr;
+	private: FlyReleaseDelegate FlyReleaseEvent = nullptr;
 
 
 	/*--- Action Binding Functions ---*/
@@ -46,8 +54,14 @@ class USteamInputComponent : public UObject {
 	public: void BindMoveForward(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindMoveRight(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindLook(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindCrouchPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindCrouchRelease(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindJumpRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindRunPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindRunRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFlyPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFlyRelease(UObject * InUserObject, const FName & InFunctionName);
 
 
 	/*--- Steam API ---*/
