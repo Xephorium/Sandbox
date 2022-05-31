@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "AdvancedFriendsGameInstance.h"
-#pragma warning(push)                      // Push current precompiler warning configuration to stack
-#pragma warning(disable:4996)              // Disable pesky steam api warnings
-#include "Dependencies/Steam/steam_api.h"  // Include steam api
-#pragma warning(pop)                       // Restore previous precompiler warning configuration
+#pragma warning(push)                              // Push current precompiler warning configuration to stack
+#pragma warning(disable:4996)                      // Disable pesky steam api warnings
+#include "Dependencies/Steam/Library/steam_api.h"  // Include steam api
+#pragma warning(pop)                               // Restore previous precompiler warning configuration
 #include "SandboxGameInstance.generated.h"
 
 #define RAW_APP_ID "480"

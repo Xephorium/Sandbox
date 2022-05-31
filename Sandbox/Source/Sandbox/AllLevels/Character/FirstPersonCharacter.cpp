@@ -1,14 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FirstPersonCharacter.h"
-#include "FirstPersonProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "AllLevels/Utility/LogUtility.h"
-#include "Dependencies/SteamInputComponent.h"
+#include "Dependencies/Steam/SteamInputComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 

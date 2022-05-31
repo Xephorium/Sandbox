@@ -7,12 +7,7 @@
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
-class USkeletalMeshComponent;
-class USceneComponent;
 class UCameraComponent;
-class UMotionControllerComponent;
-class UAnimMontage;
-class USoundBase;
 class USteamInputComponent;
 
 /*

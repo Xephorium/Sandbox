@@ -13,7 +13,7 @@ public class Sandbox : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-		PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Dependencies", "Steam", "lib", "steam_api64.lib"));
+		PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Dependencies", "Steam", "Library", "steam_api64.lib"));
 		
 		PublicIncludePaths.Add("Sandbox");
 		

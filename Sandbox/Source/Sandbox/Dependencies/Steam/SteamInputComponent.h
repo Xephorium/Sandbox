@@ -3,7 +3,7 @@
 
 #pragma warning(push)
 #pragma warning(disable: 4996)
-#include "Dependencies/Steam/steam_api.h"
+#include "Dependencies/Steam/Library/steam_api.h"
 #pragma warning(pop)
 #include "SteamInputComponentDelegates.h"
 #include "SteamInputComponent.generated.h"
