@@ -28,6 +28,8 @@ class AFirstPersonCharacter : public ACharacter {
 
 	private: const float STICK_MOVE_DEADZONE = 0.18f;
 
+	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
+
 	/** First person camera */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -77,7 +79,7 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnStickMove(FVector2D Input);
 
 	protected: UFUNCTION()
-	void OnLook(FVector2D Input);
+	void OnStickLook(FVector2D Input);
 
 	protected: UFUNCTION()
 	void OnCrouchPress();
@@ -103,16 +105,23 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UFUNCTION()
 	void OnFlyRelease();
 
-	/**
-	 * Called via input to turn at a given rate.
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	/* Note: The below functions are a workaround to unreal's input system being
+	 *       dumb. Ideally, we could bind OnStickLook(FVector Input) to both the
+	 *       PlayerInputComponent and SteamInputComponent, letting that one
+	 *       function manage all stick input regardless of origin. That said,
+	 *       unreal's input system refuses to recognize inputs sent via the
+	 *       Gamepad Right Thumbstick Axis-2D configuration. The FVector always
+	 *       just comes back as (0.0, 0.0, 0.0). I have no clue why and am tired
+	 *       of trying to diagnose something that would just work in any game
+	 *       engine that wasn't build by baboons. For now, I've just setup two
+	 *       functions, one for each axial input, to store the values so that I
+	 *       can call OnStickLook() with them on Tick().
 	 */
-	protected: void TurnAtRate(float Rate);
 
-	/**
-	 * Called via input to turn look up/down at a given rate.
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	protected: void LookUpAtRate(float Rate);
+	protected: UFUNCTION()
+	void OnStickLookX(float Input);
+
+	protected: UFUNCTION()
+	void OnStickLookY(float Input);
 
 };

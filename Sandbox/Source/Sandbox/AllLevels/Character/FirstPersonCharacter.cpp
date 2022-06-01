@@ -55,6 +55,7 @@ void AFirstPersonCharacter::BeginPlay() {
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 	SteamInputComponent->OnTick(DeltaSeconds);
+	OnStickLook(CurrentLookInput);
 }
 
 
@@ -65,6 +66,8 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnMoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnMoveRight);
+	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX);
+	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
 
@@ -72,16 +75,14 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AFirstPersonCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AFirstPersonCharacter::LookUpAtRate);
 }
 
 void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->SetupSteamInput();
 
 	SteamInputComponent->BindMove(this, FName("OnStickMove"));
-	SteamInputComponent->BindLook(this, FName("OnLook"));
+	SteamInputComponent->BindLook(this, FName("OnStickLook"));
 	SteamInputComponent->BindCrouchPress(this, FName("OnCrouchPress"));
 	SteamInputComponent->BindCrouchRelease(this, FName("OnCrouchRelease"));
 	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
@@ -122,10 +123,11 @@ void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
 	}
 }
 
-void AFirstPersonCharacter::OnLook(FVector2D Input) {
+void AFirstPersonCharacter::OnStickLook(FVector2D Input) {
 	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input);
-	TurnAtRate(Rotation.X);
-	LookUpAtRate(Rotation.Y);
+
+	AddControllerYawInput(Rotation.X * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	AddControllerPitchInput(Rotation.Y * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AFirstPersonCharacter::OnCrouchPress() {
@@ -160,13 +162,10 @@ void AFirstPersonCharacter::OnFlyRelease() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Release");
 }
 
-
-void AFirstPersonCharacter::TurnAtRate(float Rate) {
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+void AFirstPersonCharacter::OnStickLookX(float Input) {
+	CurrentLookInput.X = Input;
 }
 
-void AFirstPersonCharacter::LookUpAtRate(float Rate) {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+void AFirstPersonCharacter::OnStickLookY(float Input) {
+	CurrentLookInput.Y = Input;
 }
