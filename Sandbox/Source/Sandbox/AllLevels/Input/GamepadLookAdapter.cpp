@@ -47,15 +47,13 @@ FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
 bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
 
     // Look magnitude must be > STICK_TURN_THRESHOLD.
-    bool MagnitudeCheck = abs(Input.X) >= abs((Input.GetSafeNormal() * STICK_TURN_THRESHOLD).X);
+    bool MagnitudeCheck = abs(Input.X) >= abs((Input.GetSafeNormal() * STICK_TURN_THRESHOLD).X)
+        && Input.GetSafeNormal() != FVector2D::ZeroVector;
 
     // Look angle must be < STICK_TURN_FALLOFF_ANGLE.
     float RadiansToDegrees = (360.0f / (PI * 2.0f));
     float Angle = abs(atan2(Input.Y, Input.X) * RadiansToDegrees);
     bool angleCheck = Angle <= STICK_TURN_FALLOFF_ANGLE;
-
-    // TODO - FIX TURN ZONE BUG
-    // if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, (MagnitudeCheck && angleCheck == true) ? TEXT("true") : TEXT("false"));
 
     return MagnitudeCheck && angleCheck;
 }
