@@ -542,3 +542,23 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
       3. Right click the .uproject > Generate Visual Studio Project Files
       4. Open Project and rebuild modules!
       5. Repeat 2-4 while attempting 1 as many times as needed.
+
+05.31.2022
+
+  Steam Input
+    - To disable extremely aggressive default deadzone in SteamInput:
+        Big Picture Mode > Settings > Controllers > Calibrate
+    - If ever I switch the camera joystick from a type of 'joystick' back to absolute_mouse':
+
+        // Note: Steam returns absolute_mouse data as a vector with an ambiguous max
+		//       magnitude. However, after much testing, I found that full joystick
+		//       deflection returns an average value right around 75. This block clamps
+		//       the deflection on each axis to 75 and divides the resulting vector
+		//       by that maximum to shift the final vector down to a roughly [0,1] range.
+		//       Then, just before returning, I perform one final check and normalize
+		//       any vector with magnitude > 1.
+
+  Logging
+
+    //if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(Input.Size())); //IsInTurnZone(Input) == true ? TEXT("true") : TEXT("false")); // FString::SanitizeFloat(ValueX)
+    if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(FVector2D(ValueX, ValueY).Size())); //IsInTurnZone(Input) == true ? TEXT("true") : TEXT("false")); // FString::SanitizeFloat(ValueX)

@@ -8,6 +8,7 @@
 
 class UInputComponent;
 class UCameraComponent;
+class UGamepadLookAdapter;
 class USteamInputComponent;
 
 /*
@@ -31,6 +32,9 @@ class AFirstPersonCharacter : public ACharacter {
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USteamInputComponent* SteamInputComponent;
+
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UGamepadLookAdapter* GamepadLookAdapter;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -70,7 +74,7 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnMoveRight(float Val);
 
 	protected: UFUNCTION()
-	void OnLook(float ValX, float ValY);
+	void OnLook(FVector2D Input);
 
 	protected: UFUNCTION()
 	void OnCrouchPress();

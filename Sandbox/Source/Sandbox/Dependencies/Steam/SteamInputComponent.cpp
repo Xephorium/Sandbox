@@ -43,7 +43,7 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 			if (MoveRightEvent.IsBound()) MoveRightEvent.Execute(MoveAction.x);
 
 			// Delegate Look Input
-			if (LookEvent.IsBound()) LookEvent.Execute(LookAction.x, LookAction.y);
+			if (LookEvent.IsBound()) LookEvent.Execute(FVector2D(LookAction.x, -LookAction.y));
 
 			// Delegate Crouch Input
 			if (CrouchAction.bState && !IsCrouchPressed) {

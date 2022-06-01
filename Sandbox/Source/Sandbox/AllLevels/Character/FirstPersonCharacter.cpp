@@ -7,6 +7,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "AllLevels/Utility/LogUtility.h"
+#include "AllLevels/Input/GamepadLookAdapter.h"
 #include "Dependencies/Steam/SteamInputComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -39,6 +40,9 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 
 	// Create SteamInputComponent
 	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
+
+	// Create SteamInputComponent
+	GamepadLookAdapter = CreateDefaultSubobject<UGamepadLookAdapter>(TEXT("GamepadLookAdapter"));
 	
 }
 
@@ -105,10 +109,10 @@ void AFirstPersonCharacter::OnMoveRight(float Value) {
 	}
 }
 
-void AFirstPersonCharacter::OnLook(float ValueX, float ValueY) {
-	FVector2D Input = FVector2D(ValueX / 90.0f, ValueY / 90.0f);
-	TurnAtRate(Input.X);
-	LookUpAtRate(Input.Y);
+void AFirstPersonCharacter::OnLook(FVector2D Input) {
+	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input);
+	TurnAtRate(Rotation.X);
+	LookUpAtRate(Rotation.Y);
 }
 
 void AFirstPersonCharacter::OnCrouchPress() {

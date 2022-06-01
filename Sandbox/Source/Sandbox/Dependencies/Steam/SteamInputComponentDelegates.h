@@ -2,7 +2,7 @@
 
 DECLARE_DELEGATE_OneParam(MoveForwardDelegate, float)
 DECLARE_DELEGATE_OneParam(MoveRightDelegate, float)
-DECLARE_DELEGATE_TwoParams(LookDelegate, float, float)
+DECLARE_DELEGATE_OneParam(LookDelegate, FVector2D)
 DECLARE_DELEGATE(CrouchPressDelegate)
 DECLARE_DELEGATE(CrouchReleaseDelegate)
 DECLARE_DELEGATE(JumpPressDelegate)
