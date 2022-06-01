@@ -37,7 +37,7 @@
 
 FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
     FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_LOOK_DEADZONE);
-    IsInTurnZone(Input);
+    if (IsInTurnZone(Input)) GetRadialFalloff(Input);
     return FVector2D(ValidInput.X, ValidInput.Y * STICK_LOOK_HORIZ_MULTIPLIER);
 }
 
@@ -47,13 +47,20 @@ FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
 bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
 
     // Look magnitude must be > STICK_TURN_THRESHOLD.
-    bool MagnitudeCheck = abs(Input.X) >= abs((Input.GetSafeNormal() * STICK_TURN_THRESHOLD).X)
-        && Input.GetSafeNormal() != FVector2D::ZeroVector;
+    bool MagnitudeCheck = Input.Size() > STICK_TURN_THRESHOLD;
 
     // Look angle must be < STICK_TURN_FALLOFF_ANGLE.
-    float RadiansToDegrees = (360.0f / (PI * 2.0f));
-    float Angle = abs(atan2(Input.Y, Input.X) * RadiansToDegrees);
+    float Angle = abs(atan(Input.Y / Input.X) * RAD2DEG);
     bool angleCheck = Angle <= STICK_TURN_FALLOFF_ANGLE;
 
     return MagnitudeCheck && angleCheck;
+}
+
+float UGamepadLookAdapter::GetRadialFalloff(FVector2D Input) {
+
+    // Turn experiences radial falloff as input strays from vector [±1,0].
+    float Angle = abs(atan(Input.Y / Input.X) * RAD2DEG);
+    float RadialPercent = FMath::Clamp(1.0f - (Angle / STICK_TURN_FALLOFF_ANGLE), 0.0f, 1.0f);
+
+    return RadialPercent;
 }

@@ -18,6 +18,8 @@ class UGamepadLookAdapter : public UObject {
 
 	/*--- Variables ---*/
 
+	private: const float RAD2DEG = (360.0f / (PI * 2.0f));
+
 	private: const float STICK_LOOK_HORIZ_FACTOR = 1.17f;
 	private: const float STICK_LOOK_VERT_FACTOR = 0.85f;
 	private: const float STICK_TURN_THRESHOLD = 0.93f;
@@ -54,6 +56,8 @@ class UGamepadLookAdapter : public UObject {
 	//private: FVector2D calculateNormalizedRotation(FVector2D Input);
 
 	private: bool IsInTurnZone(FVector2D Input);
+
+	private: float GetRadialFalloff(FVector2D Input);
 
 };
 
