@@ -1,7 +1,6 @@
 #pragma once
 
-DECLARE_DELEGATE_OneParam(MoveForwardDelegate, float)
-DECLARE_DELEGATE_OneParam(MoveRightDelegate, float)
+DECLARE_DELEGATE_OneParam(MoveDelegate, FVector2D)
 DECLARE_DELEGATE_OneParam(LookDelegate, FVector2D)
 DECLARE_DELEGATE(CrouchPressDelegate)
 DECLARE_DELEGATE(CrouchReleaseDelegate)

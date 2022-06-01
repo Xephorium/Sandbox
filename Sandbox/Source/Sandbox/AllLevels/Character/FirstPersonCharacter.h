@@ -26,6 +26,8 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Variables  ---*/
 
+	private: const float STICK_MOVE_DEADZONE = 0.18f;
+
 	/** First person camera */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -67,11 +69,12 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Input Handling Functions ---*/
 
-	protected: UFUNCTION()
 	void OnMoveForward(float Val);
 
-	protected: UFUNCTION()
 	void OnMoveRight(float Val);
+
+	protected: UFUNCTION()
+	void OnStickMove(FVector2D Input);
 
 	protected: UFUNCTION()
 	void OnLook(FVector2D Input);

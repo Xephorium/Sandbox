@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "AllLevels/Input/InputUtility.h"
 #include "AllLevels/Utility/LogUtility.h"
 #include "AllLevels/Input/GamepadLookAdapter.h"
 #include "Dependencies/Steam/SteamInputComponent.h"
@@ -79,8 +80,7 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->SetupSteamInput();
 
-	SteamInputComponent->BindMoveForward(this, FName("OnMoveForward"));
-	SteamInputComponent->BindMoveRight(this, FName("OnMoveRight"));
+	SteamInputComponent->BindMove(this, FName("OnStickMove"));
 	SteamInputComponent->BindLook(this, FName("OnLook"));
 	SteamInputComponent->BindCrouchPress(this, FName("OnCrouchPress"));
 	SteamInputComponent->BindCrouchRelease(this, FName("OnCrouchRelease"));
@@ -106,6 +106,19 @@ void AFirstPersonCharacter::OnMoveRight(float Value) {
 	if (Value != 0.0f) {
 		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Value);
 		AddMovementInput(GetActorRightVector(), Value);
+	}
+}
+
+void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
+	if (Input.Size() != 0.0f) {
+		FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_MOVE_DEADZONE);
+		if (IsFlying) {
+			AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), ValidInput.Y);
+			AddMovementInput(FirstPersonCameraComponent->GetRightVector(), ValidInput.X);
+		} else {
+			AddMovementInput(GetActorForwardVector(), ValidInput.Y);
+			AddMovementInput(GetActorRightVector(), ValidInput.X);
+		}
 	}
 }
 

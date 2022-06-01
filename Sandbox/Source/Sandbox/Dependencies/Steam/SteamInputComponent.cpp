@@ -39,8 +39,7 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 			InputDigitalActionData_t FlyAction = ReadDigitalActionData("Fly");
 
 			// Delegate Move Input
-			if (MoveForwardEvent.IsBound()) MoveForwardEvent.Execute(MoveAction.y);
-			if (MoveRightEvent.IsBound()) MoveRightEvent.Execute(MoveAction.x);
+			if (MoveEvent.IsBound()) MoveEvent.Execute(FVector2D(MoveAction.x, MoveAction.y));
 
 			// Delegate Look Input
 			if (LookEvent.IsBound()) LookEvent.Execute(FVector2D(LookAction.x, -LookAction.y));
@@ -87,12 +86,8 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 
 /*--- Action Binding Functions ---*/
 
-void USteamInputComponent::BindMoveForward(UObject * InUserObject, const FName & InFunctionName) {
-	MoveForwardEvent.BindUFunction(InUserObject, InFunctionName);
-}
-
-void USteamInputComponent::BindMoveRight(UObject * InUserObject, const FName & InFunctionName) {
-	MoveRightEvent.BindUFunction(InUserObject, InFunctionName);
+void USteamInputComponent::BindMove(UObject * InUserObject, const FName & InFunctionName) {
+	MoveEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindLook(UObject * InUserObject, const FName & InFunctionName) {

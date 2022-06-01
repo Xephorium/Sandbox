@@ -1,8 +1,7 @@
 
-#include <iostream>
-#include <string>
+#include <math.h>
 #include <cmath>
-#include "AllLevels/Utility/LogUtility.h"
+#include "AllLevels/Input/InputUtility.h"
 #include "GamepadLookAdapter.h"
 
 /*
@@ -37,8 +36,8 @@
 /*--- Primary Player Rotation Function ---*/
 
 FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
-    FVector2D ValidInput = AccommodateDeadzone(Input);
-    if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(ValidInput.Size()));
+    FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_LOOK_DEADZONE);
+    IsInTurnZone(Input);
     return FVector2D(ValidInput.X, ValidInput.Y * STICK_LOOK_HORIZ_MULTIPLIER);
 }
 
@@ -46,14 +45,17 @@ FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
 /*--- Private Functions ---*/
 
 bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
-    return Input.Size() > STICK_TURN_THRESHOLD;
-}
 
-// Discards input beneath STICK_LOOK_DEADZONE, finessing all other valid vectors into a [0,1] range.
-FVector2D UGamepadLookAdapter::AccommodateDeadzone(FVector2D Input) {
-    float Scale = 1.0f / (1.0f - STICK_LOOK_DEADZONE);
-    return FVector2D(
-        FMath::Clamp((abs(Input.X) - STICK_LOOK_DEADZONE) * Scale, 0.0f, 1.0f) * (Input.X / abs(Input.X)),
-        FMath::Clamp((abs(Input.Y) - STICK_LOOK_DEADZONE) * Scale, 0.0f, 1.0f) * (Input.Y / abs(Input.Y))
-    );
+    // Look magnitude must be > STICK_TURN_THRESHOLD.
+    bool MagnitudeCheck = abs(Input.X) >= abs((Input.GetSafeNormal() * STICK_TURN_THRESHOLD).X);
+
+    // Look angle must be < STICK_TURN_FALLOFF_ANGLE.
+    float RadiansToDegrees = (360.0f / (PI * 2.0f));
+    float Angle = abs(atan2(Input.Y, Input.X) * RadiansToDegrees);
+    bool angleCheck = Angle <= STICK_TURN_FALLOFF_ANGLE;
+
+    // TODO - FIX TURN ZONE BUG
+    // if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, (MagnitudeCheck && angleCheck == true) ? TEXT("true") : TEXT("false"));
+
+    return MagnitudeCheck && angleCheck;
 }

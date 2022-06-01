@@ -36,8 +36,7 @@ class USteamInputComponent : public UObject {
 
 	/*--- Action Binding Delegates ---*/
 
-	private: MoveForwardDelegate MoveForwardEvent = nullptr;
-	private: MoveRightDelegate MoveRightEvent = nullptr;
+	private: MoveDelegate MoveEvent = nullptr;
 	private: LookDelegate LookEvent = nullptr;
 	private: CrouchPressDelegate CrouchPressEvent = nullptr;
 	private: CrouchReleaseDelegate CrouchReleaseEvent = nullptr;
@@ -51,8 +50,7 @@ class USteamInputComponent : public UObject {
 
 	/*--- Action Binding Functions ---*/
 
-	public: void BindMoveForward(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindMoveRight(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindMove(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindLook(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindCrouchPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindCrouchRelease(UObject * InUserObject, const FName & InFunctionName);
