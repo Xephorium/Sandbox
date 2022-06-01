@@ -22,6 +22,8 @@ class UGamepadLookAdapter : public UObject {
 	private: const float STICK_LOOK_VERT_FACTOR = 0.85f;
 	private: const float STICK_TURN_THRESHOLD = 0.93f;
 
+	private: const float STICK_LOOK_DEADZONE = 0.13f;
+
 	private: const float STICK_LOOK_HORIZ_MULTIPLIER = STICK_LOOK_VERT_FACTOR / STICK_LOOK_HORIZ_FACTOR;
 
 	private: float TargetTurnFactor = 0.0f;
@@ -51,6 +53,8 @@ class UGamepadLookAdapter : public UObject {
 	//private: FVector2D calculateNormalizedRotation(FVector2D Input);
 
 	private: bool IsInTurnZone(FVector2D Input);
+
+	private: FVector2D AccommodateDeadzone(FVector2D Input);
 
 };
 

@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "AllLevels/Utility/LogUtility.h"
 #include "GamepadLookAdapter.h"
 
@@ -36,7 +37,9 @@
 /*--- Primary Player Rotation Function ---*/
 
 FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
-    return FVector2D(Input.X, Input.Y * STICK_LOOK_HORIZ_MULTIPLIER);
+    FVector2D ValidInput = AccommodateDeadzone(Input);
+    if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(ValidInput.Size()));
+    return FVector2D(ValidInput.X, ValidInput.Y * STICK_LOOK_HORIZ_MULTIPLIER);
 }
 
 
@@ -44,4 +47,13 @@ FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
 
 bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
     return Input.Size() > STICK_TURN_THRESHOLD;
+}
+
+// Discards input beneath STICK_LOOK_DEADZONE, finessing all other valid vectors into a [0,1] range.
+FVector2D UGamepadLookAdapter::AccommodateDeadzone(FVector2D Input) {
+    float Scale = 1.0f / (1.0f - STICK_LOOK_DEADZONE);
+    return FVector2D(
+        FMath::Clamp((abs(Input.X) - STICK_LOOK_DEADZONE) * Scale, 0.0f, 1.0f) * (Input.X / abs(Input.X)),
+        FMath::Clamp((abs(Input.Y) - STICK_LOOK_DEADZONE) * Scale, 0.0f, 1.0f) * (Input.Y / abs(Input.Y))
+    );
 }
