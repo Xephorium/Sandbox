@@ -28,6 +28,7 @@ class AFirstPersonCharacter : public ACharacter {
 
 	private: const float STICK_MOVE_DEADZONE = 0.18f;
 
+	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
 
 	/** First person camera */
@@ -63,10 +64,6 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Input Handling Functions ---*/
 
-	void OnMoveForward(float Val);
-
-	void OnMoveRight(float Val);
-
 	protected: UFUNCTION()
 	void OnStickMove(FVector2D Input);
 
@@ -97,6 +94,9 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UFUNCTION()
 	void OnFlyRelease();
 
+
+	/*--- Unreal Input State Functions ---*/
+
 	/* Note: The below functions are a workaround to unreal's input system being
 	 *       dumb. Ideally, we could bind OnStickLook(FVector Input) to both the
 	 *       PlayerInputComponent and SteamInputComponent, letting that one
@@ -107,8 +107,14 @@ class AFirstPersonCharacter : public ACharacter {
 	 *       of trying to diagnose something that would just work in any game
 	 *       engine that wasn't build by baboons. For now, I've just setup two
 	 *       functions, one for each axial input, to store the values so that I
-	 *       can call OnStickLook() with them on Tick().
+	 *       can call OnStickLook() with them on Tick(). Same for OnStickMove().
 	 */
+
+	protected: UFUNCTION()
+	void OnStickMoveX(float Val);
+
+	protected: UFUNCTION()
+	void OnStickMoveY(float Val);
 
 	protected: UFUNCTION()
 	void OnStickLookX(float Input);

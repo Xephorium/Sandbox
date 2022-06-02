@@ -56,6 +56,7 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
 		OnStickLook(CurrentLookInput);
+		OnStickMove(CurrentMoveInput);
 	}
 }
 
@@ -65,8 +66,8 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnMoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnMoveRight);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnStickMoveX);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnStickMoveY);
 	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX);
 	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
@@ -96,20 +97,6 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 
 /*--- Input Handlong Functions ---*/
-
-void AFirstPersonCharacter::OnMoveForward(float Value) {
-	if (Value != 0.0f) {
-		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Value);
-		AddMovementInput(GetActorForwardVector(), Value);
-	}
-}
-
-void AFirstPersonCharacter::OnMoveRight(float Value) {
-	if (Value != 0.0f) {
-		if (IsFlying) AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Value);
-		AddMovementInput(GetActorRightVector(), Value);
-	}
-}
 
 void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
 	if (Input.Size() != 0.0f) {
@@ -161,6 +148,14 @@ void AFirstPersonCharacter::OnFlyPress() {
 
 void AFirstPersonCharacter::OnFlyRelease() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Release");
+}
+
+void AFirstPersonCharacter::OnStickMoveX(float Value) {
+	CurrentMoveInput.X = Value;
+}
+
+void AFirstPersonCharacter::OnStickMoveY(float Value) {
+	CurrentMoveInput.Y = Value;
 }
 
 void AFirstPersonCharacter::OnStickLookX(float Input) {
