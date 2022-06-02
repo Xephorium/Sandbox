@@ -52,8 +52,11 @@ void AFirstPersonCharacter::BeginPlay() {
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
-	SteamInputComponent->OnTick(DeltaSeconds);
-	//OnStickLook(CurrentLookInput);
+	if (SteamInputComponent->IsSteamInputAvailable()) {
+		SteamInputComponent->OnTick(DeltaSeconds);
+	} else {
+		OnStickLook(CurrentLookInput);
+	}
 }
 
 
