@@ -562,3 +562,10 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
 
     //if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(Input.Size())); //IsInTurnZone(Input) == true ? TEXT("true") : TEXT("false")); // FString::SanitizeFloat(ValueX)
     if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, FString::SanitizeFloat(FVector2D(ValueX, ValueY).Size())); //IsInTurnZone(Input) == true ? TEXT("true") : TEXT("false")); // FString::SanitizeFloat(ValueX)
+
+
+06.01.2022
+
+  Math
+    To boost output from 0 to 1: y=root(x)
+    To boost output from 1 to 0: sin((x*PI)/2)
