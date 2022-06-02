@@ -35,8 +35,6 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Initialize Movement Variables
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
 	IsFlying = false;
 
 	// Create SteamInputComponent
@@ -55,7 +53,7 @@ void AFirstPersonCharacter::BeginPlay() {
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 	SteamInputComponent->OnTick(DeltaSeconds);
-	OnStickLook(CurrentLookInput);
+	//OnStickLook(CurrentLookInput);
 }
 
 
@@ -124,10 +122,10 @@ void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
 }
 
 void AFirstPersonCharacter::OnStickLook(FVector2D Input) {
-	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input);
+	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input, GetWorld()->GetDeltaSeconds());
 
-	AddControllerYawInput(Rotation.X * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-	AddControllerPitchInput(Rotation.Y * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	AddControllerYawInput(Rotation.X);
+	AddControllerPitchInput(Rotation.Y);
 }
 
 void AFirstPersonCharacter::OnCrouchPress() {

@@ -1,8 +1,8 @@
 
+#include "GamepadLookAdapter.h"
 #include <math.h>
 #include <cmath>
 #include "AllLevels/Input/InputUtility.h"
-#include "GamepadLookAdapter.h"
 
 /*
  *  GamepadLookAdapter.cpp                           Chris Cruzen
@@ -35,14 +35,36 @@
 
 /*--- Primary Player Rotation Function ---*/
 
-FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input) {
+FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input, float TimeDelta) {
     FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_LOOK_DEADZONE);
-    if (IsInTurnZone(Input)) GetRadialFalloff(Input);
-    return FVector2D(ValidInput.X, ValidInput.Y * STICK_LOOK_HORIZ_MULTIPLIER);
+    float TurnFactor = 1.0f + CalculateTurnFactor(Input, TimeDelta);
+
+    return FVector2D(
+        ValidInput.X * TurnFactor,
+        ValidInput.Y * STICK_LOOK_HORIZ_MULTIPLIER
+    ) * STICK_LOOK_SPEED * TimeDelta;
 }
 
 
 /*--- Private Functions ---*/
+
+float UGamepadLookAdapter::CalculateTurnFactor(FVector2D Input, float TimeDelta) {
+    if (IsInTurnZone(Input)) {
+        TargetTurnFactor = GetRadialFalloff(Input);
+
+        if (CurrentTurnFactor > TargetTurnFactor) {
+            CurrentTurnFactor = TargetTurnFactor;
+        } else {
+            CurrentTurnFactor += (TargetTurnFactor * (1.0f / STICK_TURN_ACCELERATION_LENGTH)) *  TimeDelta;
+        }
+
+    } else {
+        TargetTurnFactor = 0.0f;
+        CurrentTurnFactor = 0.0f;
+    }
+
+    return CurrentTurnFactor;
+}
 
 bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
 

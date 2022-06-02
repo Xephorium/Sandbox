@@ -1,7 +1,7 @@
 
+#include "SteamInputComponent.h"
 #include <iostream>
 #include <string>
-#include "SteamInputComponent.h"
 
 /*
  *  SteamInputComponent.cpp                          Chris Cruzen
