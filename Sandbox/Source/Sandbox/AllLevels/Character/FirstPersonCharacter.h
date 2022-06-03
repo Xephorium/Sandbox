@@ -28,6 +28,8 @@ class AFirstPersonCharacter : public ACharacter {
 
 	private: const float STICK_MOVE_DEADZONE = 0.18f;
 
+	private: const float VERTICAL_FLIGHT_SPEED = 1.0f;
+
 	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
 
@@ -44,6 +46,9 @@ class AFirstPersonCharacter : public ACharacter {
 	/** Whether character is currently flying */
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsFlying;
+
+	private: float VerticalForceUp = 0.0f;
+	private: float VerticalForceDown = 0.0f;
 
 
 	/*--- Lifecycle Functions ---*/
@@ -107,7 +112,13 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnBumperLeftPress();
 
 	protected: UFUNCTION()
+	void OnBumperLeftRelease();
+
+	protected: UFUNCTION()
 	void OnBumperRightPress();
+
+	protected: UFUNCTION()
+	void OnBumperRightRelease();
 
 	protected: UFUNCTION()
 	void OnDPadUpPress();

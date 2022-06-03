@@ -97,7 +97,9 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindFaceBottomPress(this, FName("OnFaceBottomPress"));
 	SteamInputComponent->BindFaceBottomRelease(this, FName("OnFaceBottomRelease"));
 	SteamInputComponent->BindBumperLeftPress(this, FName("OnBumperLeftPress"));
+	SteamInputComponent->BindBumperLeftRelease(this, FName("OnBumperLeftRelease"));
 	SteamInputComponent->BindBumperRightPress(this, FName("OnBumperRightPress"));
+	SteamInputComponent->BindBumperRightRelease(this, FName("OnBumperRightRelease"));
 	SteamInputComponent->BindDPadUpPress(this, FName("OnDPadUpPress"));
 	SteamInputComponent->BindDPadLeftPress(this, FName("OnDPadLeftPress"));
 	SteamInputComponent->BindDPadRightPress(this, FName("OnDPadRightPress"));
@@ -113,6 +115,7 @@ void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
 		if (IsFlying) {
 			AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), ValidInput.Y);
 			AddMovementInput(FirstPersonCameraComponent->GetRightVector(), ValidInput.X);
+			AddMovementInput(FirstPersonCameraComponent->GetUpVector(), VerticalForceUp + VerticalForceDown);
 		} else {
 			AddMovementInput(GetActorForwardVector(), ValidInput.Y);
 			AddMovementInput(GetActorRightVector(), ValidInput.X);
@@ -172,11 +175,27 @@ void AFirstPersonCharacter::OnFaceBottomRelease() {
 }
 
 void AFirstPersonCharacter::OnBumperLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left");
+	if (IsFlying) {
+		VerticalForceDown = -VERTICAL_FLIGHT_SPEED;
+	} else {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left");
+	}
+}
+
+void AFirstPersonCharacter::OnBumperLeftRelease() {
+	VerticalForceDown = 0.0f;
 }
 
 void AFirstPersonCharacter::OnBumperRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right");
+	if (IsFlying) {
+		VerticalForceUp = VERTICAL_FLIGHT_SPEED;
+	} else {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right");
+	}
+}
+
+void AFirstPersonCharacter::OnBumperRightRelease() {
+	VerticalForceUp = 0.0f;
 }
 
 void AFirstPersonCharacter::OnDPadUpPress() {
