@@ -19,11 +19,7 @@
 			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\SandboxEditor\\Development\\Engine\\SharedPCH.Engine.ShadowErrors.h",
 			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\UE4Editor\\Development\\Sandbox\\Definitions.Sandbox.h",
 			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\SandboxEditor\\Development\\Engine\\SharedPCH.Engine.ShadowErrors.h"
-		],
-		"files.associations": {
-			"cstdlib": "cpp",
-			"cmath": "cpp"
-		}
+		]
 	},
 	"extensions": {
 		"recommendations": [

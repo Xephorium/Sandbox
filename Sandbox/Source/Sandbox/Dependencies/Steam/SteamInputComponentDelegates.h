@@ -1,24 +1,24 @@
 #pragma once
 
-DECLARE_DELEGATE_OneParam(StickLeftDelegate, FVector2D)
-DECLARE_DELEGATE_OneParam(StickRightDelegate, FVector2D)
+/*
+ *  SteamInputComponentDelegates.h                            Chris Cruzen
+ *  Sandbox                                                     06.02.2022
+ *
+ *  This file defines the delegates needed for SteamInputComponent.
+ * 
+ *  Delegate Notes
+ *    - Basically a callback! You can .Bind() any function (with a matching
+ *      signature) and then call that bound function via .Execute(<params>)
+ *      as needed. SUPER useful for handling asynchronous events.
+ *    - Worth noting that each Delegate is considered a user-defined type
+ *      by C++.
+ */
 
-DECLARE_DELEGATE(StickLeftPressDelegate)
-DECLARE_DELEGATE(StickLeftReleaseDelegate)
-DECLARE_DELEGATE(StickRightPressDelegate)
-DECLARE_DELEGATE(StickRightReleaseDelegate)
+// Can bind a function w/ no parameters
+DECLARE_DELEGATE(InputDelegate);
 
-DECLARE_DELEGATE(FaceTopPressDelegate)
-DECLARE_DELEGATE(FaceTopReleaseDelegate)
-DECLARE_DELEGATE(FaceRightPressDelegate)
-DECLARE_DELEGATE(FaceRightReleaseDelegate)
-DECLARE_DELEGATE(FaceLeftPressDelegate)
-DECLARE_DELEGATE(FaceLeftReleaseDelegate)
-DECLARE_DELEGATE(FaceBottomPressDelegate)
-DECLARE_DELEGATE(FaceBottomReleaseDelegate)
+// Can bind a function w/ one float parameter
+DECLARE_DELEGATE_OneParam(FloatInputDelegate, float);
 
-DECLARE_DELEGATE(BumperLeftPressDelegate)
-DECLARE_DELEGATE(BumperLeftReleaseDelegate)
-
-DECLARE_DELEGATE(DirectionalUpPressDelegate)
-DECLARE_DELEGATE(DirectionalUpReleaseDelegate)
+// Can bind a function w/ one FVector2D parameter
+DECLARE_DELEGATE_OneParam(VectorInputDelegate, FVector2D);

@@ -36,40 +36,56 @@ class USteamInputComponent : public UObject {
 	private: bool IsFaceBottomPressed = false;
 
 	private: bool IsBumperLeftPressed = false;
+	private: bool IsBumperRightPressed = false;
 
-	private: bool IsDirectionalUpPressed = false;
+	private: bool IsDPadUpPressed = false;
 
 
 	/*--- Action Binding Delegates ---*/
 
-	private: StickLeftDelegate StickLeftEvent = nullptr;
-	private: StickRightDelegate StickRightEvent = nullptr;
+	private: VectorInputDelegate StickLeftDelegate = nullptr;
+	private: VectorInputDelegate StickRightDelegate = nullptr;
+	
+	private: FloatInputDelegate TriggerLeftDelegate = nullptr;
+	private: FloatInputDelegate TriggerRightDelegate = nullptr;
 
-	private: StickLeftPressDelegate StickLeftPressEvent = nullptr;
-	private: StickLeftReleaseDelegate StickLeftReleaseEvent = nullptr;
-	private: StickRightPressDelegate StickRightPressEvent = nullptr;
-	private: StickRightReleaseDelegate StickRightReleaseEvent = nullptr;
+	private: InputDelegate StickLeftPressDelegate = nullptr;
+	private: InputDelegate StickLeftReleaseDelegate = nullptr;
+	private: InputDelegate StickRightPressDelegate = nullptr;
+	private: InputDelegate StickRightReleaseDelegate = nullptr;
 
-	private: FaceBottomPressDelegate FaceTopPressEvent = nullptr;
-	private: FaceBottomReleaseDelegate FaceTopReleaseEvent = nullptr;
-	private: FaceBottomPressDelegate FaceLeftPressEvent = nullptr;
-	private: FaceBottomReleaseDelegate FaceLeftReleaseEvent = nullptr;
-	private: FaceBottomPressDelegate FaceRightPressEvent = nullptr;
-	private: FaceBottomReleaseDelegate FaceRightReleaseEvent = nullptr;
-	private: FaceBottomPressDelegate FaceBottomPressEvent = nullptr;
-	private: FaceBottomReleaseDelegate FaceBottomReleaseEvent = nullptr;
+	private: InputDelegate FaceTopPressDelegate = nullptr;
+	private: InputDelegate FaceTopReleaseDelegate = nullptr;
+	private: InputDelegate FaceLeftPressDelegate = nullptr;
+	private: InputDelegate FaceLeftReleaseDelegate = nullptr;
+	private: InputDelegate FaceRightPressDelegate = nullptr;
+	private: InputDelegate FaceRightReleaseDelegate = nullptr;
+	private: InputDelegate FaceBottomPressDelegate = nullptr;
+	private: InputDelegate FaceBottomReleaseDelegate = nullptr;
 
-	private: BumperLeftPressDelegate BumperLeftPressEvent = nullptr;
-	private: BumperLeftReleaseDelegate BumperLeftReleaseEvent = nullptr;
+	private: InputDelegate DPadUpPressDelegate = nullptr;
+	private: InputDelegate DPadUpReleaseDelegate = nullptr;
+	private: InputDelegate DPadLeftPressDelegate = nullptr;
+	private: InputDelegate DPadLeftReleaseDelegate = nullptr;
+	private: InputDelegate DPadRightPressDelegate = nullptr;
+	private: InputDelegate DPadRightReleaseDelegate = nullptr;
+	private: InputDelegate DPadDownPressDelegate = nullptr;
+	private: InputDelegate DPadDownReleaseDelegate = nullptr;
 
-	private: DirectionalUpPressDelegate DirectionalUpPressEvent = nullptr;
-	private: DirectionalUpReleaseDelegate DirectionalUpReleaseEvent = nullptr;
+	private: InputDelegate BumperLeftPressDelegate = nullptr;
+	private: InputDelegate BumperLeftReleaseDelegate = nullptr;
+	private: InputDelegate BumperRightPressDelegate = nullptr;
+	private: InputDelegate BumperRightReleaseDelegate = nullptr;
 
 
 	/*--- Action Binding Functions ---*/
 
 	public: void BindStickLeft(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRight(UObject * InUserObject, const FName & InFunctionName);
+
+	public: void BindTriggerLeft(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindTriggerRight(UObject * InUserObject, const FName & InFunctionName);
+
 	public: void BindStickLeftPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickLeftRelease(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRightPress(UObject * InUserObject, const FName & InFunctionName);
@@ -84,11 +100,19 @@ class USteamInputComponent : public UObject {
 	public: void BindFaceBottomPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindFaceBottomRelease(UObject * InUserObject, const FName & InFunctionName);
 
+	public: void BindDPadUpPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadUpRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadLeftPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadLeftRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadRightPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadRightRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadDownPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDPadDownRelease(UObject * InUserObject, const FName & InFunctionName);
+
 	public: void BindBumperLeftPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindBumperLeftRelease(UObject * InUserObject, const FName & InFunctionName);
-
-	public: void BindDirectionalUpPress(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindDirectionalUpRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindBumperRightPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindBumperRightRelease(UObject * InUserObject, const FName & InFunctionName);
 
 
 	/*--- Steam API ---*/
@@ -109,10 +133,26 @@ class USteamInputComponent : public UObject {
 	public: bool IsSteamInputAvailable();
 
 	/** Utility Method - Gets Digital Action Data from SteamInput **/
-	private: InputDigitalActionData_t ReadDigitalActionData(char* name);
+	private: InputDigitalActionData_t GetDigitalInput(char* name);
 
 	/** Utility Method - Gets Analog Action Data from SteamInput **/
-	private: InputAnalogActionData_t ReadAnalogActionData(char* name);
+	private: InputAnalogActionData_t GetAnalogInput(char* name);
+
+
+	/*--- Input Delegation Functions ---*/
+
+	private: void DelegateButtonInput(
+		InputDigitalActionData_t Action,
+		bool &IsPressed,
+		InputDelegate DelegatePress,
+		InputDelegate DelegateRelease
+	);
+
+	private: void DelegateTriggerInput(InputAnalogActionData_t Action, FloatInputDelegate Delegate);
+
+	private: void DelegateStickInput(InputAnalogActionData_t Action, VectorInputDelegate Delegate);
+
+	private: void DelegateYInvertedStickInput(InputAnalogActionData_t Action, VectorInputDelegate Delegate);
 
 };
 

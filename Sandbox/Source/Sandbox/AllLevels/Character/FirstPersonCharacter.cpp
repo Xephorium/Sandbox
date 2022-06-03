@@ -85,14 +85,15 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 	SteamInputComponent->BindStickLeft(this, FName("OnStickMove"));
 	SteamInputComponent->BindStickRight(this, FName("OnStickLook"));
+	SteamInputComponent->BindTriggerRight(this, FName("OnTriggerRight"));
 	SteamInputComponent->BindStickLeftPress(this, FName("OnCrouchPress"));
 	SteamInputComponent->BindStickLeftRelease(this, FName("OnCrouchRelease"));
 	SteamInputComponent->BindFaceBottomPress(this, FName("OnJumpPress"));
 	SteamInputComponent->BindFaceBottomRelease(this, FName("OnJumpRelease"));
 	SteamInputComponent->BindBumperLeftPress(this, FName("OnRunPress"));
 	SteamInputComponent->BindBumperLeftRelease(this, FName("OnRunRelease"));
-	SteamInputComponent->BindDirectionalUpPress(this, FName("OnFlyPress"));
-	SteamInputComponent->BindDirectionalUpRelease(this, FName("OnFlyRelease"));
+	SteamInputComponent->BindDPadUpPress(this, FName("OnFlyPress"));
+	SteamInputComponent->BindDPadUpRelease(this, FName("OnFlyRelease"));
 }
 
 
@@ -116,6 +117,10 @@ void AFirstPersonCharacter::OnStickLook(FVector2D Input) {
 
 	AddControllerYawInput(Rotation.X);
 	AddControllerPitchInput(Rotation.Y);
+}
+
+void AFirstPersonCharacter::OnTriggerRight(float Input) {
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
 void AFirstPersonCharacter::OnCrouchPress() {

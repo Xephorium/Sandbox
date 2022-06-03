@@ -71,6 +71,9 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnStickLook(FVector2D Input);
 
 	protected: UFUNCTION()
+	void OnTriggerRight(float Input);
+
+	protected: UFUNCTION()
 	void OnCrouchPress();
 
 	protected: UFUNCTION()

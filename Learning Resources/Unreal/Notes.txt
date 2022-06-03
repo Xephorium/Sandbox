@@ -569,3 +569,19 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
   Math
     To boost output from 0 to 1: y=root(x)
     To boost output from 1 to 0: sin((x*PI)/2)
+
+06.02.2022
+
+  Delegates (Unreal Engine)
+    - Basically a callback! You can bind any function (with a matching signature) and
+      then call that bound function via .Execute(<optional params>) as needed. SUPER
+      useful for asynchronous events.
+    - Worth noting that each Delegate is considered a user-defined type by C++.
+
+  Templates (C++)
+    - C++ templates are AMAZING. One of the the only things in the language that
+      just *works* exactly as you'd expect! They allow you to specify unknown
+      types as function parameters at compile-time.
+    - Example:
+
+      template <class Delegate> void TemplateFunctionExample(Delegate UnknownDelegate);

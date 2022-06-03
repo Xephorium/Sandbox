@@ -8,7 +8,7 @@
  *  Sandbox                                            05.29.2022
  *
  *    SteamInputComponent is a utility class that delegates input
- *  events from the SteamInput library to bound game functions.
+ *  Delegates from the SteamInput library to bound game functions.
  * 
  *  Note: SteamInput requires all possible game inputs be defined
  *        in <steam install>/controller_config/game_actions_#.vfd,
@@ -30,88 +30,33 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 		// Read First Controller Input
 		if (controllers[0]) {
 
-			// Read Action Data
-			InputAnalogActionData_t StickLeftAction = ReadAnalogActionData("Move");
-			InputAnalogActionData_t StickRightAction = ReadAnalogActionData("Camera");
-			InputDigitalActionData_t StickLeftClickAction = ReadDigitalActionData("Crouch");
+			// Delegate Stick Input
+			DelegateStickInput(GetAnalogInput("Move"), StickLeftDelegate);
+			DelegateYInvertedStickInput(GetAnalogInput("Camera"), StickRightDelegate);
 
-			InputDigitalActionData_t FaceTopAction = ReadDigitalActionData("FaceTop");
-			InputDigitalActionData_t FaceLeftAction = ReadDigitalActionData("FaceLeft");
-			InputDigitalActionData_t FaceRightAction = ReadDigitalActionData("FaceRight");
-			InputDigitalActionData_t FaceBottomAction = ReadDigitalActionData("Jump");
+			// Delegate Trigger Input
+			DelegateTriggerInput(GetAnalogInput("TriggerLeft"), TriggerLeftDelegate);
+			DelegateTriggerInput(GetAnalogInput("TriggerRight"), TriggerRightDelegate);
 
-			InputDigitalActionData_t BumperLeftAction = ReadDigitalActionData("Run");
+			// Delegate Stick Click Input
+			DelegateButtonInput(GetDigitalInput("Crouch"), IsStickLeftPressed, StickLeftPressDelegate, StickLeftReleaseDelegate);
 
-			InputDigitalActionData_t DirectionalUpAction = ReadDigitalActionData("Fly");
+			// Delegate Face Button Inputs
+			DelegateButtonInput(GetDigitalInput("FaceTop"), IsFaceTopPressed, FaceTopPressDelegate, FaceTopReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("FaceLeft"), IsFaceLeftPressed, FaceLeftPressDelegate, FaceLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("FaceRight"), IsFaceRightPressed, FaceRightPressDelegate, FaceRightReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("Jump"), IsFaceBottomPressed, FaceBottomPressDelegate, FaceBottomReleaseDelegate);
 
-			// Delegate Left Stick Input
-			if (StickLeftEvent.IsBound()) StickLeftEvent.Execute(FVector2D(StickLeftAction.x, StickLeftAction.y));
+			// Delegate Bumper Input
+			DelegateButtonInput(GetDigitalInput("Run"), IsBumperLeftPressed, BumperLeftPressDelegate, BumperLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("BumperRight"), IsBumperRightPressed, BumperRightPressDelegate, BumperRightReleaseDelegate);
 
-			// Delegate Right Stick Input
-			if (StickRightEvent.IsBound()) StickRightEvent.Execute(FVector2D(StickRightAction.x, -StickRightAction.y));
+			// Delegate Directional Pad Input
+			DelegateButtonInput(GetDigitalInput("Fly"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadLeft"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadRight"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadDown"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
 
-			// Delegate Left Stick Click Input
-			if (StickLeftClickAction.bState && !IsStickLeftPressed) {
-				IsStickLeftPressed = true;
-				if (StickLeftPressEvent.IsBound()) StickLeftPressEvent.Execute();
-			} else if (!StickLeftClickAction.bState && IsStickLeftPressed) {
-				IsStickLeftPressed = false;
-				if (StickLeftReleaseEvent.IsBound()) StickLeftReleaseEvent.Execute();
-			}
-
-			// Delegate Face Button Top Input
-			if (FaceTopAction.bState && !IsFaceTopPressed) {
-				IsFaceTopPressed = true;
-				if (FaceTopPressEvent.IsBound()) FaceTopPressEvent.Execute();
-			} else if (!FaceTopAction.bState && IsFaceTopPressed) {
-				IsFaceTopPressed = false;
-				if (FaceTopReleaseEvent.IsBound()) FaceTopReleaseEvent.Execute();
-			}
-
-			// Delegate Face Button Left Input
-			if (FaceLeftAction.bState && !IsFaceLeftPressed) {
-				IsFaceLeftPressed = true;
-				if (FaceLeftPressEvent.IsBound()) FaceLeftPressEvent.Execute();
-			} else if (!FaceLeftAction.bState && IsFaceLeftPressed) {
-				IsFaceLeftPressed = false;
-				if (FaceLeftReleaseEvent.IsBound()) FaceLeftReleaseEvent.Execute();
-			}
-
-			// Delegate Face Button Right Input
-			if (FaceRightAction.bState && !IsFaceRightPressed) {
-				IsFaceRightPressed = true;
-				if (FaceRightPressEvent.IsBound()) FaceRightPressEvent.Execute();
-			} else if (!FaceRightAction.bState && IsFaceRightPressed) {
-				IsFaceRightPressed = false;
-				if (FaceRightReleaseEvent.IsBound()) FaceRightReleaseEvent.Execute();
-			}
-
-			// Delegate Face Button Bottom Input
-			if (FaceBottomAction.bState && !IsFaceBottomPressed) {
-				IsFaceBottomPressed = true;
-				if (FaceBottomPressEvent.IsBound()) FaceBottomPressEvent.Execute();
-			} else if (!FaceBottomAction.bState && IsFaceBottomPressed) {
-				IsFaceBottomPressed = false;
-				if (FaceBottomReleaseEvent.IsBound()) FaceBottomReleaseEvent.Execute();
-			}
-
-			// Delegate Run Input
-			if (BumperLeftAction.bState && !IsBumperLeftPressed) {
-				IsBumperLeftPressed = true;
-				if (BumperLeftPressEvent.IsBound()) BumperLeftPressEvent.Execute();
-			} else if (!BumperLeftAction.bState && IsBumperLeftPressed) {
-				IsBumperLeftPressed = false;
-				if (BumperLeftReleaseEvent.IsBound()) BumperLeftReleaseEvent.Execute();
-			}
-
-			// Delegate Fly Input
-			if (DirectionalUpAction.bState && !IsDirectionalUpPressed) {
-				IsDirectionalUpPressed = true;
-				if (DirectionalUpPressEvent.IsBound()) DirectionalUpPressEvent.Execute();
-			} else if (!DirectionalUpAction.bState && IsDirectionalUpPressed) {
-				IsDirectionalUpPressed = false;
-				if (DirectionalUpReleaseEvent.IsBound()) DirectionalUpReleaseEvent.Execute();
-			}
 		}
 	}
 }
@@ -120,77 +65,116 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 /*--- Action Binding Functions ---*/
 
 void USteamInputComponent::BindStickLeft(UObject * InUserObject, const FName & InFunctionName) {
-	StickLeftEvent.BindUFunction(InUserObject, InFunctionName);
+	StickLeftDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindStickRight(UObject * InUserObject, const FName & InFunctionName) {
-	StickRightEvent.BindUFunction(InUserObject, InFunctionName);
+	StickRightDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindTriggerLeft(UObject * InUserObject, const FName & InFunctionName) {
+	TriggerLeftDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindTriggerRight(UObject * InUserObject, const FName & InFunctionName) {
+	TriggerRightDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindStickLeftPress(UObject * InUserObject, const FName & InFunctionName) {
-	StickLeftPressEvent.BindUFunction(InUserObject, InFunctionName);
+	StickLeftPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindStickLeftRelease(UObject * InUserObject, const FName & InFunctionName) {
-	StickLeftReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	StickLeftReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindStickRightPress(UObject * InUserObject, const FName & InFunctionName) {
-	StickRightPressEvent.BindUFunction(InUserObject, InFunctionName);
+	StickRightPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName) {
-	StickRightReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	StickRightReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceTopPress(UObject * InUserObject, const FName & InFunctionName) {
-	FaceTopPressEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceTopPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceTopRelease(UObject * InUserObject, const FName & InFunctionName) {
-	FaceTopReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceTopReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceLeftPress(UObject * InUserObject, const FName & InFunctionName) {
-	FaceLeftPressEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceLeftPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceLeftRelease(UObject * InUserObject, const FName & InFunctionName) {
-	FaceLeftReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceLeftReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceRightPress(UObject * InUserObject, const FName & InFunctionName) {
-	FaceRightPressEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceRightPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceRightRelease(UObject * InUserObject, const FName & InFunctionName) {
-	FaceRightReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceRightReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceBottomPress(UObject * InUserObject, const FName & InFunctionName) {
-	FaceBottomPressEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceBottomPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceBottomRelease(UObject * InUserObject, const FName & InFunctionName) {
-	FaceBottomReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	FaceBottomReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadUpPress(UObject * InUserObject, const FName & InFunctionName) {
+	DPadUpPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadUpRelease(UObject * InUserObject, const FName & InFunctionName) {
+	DPadUpReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadLeftPress(UObject * InUserObject, const FName & InFunctionName) {
+	DPadLeftPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadLeftRelease(UObject * InUserObject, const FName & InFunctionName) {
+	DPadLeftReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadRightPress(UObject * InUserObject, const FName & InFunctionName) {
+	DPadRightPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadRightRelease(UObject * InUserObject, const FName & InFunctionName) {
+	DPadRightReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadDownPress(UObject * InUserObject, const FName & InFunctionName) {
+	DPadDownPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindDPadDownRelease(UObject * InUserObject, const FName & InFunctionName) {
+	DPadDownReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindBumperLeftPress(UObject * InUserObject, const FName & InFunctionName) {
-	BumperLeftPressEvent.BindUFunction(InUserObject, InFunctionName);
+	BumperLeftPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindBumperLeftRelease(UObject * InUserObject, const FName & InFunctionName) {
-	BumperLeftReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+	BumperLeftReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
-void USteamInputComponent::BindDirectionalUpPress(UObject * InUserObject, const FName & InFunctionName) {
-	DirectionalUpPressEvent.BindUFunction(InUserObject, InFunctionName);
+void USteamInputComponent::BindBumperRightPress(UObject * InUserObject, const FName & InFunctionName) {
+	BumperRightPressDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
-void USteamInputComponent::BindDirectionalUpRelease(UObject * InUserObject, const FName & InFunctionName) {
-	DirectionalUpReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+void USteamInputComponent::BindBumperRightRelease(UObject * InUserObject, const FName & InFunctionName) {
+	BumperRightReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
-
 
 
 /*--- Steam API Functions ---*/
@@ -237,10 +221,40 @@ bool USteamInputComponent::IsSteamInputAvailable() {
 	else return false;
 }
 
-InputDigitalActionData_t USteamInputComponent::ReadDigitalActionData(char* name) {
+InputDigitalActionData_t USteamInputComponent::GetDigitalInput(char* name) {
 	return SteamInput()->GetDigitalActionData(controllers[0], SteamInput()->GetDigitalActionHandle(name));
 }
 
-InputAnalogActionData_t USteamInputComponent::ReadAnalogActionData(char* name) {
+InputAnalogActionData_t USteamInputComponent::GetAnalogInput(char* name) {
 	return SteamInput()->GetAnalogActionData(controllers[0], SteamInput()->GetAnalogActionHandle(name));
+}
+
+
+/*--- Input Delegation Functions ---*/
+
+void USteamInputComponent::DelegateButtonInput(
+		InputDigitalActionData_t Action,
+		bool &IsPressed,
+		InputDelegate DelegatePress,
+		InputDelegate DelegateRelease
+	) {
+		if (Action.bState && !IsPressed) {
+			IsPressed = true;
+			if (DelegatePress.IsBound()) DelegatePress.Execute();
+		} else if (!Action.bState && IsPressed) {
+			IsPressed = false;
+			if (DelegateRelease.IsBound()) DelegateRelease.Execute();
+		}
+}
+
+void USteamInputComponent::DelegateTriggerInput(InputAnalogActionData_t Action, FloatInputDelegate Delegate) {
+	if (Delegate.IsBound()) Delegate.Execute(Action.x);
+}
+
+void USteamInputComponent::DelegateStickInput(InputAnalogActionData_t Action, VectorInputDelegate Delegate) {
+	if (Delegate.IsBound()) Delegate.Execute(FVector2D(Action.x, Action.y));
+}
+
+void USteamInputComponent::DelegateYInvertedStickInput(InputAnalogActionData_t Action, VectorInputDelegate Delegate) {
+	if (Delegate.IsBound()) Delegate.Execute(FVector2D(Action.x, -Action.y));
 }
