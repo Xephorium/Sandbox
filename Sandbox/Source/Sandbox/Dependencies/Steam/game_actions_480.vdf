@@ -1,0 +1,70 @@
+"In Game Actions"
+{
+	"actions"
+	{
+		"SandboxControls"
+		{
+			"title"					"#Set_Sandbox"
+			"StickPadGyro"
+			{
+				"StickLeft"
+				{
+					"title"			"#Action_StickLeft"
+					"input_mode"	"joystick_move"
+				}
+				"StickRight"
+				{
+					"title"			"#Action_StickRight"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"AnalogTrigger"
+			{
+				"TriggerLeft"		"#Action_TriggerLeft"
+				"TriggerRight"		"#Action_TriggerRight"
+			}
+			"Button"
+			{
+				"StickLeftClick"	"#Action_StickLeftClick"
+				"StickRightClick"	"#Action_StickRightClick"
+				"Start"				"#Action_Start"
+				"End"				"#Action_End"
+				"FaceTop"			"#Action_FaceTop"
+				"FaceLeft"			"#Action_FaceLeft"
+				"FaceRight"			"#Action_FaceRight"
+				"FaceBottom"		"#Action_FaceBottom"
+				"BumperLeft"		"#Action_BumperLeft"
+				"BumperRight"		"#Action_BumperRight"
+				"DPadUp"			"#Action_DPadUp"
+				"DPadLeft"			"#Action_DPadLeft"
+				"DPadRight"			"#Action_DPadRight"
+				"DPadDown"			"#Action_DPadDown"
+			}
+		}
+	}
+	"localization"
+	{
+		"english"
+		{
+			"Set_Sandbox"				"Sandbox Controls"
+			"Action_StickLeft"			"Stick Left"
+			"Action_StickRight"			"Stick Right"
+			"Action_TriggerLeft"		"Trigger Left"
+			"Action_TriggerRight"		"Trigger Right"
+			"Action_StickLeftClick"		"Stick Left Click"
+			"Action_StickRightClick"	"Stick Right Click"
+			"Action_Start"				"Start"
+			"Action_End"				"End"
+			"Action_FaceTop"			"Face Top"
+			"Action_FaceLeft"			"Face Left"
+			"Action_FaceRight"			"Face Right"
+			"Action_FaceBottom"			"Face Bottom"
+			"Action_BumperLeft"			"Bumper Left"
+			"Action_BumperRight"		"Bumper Right"
+			"Action_DPadUp"				"DPad Up"
+			"Action_DPadLeft"			"DPad Left"
+			"Action_DPadRight"			"DPad Right"
+			"Action_DPadDown"			"DPad Down"
+		}
+	}
+}

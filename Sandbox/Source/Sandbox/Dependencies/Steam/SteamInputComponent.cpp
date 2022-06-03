@@ -31,28 +31,33 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 		if (controllers[0]) {
 
 			// Delegate Stick Input
-			DelegateStickInput(GetAnalogInput("Move"), StickLeftDelegate);
-			DelegateYInvertedStickInput(GetAnalogInput("Camera"), StickRightDelegate);
+			DelegateStickInput(GetAnalogInput("StickLeft"), StickLeftDelegate);
+			DelegateYInvertedStickInput(GetAnalogInput("StickRight"), StickRightDelegate);
 
 			// Delegate Trigger Input
 			DelegateTriggerInput(GetAnalogInput("TriggerLeft"), TriggerLeftDelegate);
 			DelegateTriggerInput(GetAnalogInput("TriggerRight"), TriggerRightDelegate);
 
 			// Delegate Stick Click Input
-			DelegateButtonInput(GetDigitalInput("Crouch"), IsStickLeftPressed, StickLeftPressDelegate, StickLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("StickLeftClick"), IsStickLeftPressed, StickLeftPressDelegate, StickLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("StickRightClick"), IsStickRightPressed, StickRightPressDelegate, StickRightReleaseDelegate);
+
+			// Delegate Start/End Input
+			DelegateButtonInput(GetDigitalInput("Start"), IsStartPressed, StartPressDelegate, StartReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("End"), IsEndPressed, EndPressDelegate, EndReleaseDelegate);
 
 			// Delegate Face Button Inputs
 			DelegateButtonInput(GetDigitalInput("FaceTop"), IsFaceTopPressed, FaceTopPressDelegate, FaceTopReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("FaceLeft"), IsFaceLeftPressed, FaceLeftPressDelegate, FaceLeftReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("FaceRight"), IsFaceRightPressed, FaceRightPressDelegate, FaceRightReleaseDelegate);
-			DelegateButtonInput(GetDigitalInput("Jump"), IsFaceBottomPressed, FaceBottomPressDelegate, FaceBottomReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("FaceBottom"), IsFaceBottomPressed, FaceBottomPressDelegate, FaceBottomReleaseDelegate);
 
 			// Delegate Bumper Input
-			DelegateButtonInput(GetDigitalInput("Run"), IsBumperLeftPressed, BumperLeftPressDelegate, BumperLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("BumperLeft"), IsBumperLeftPressed, BumperLeftPressDelegate, BumperLeftReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("BumperRight"), IsBumperRightPressed, BumperRightPressDelegate, BumperRightReleaseDelegate);
 
 			// Delegate Directional Pad Input
-			DelegateButtonInput(GetDigitalInput("Fly"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadUp"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("DPadLeft"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("DPadRight"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
 			DelegateButtonInput(GetDigitalInput("DPadDown"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
@@ -94,6 +99,22 @@ void USteamInputComponent::BindStickRightPress(UObject * InUserObject, const FNa
 
 void USteamInputComponent::BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName) {
 	StickRightReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindStartPress(UObject * InUserObject, const FName & InFunctionName) {
+	StartPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindStartRelease(UObject * InUserObject, const FName & InFunctionName) {
+	StartReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindEndPress(UObject * InUserObject, const FName & InFunctionName) {
+	EndPressDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindEndRelease(UObject * InUserObject, const FName & InFunctionName) {
+	EndReleaseDelegate.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceTopPress(UObject * InUserObject, const FName & InFunctionName) {
@@ -191,7 +212,7 @@ void USteamInputComponent::SetupSteamInput() {
 		SteamInput()->RunFrame();
 
 		// Activate First Person Action Set
-		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("FirstPersonControls");
+		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("SandboxControls");
 
 		// Get List of Connected Controllers
 		controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];	

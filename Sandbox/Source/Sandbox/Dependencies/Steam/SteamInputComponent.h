@@ -29,6 +29,10 @@ class USteamInputComponent : public UObject {
 	/*--- State Variables ---*/
 
 	private: bool IsStickLeftPressed = false;
+	private: bool IsStickRightPressed = false;
+
+	private: bool IsStartPressed = false;
+	private: bool IsEndPressed = false;
 
 	private: bool IsFaceTopPressed = false;
 	private: bool IsFaceLeftPressed = false;
@@ -39,6 +43,9 @@ class USteamInputComponent : public UObject {
 	private: bool IsBumperRightPressed = false;
 
 	private: bool IsDPadUpPressed = false;
+	private: bool IsDPadLeftPressed = false;
+	private: bool IsDPadRightPressed = false;
+	private: bool IsDPadDownPressed = false;
 
 
 	/*--- Action Binding Delegates ---*/
@@ -53,6 +60,11 @@ class USteamInputComponent : public UObject {
 	private: InputDelegate StickLeftReleaseDelegate = nullptr;
 	private: InputDelegate StickRightPressDelegate = nullptr;
 	private: InputDelegate StickRightReleaseDelegate = nullptr;
+
+	private: InputDelegate StartPressDelegate = nullptr;
+	private: InputDelegate StartReleaseDelegate = nullptr;
+	private: InputDelegate EndPressDelegate = nullptr;
+	private: InputDelegate EndReleaseDelegate = nullptr;
 
 	private: InputDelegate FaceTopPressDelegate = nullptr;
 	private: InputDelegate FaceTopReleaseDelegate = nullptr;
@@ -90,6 +102,11 @@ class USteamInputComponent : public UObject {
 	public: void BindStickLeftRelease(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRightPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName);
+
+	public: void BindStartPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStartRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindEndPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindEndRelease(UObject * InUserObject, const FName & InFunctionName);
 
 	public: void BindFaceTopPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindFaceTopRelease(UObject * InUserObject, const FName & InFunctionName);
