@@ -83,16 +83,16 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->SetupSteamInput();
 
-	SteamInputComponent->BindMove(this, FName("OnStickMove"));
-	SteamInputComponent->BindLook(this, FName("OnStickLook"));
-	SteamInputComponent->BindCrouchPress(this, FName("OnCrouchPress"));
-	SteamInputComponent->BindCrouchRelease(this, FName("OnCrouchRelease"));
-	SteamInputComponent->BindJumpPress(this, FName("OnJumpPress"));
-	SteamInputComponent->BindJumpRelease(this, FName("OnJumpRelease"));
-	SteamInputComponent->BindRunPress(this, FName("OnRunPress"));
-	SteamInputComponent->BindRunRelease(this, FName("OnRunRelease"));
-	SteamInputComponent->BindFlyPress(this, FName("OnFlyPress"));
-	SteamInputComponent->BindFlyRelease(this, FName("OnFlyRelease"));
+	SteamInputComponent->BindStickLeft(this, FName("OnStickMove"));
+	SteamInputComponent->BindStickRight(this, FName("OnStickLook"));
+	SteamInputComponent->BindStickLeftPress(this, FName("OnCrouchPress"));
+	SteamInputComponent->BindStickLeftRelease(this, FName("OnCrouchRelease"));
+	SteamInputComponent->BindFaceBottomPress(this, FName("OnJumpPress"));
+	SteamInputComponent->BindFaceBottomRelease(this, FName("OnJumpRelease"));
+	SteamInputComponent->BindBumperLeftPress(this, FName("OnRunPress"));
+	SteamInputComponent->BindBumperLeftRelease(this, FName("OnRunRelease"));
+	SteamInputComponent->BindDirectionalUpPress(this, FName("OnFlyPress"));
+	SteamInputComponent->BindDirectionalUpRelease(this, FName("OnFlyRelease"));
 }
 
 

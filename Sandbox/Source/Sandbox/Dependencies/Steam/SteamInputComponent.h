@@ -28,38 +28,42 @@ class USteamInputComponent : public UObject {
 
 	/*--- State Variables ---*/
 
-	private: bool IsCrouchPressed = false;
-	private: bool IsJumpPressed = false;
-	private: bool IsRunPressed = false;
-	private: bool IsFlyPressed = false;
+	private: bool IsStickLeftPressed = false;
+	private: bool IsFaceBottomPressed = false;
+	private: bool IsBumperLeftPressed = false;
+	private: bool IsDirectionalUpPressed = false;
 
 
 	/*--- Action Binding Delegates ---*/
 
-	private: MoveDelegate MoveEvent = nullptr;
-	private: LookDelegate LookEvent = nullptr;
-	private: CrouchPressDelegate CrouchPressEvent = nullptr;
-	private: CrouchReleaseDelegate CrouchReleaseEvent = nullptr;
-	private: JumpPressDelegate JumpPressEvent = nullptr;
-	private: JumpReleaseDelegate JumpReleaseEvent = nullptr;
-	private: RunPressDelegate RunPressEvent = nullptr;
-	private: RunReleaseDelegate RunReleaseEvent = nullptr;
-	private: FlyPressDelegate FlyPressEvent = nullptr;
-	private: FlyReleaseDelegate FlyReleaseEvent = nullptr;
+	private: StickLeftDelegate StickLeftEvent = nullptr;
+	private: StickRightDelegate StickRightEvent = nullptr;
+	private: StickLeftPressDelegate StickLeftPressEvent = nullptr;
+	private: StickLeftReleaseDelegate StickLeftReleaseEvent = nullptr;
+	private: StickRightPressDelegate StickRightPressEvent = nullptr;
+	private: StickRightReleaseDelegate StickRightReleaseEvent = nullptr;
+	private: FaceBottomPressDelegate FaceBottomPressEvent = nullptr;
+	private: FaceBottomReleaseDelegate FaceBottomReleaseEvent = nullptr;
+	private: BumperLeftPressDelegate BumperLeftPressEvent = nullptr;
+	private: BumperLeftReleaseDelegate BumperLeftReleaseEvent = nullptr;
+	private: DirectionalUpPressDelegate DirectionalUpPressEvent = nullptr;
+	private: DirectionalUpReleaseDelegate DirectionalUpReleaseEvent = nullptr;
 
 
 	/*--- Action Binding Functions ---*/
 
-	public: void BindMove(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindLook(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindCrouchPress(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindCrouchRelease(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindJumpPress(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindJumpRelease(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindRunPress(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindRunRelease(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindFlyPress(UObject * InUserObject, const FName & InFunctionName);
-	public: void BindFlyRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickLeft(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickRight(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickLeftPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickLeftRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickRightPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceBottomPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceBottomRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindBumperLeftPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindBumperLeftRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDirectionalUpPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindDirectionalUpRelease(UObject * InUserObject, const FName & InFunctionName);
 
 
 	/*--- Steam API ---*/
