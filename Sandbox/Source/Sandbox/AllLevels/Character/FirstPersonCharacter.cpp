@@ -70,8 +70,8 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnStickMoveY);
 	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX);
 	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnJumpPress);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnJumpRelease);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnFaceBottomPress);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnFaceBottomRelease);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -85,15 +85,23 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 	SteamInputComponent->BindStickLeft(this, FName("OnStickMove"));
 	SteamInputComponent->BindStickRight(this, FName("OnStickLook"));
+	SteamInputComponent->BindTriggerLeft(this, FName("OnTriggerLeft"));
 	SteamInputComponent->BindTriggerRight(this, FName("OnTriggerRight"));
-	SteamInputComponent->BindStickLeftPress(this, FName("OnCrouchPress"));
-	SteamInputComponent->BindStickLeftRelease(this, FName("OnCrouchRelease"));
-	SteamInputComponent->BindFaceBottomPress(this, FName("OnJumpPress"));
-	SteamInputComponent->BindFaceBottomRelease(this, FName("OnJumpRelease"));
-	SteamInputComponent->BindBumperLeftPress(this, FName("OnRunPress"));
-	SteamInputComponent->BindBumperLeftRelease(this, FName("OnRunRelease"));
-	SteamInputComponent->BindDPadUpPress(this, FName("OnFlyPress"));
-	SteamInputComponent->BindDPadUpRelease(this, FName("OnFlyRelease"));
+	SteamInputComponent->BindStickLeftPress(this, FName("OnStickLeftPress"));
+	SteamInputComponent->BindStickRightPress(this, FName("OnStickRightPress"));
+	SteamInputComponent->BindStartPress(this, FName("OnStartPress"));
+	SteamInputComponent->BindEndPress(this, FName("OnEndPress"));
+	SteamInputComponent->BindFaceTopPress(this, FName("OnFaceTopPress"));
+	SteamInputComponent->BindFaceLeftPress(this, FName("OnFaceLeftPress"));
+	SteamInputComponent->BindFaceRightPress(this, FName("OnFaceRightPress"));
+	SteamInputComponent->BindFaceBottomPress(this, FName("OnFaceBottomPress"));
+	SteamInputComponent->BindFaceBottomRelease(this, FName("OnFaceBottomRelease"));
+	SteamInputComponent->BindBumperLeftPress(this, FName("OnBumperLeftPress"));
+	SteamInputComponent->BindBumperRightPress(this, FName("OnBumperRightPress"));
+	SteamInputComponent->BindDPadUpPress(this, FName("OnDPadUpPress"));
+	SteamInputComponent->BindDPadLeftPress(this, FName("OnDPadLeftPress"));
+	SteamInputComponent->BindDPadRightPress(this, FName("OnDPadRightPress"));
+	SteamInputComponent->BindDPadDownPress(this, FName("OnDPadDownPress"));
 }
 
 
@@ -120,40 +128,75 @@ void AFirstPersonCharacter::OnStickLook(FVector2D Input) {
 }
 
 void AFirstPersonCharacter::OnTriggerRight(float Input) {
-	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
+	if (GEngine && Input > 0.5f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
-void AFirstPersonCharacter::OnCrouchPress() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Crouch Press");
+void AFirstPersonCharacter::OnTriggerLeft(float Input) {
+	if (GEngine && Input > 0.5f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
-void AFirstPersonCharacter::OnCrouchRelease() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Crouch Release");
+void AFirstPersonCharacter::OnStickLeftPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left");
 }
 
-void AFirstPersonCharacter::OnJumpPress() {
+void AFirstPersonCharacter::OnStickRightPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right");
+}
+
+void AFirstPersonCharacter::OnStartPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start");
+}
+
+void AFirstPersonCharacter::OnEndPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End");
+}
+
+void AFirstPersonCharacter::OnFaceTopPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y");
+}
+
+void AFirstPersonCharacter::OnFaceLeftPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X");
+}
+
+void AFirstPersonCharacter::OnFaceRightPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B");
+}
+
+void AFirstPersonCharacter::OnFaceBottomPress() {
 	Jump();
 }
 
-void AFirstPersonCharacter::OnJumpRelease() {
+void AFirstPersonCharacter::OnFaceBottomRelease() {
 	StopJumping();
 }
 
-void AFirstPersonCharacter::OnRunPress() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Run Press");
+void AFirstPersonCharacter::OnBumperLeftPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left");
 }
 
-void AFirstPersonCharacter::OnRunRelease() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Run Release");
+void AFirstPersonCharacter::OnBumperRightPress() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right");
 }
 
-void AFirstPersonCharacter::OnFlyPress() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Press");
+void AFirstPersonCharacter::OnDPadUpPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up");
 }
 
-void AFirstPersonCharacter::OnFlyRelease() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Fly Release");
+void AFirstPersonCharacter::OnDPadLeftPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left");
 }
+
+void AFirstPersonCharacter::OnDPadRightPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right");
+}
+
+void AFirstPersonCharacter::OnDPadDownPress() {
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
+}
+
+
+/*--- Unreal Input State Functions ---*/
 
 void AFirstPersonCharacter::OnStickMoveX(float Value) {
 	CurrentMoveInput.X = Value;

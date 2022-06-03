@@ -58,9 +58,9 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 
 			// Delegate Directional Pad Input
 			DelegateButtonInput(GetDigitalInput("DPadUp"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
-			DelegateButtonInput(GetDigitalInput("DPadLeft"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
-			DelegateButtonInput(GetDigitalInput("DPadRight"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
-			DelegateButtonInput(GetDigitalInput("DPadDown"), IsDPadUpPressed, DPadUpPressDelegate, DPadUpReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadLeft"), IsDPadLeftPressed, DPadLeftPressDelegate, DPadLeftReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadRight"), IsDPadRightPressed, DPadRightPressDelegate, DPadRightReleaseDelegate);
+			DelegateButtonInput(GetDigitalInput("DPadDown"), IsDPadDownPressed, DPadDownPressDelegate, DPadDownReleaseDelegate);
 
 		}
 	}

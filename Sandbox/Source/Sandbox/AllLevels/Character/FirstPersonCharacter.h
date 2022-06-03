@@ -74,28 +74,52 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnTriggerRight(float Input);
 
 	protected: UFUNCTION()
-	void OnCrouchPress();
+	void OnTriggerLeft(float Input);
 
 	protected: UFUNCTION()
-	void OnCrouchRelease();
+	void OnStickLeftPress();
 
 	protected: UFUNCTION()
-	void OnJumpPress();
+	void OnStickRightPress();
 
 	protected: UFUNCTION()
-	void OnJumpRelease();
+	void OnStartPress();
 
 	protected: UFUNCTION()
-	void OnRunPress();
+	void OnEndPress();
 
 	protected: UFUNCTION()
-	void OnRunRelease();
+	void OnFaceTopPress();
 
 	protected: UFUNCTION()
-	void OnFlyPress();
+	void OnFaceLeftPress();
 
 	protected: UFUNCTION()
-	void OnFlyRelease();
+	void OnFaceRightPress();
+
+	protected: UFUNCTION()
+	void OnFaceBottomPress();
+
+	protected: UFUNCTION()
+	void OnFaceBottomRelease();
+
+	protected: UFUNCTION()
+	void OnBumperLeftPress();
+
+	protected: UFUNCTION()
+	void OnBumperRightPress();
+
+	protected: UFUNCTION()
+	void OnDPadUpPress();
+
+	protected: UFUNCTION()
+	void OnDPadLeftPress();
+	
+	protected: UFUNCTION()
+	void OnDPadRightPress();
+
+	protected: UFUNCTION()
+	void OnDPadDownPress();
 
 
 	/*--- Unreal Input State Functions ---*/
