@@ -29,8 +29,14 @@ class USteamInputComponent : public UObject {
 	/*--- State Variables ---*/
 
 	private: bool IsStickLeftPressed = false;
+
+	private: bool IsFaceTopPressed = false;
+	private: bool IsFaceLeftPressed = false;
+	private: bool IsFaceRightPressed = false;
 	private: bool IsFaceBottomPressed = false;
+
 	private: bool IsBumperLeftPressed = false;
+
 	private: bool IsDirectionalUpPressed = false;
 
 
@@ -38,14 +44,24 @@ class USteamInputComponent : public UObject {
 
 	private: StickLeftDelegate StickLeftEvent = nullptr;
 	private: StickRightDelegate StickRightEvent = nullptr;
+
 	private: StickLeftPressDelegate StickLeftPressEvent = nullptr;
 	private: StickLeftReleaseDelegate StickLeftReleaseEvent = nullptr;
 	private: StickRightPressDelegate StickRightPressEvent = nullptr;
 	private: StickRightReleaseDelegate StickRightReleaseEvent = nullptr;
+
+	private: FaceBottomPressDelegate FaceTopPressEvent = nullptr;
+	private: FaceBottomReleaseDelegate FaceTopReleaseEvent = nullptr;
+	private: FaceBottomPressDelegate FaceLeftPressEvent = nullptr;
+	private: FaceBottomReleaseDelegate FaceLeftReleaseEvent = nullptr;
+	private: FaceBottomPressDelegate FaceRightPressEvent = nullptr;
+	private: FaceBottomReleaseDelegate FaceRightReleaseEvent = nullptr;
 	private: FaceBottomPressDelegate FaceBottomPressEvent = nullptr;
 	private: FaceBottomReleaseDelegate FaceBottomReleaseEvent = nullptr;
+
 	private: BumperLeftPressDelegate BumperLeftPressEvent = nullptr;
 	private: BumperLeftReleaseDelegate BumperLeftReleaseEvent = nullptr;
+
 	private: DirectionalUpPressDelegate DirectionalUpPressEvent = nullptr;
 	private: DirectionalUpReleaseDelegate DirectionalUpReleaseEvent = nullptr;
 
@@ -58,10 +74,19 @@ class USteamInputComponent : public UObject {
 	public: void BindStickLeftRelease(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRightPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName);
+
+	public: void BindFaceTopPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceTopRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceLeftPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceLeftRelease(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceRightPress(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindFaceRightRelease(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindFaceBottomPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindFaceBottomRelease(UObject * InUserObject, const FName & InFunctionName);
+
 	public: void BindBumperLeftPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindBumperLeftRelease(UObject * InUserObject, const FName & InFunctionName);
+
 	public: void BindDirectionalUpPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindDirectionalUpRelease(UObject * InUserObject, const FName & InFunctionName);
 

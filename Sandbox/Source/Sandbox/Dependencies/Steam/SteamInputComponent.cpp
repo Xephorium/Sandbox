@@ -34,8 +34,14 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 			InputAnalogActionData_t StickLeftAction = ReadAnalogActionData("Move");
 			InputAnalogActionData_t StickRightAction = ReadAnalogActionData("Camera");
 			InputDigitalActionData_t StickLeftClickAction = ReadDigitalActionData("Crouch");
+
+			InputDigitalActionData_t FaceTopAction = ReadDigitalActionData("FaceTop");
+			InputDigitalActionData_t FaceLeftAction = ReadDigitalActionData("FaceLeft");
+			InputDigitalActionData_t FaceRightAction = ReadDigitalActionData("FaceRight");
 			InputDigitalActionData_t FaceBottomAction = ReadDigitalActionData("Jump");
+
 			InputDigitalActionData_t BumperLeftAction = ReadDigitalActionData("Run");
+
 			InputDigitalActionData_t DirectionalUpAction = ReadDigitalActionData("Fly");
 
 			// Delegate Left Stick Input
@@ -51,6 +57,33 @@ void USteamInputComponent::OnTick(float DeltaTime) {
 			} else if (!StickLeftClickAction.bState && IsStickLeftPressed) {
 				IsStickLeftPressed = false;
 				if (StickLeftReleaseEvent.IsBound()) StickLeftReleaseEvent.Execute();
+			}
+
+			// Delegate Face Button Top Input
+			if (FaceTopAction.bState && !IsFaceTopPressed) {
+				IsFaceTopPressed = true;
+				if (FaceTopPressEvent.IsBound()) FaceTopPressEvent.Execute();
+			} else if (!FaceTopAction.bState && IsFaceTopPressed) {
+				IsFaceTopPressed = false;
+				if (FaceTopReleaseEvent.IsBound()) FaceTopReleaseEvent.Execute();
+			}
+
+			// Delegate Face Button Left Input
+			if (FaceLeftAction.bState && !IsFaceLeftPressed) {
+				IsFaceLeftPressed = true;
+				if (FaceLeftPressEvent.IsBound()) FaceLeftPressEvent.Execute();
+			} else if (!FaceLeftAction.bState && IsFaceLeftPressed) {
+				IsFaceLeftPressed = false;
+				if (FaceLeftReleaseEvent.IsBound()) FaceLeftReleaseEvent.Execute();
+			}
+
+			// Delegate Face Button Right Input
+			if (FaceRightAction.bState && !IsFaceRightPressed) {
+				IsFaceRightPressed = true;
+				if (FaceRightPressEvent.IsBound()) FaceRightPressEvent.Execute();
+			} else if (!FaceRightAction.bState && IsFaceRightPressed) {
+				IsFaceRightPressed = false;
+				if (FaceRightReleaseEvent.IsBound()) FaceRightReleaseEvent.Execute();
 			}
 
 			// Delegate Face Button Bottom Input
@@ -108,6 +141,30 @@ void USteamInputComponent::BindStickRightPress(UObject * InUserObject, const FNa
 
 void USteamInputComponent::BindStickRightRelease(UObject * InUserObject, const FName & InFunctionName) {
 	StickRightReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceTopPress(UObject * InUserObject, const FName & InFunctionName) {
+	FaceTopPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceTopRelease(UObject * InUserObject, const FName & InFunctionName) {
+	FaceTopReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceLeftPress(UObject * InUserObject, const FName & InFunctionName) {
+	FaceLeftPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceLeftRelease(UObject * InUserObject, const FName & InFunctionName) {
+	FaceLeftReleaseEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceRightPress(UObject * InUserObject, const FName & InFunctionName) {
+	FaceRightPressEvent.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindFaceRightRelease(UObject * InUserObject, const FName & InFunctionName) {
+	FaceRightReleaseEvent.BindUFunction(InUserObject, InFunctionName);
 }
 
 void USteamInputComponent::BindFaceBottomPress(UObject * InUserObject, const FName & InFunctionName) {

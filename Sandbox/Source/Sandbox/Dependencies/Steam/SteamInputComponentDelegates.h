@@ -2,13 +2,23 @@
 
 DECLARE_DELEGATE_OneParam(StickLeftDelegate, FVector2D)
 DECLARE_DELEGATE_OneParam(StickRightDelegate, FVector2D)
+
 DECLARE_DELEGATE(StickLeftPressDelegate)
 DECLARE_DELEGATE(StickLeftReleaseDelegate)
 DECLARE_DELEGATE(StickRightPressDelegate)
 DECLARE_DELEGATE(StickRightReleaseDelegate)
+
+DECLARE_DELEGATE(FaceTopPressDelegate)
+DECLARE_DELEGATE(FaceTopReleaseDelegate)
+DECLARE_DELEGATE(FaceRightPressDelegate)
+DECLARE_DELEGATE(FaceRightReleaseDelegate)
+DECLARE_DELEGATE(FaceLeftPressDelegate)
+DECLARE_DELEGATE(FaceLeftReleaseDelegate)
 DECLARE_DELEGATE(FaceBottomPressDelegate)
 DECLARE_DELEGATE(FaceBottomReleaseDelegate)
+
 DECLARE_DELEGATE(BumperLeftPressDelegate)
 DECLARE_DELEGATE(BumperLeftReleaseDelegate)
+
 DECLARE_DELEGATE(DirectionalUpPressDelegate)
 DECLARE_DELEGATE(DirectionalUpReleaseDelegate)
