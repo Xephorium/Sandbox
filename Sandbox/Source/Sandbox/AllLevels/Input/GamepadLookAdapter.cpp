@@ -37,12 +37,13 @@
 
 FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input, float TimeDelta) {
     FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_DEADZONE);
-    float TurnFactor = CalculateTurnFactor(Input, TimeDelta);
-    float InputDirection = ValidInput.X / abs(ValidInput.X);
+    FVector2D ScaledInput = ValidInput * ((UGamepadLookAdapter::SinEaseIn(ValidInput.Size()) + ValidInput.Size()) / 2.0f);
+    float TurnFactor = CalculateTurnFactor(ScaledInput, TimeDelta);
+    float InputDirection = ScaledInput.X / abs(ScaledInput.X);
 
     return FVector2D(
-        ValidInput.X + (InputDirection * TurnFactor * STICK_TURN_STRENGTH),
-        ValidInput.Y * STICK_LOOK_VERTICAL_MULTIPLIER
+        ScaledInput.X + (InputDirection * TurnFactor * STICK_TURN_STRENGTH),
+        ScaledInput.Y * STICK_LOOK_VERTICAL_MULTIPLIER
     ) * STICK_LOOK_SPEED * TimeDelta;
 }
 
@@ -87,15 +88,23 @@ float UGamepadLookAdapter::GetRadialFalloff(FVector2D Input) {
     float RadialPercent = FMath::Clamp(1.0f - (Angle / STICK_TURN_FALLOFF_ANGLE), 0.0f, 1.0f);
 
     // Boost output near the horizon for quicker horizontal turns
-    return SinEaseOut(RadialPercent);
+    return RadialPercent; //(SinEaseOut(RadialPercent) + RadialPercent) / 2.0f;
 }
 
 
 /*--- Interpolation Functions ---*/
 
+float UGamepadLookAdapter::CubicEaseIn(float Input) {
+    return Input * Input;
+}
+
 float UGamepadLookAdapter::CubicEaseOut(float Input) {
     float Param = Input - 1.0f;
     return Param * Param * Param + 1.0f;
+}
+
+float UGamepadLookAdapter::SinEaseIn(float Input) {
+    return FMath::Sin((Input - 1.f) * (PI / 2.f)) + 1.f;
 }
 
 float UGamepadLookAdapter::SinEaseOut(float Input) {
