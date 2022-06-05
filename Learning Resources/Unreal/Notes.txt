@@ -585,3 +585,17 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
     - Example:
 
       template <class Delegate> void TemplateFunctionExample(Delegate UnknownDelegate);
+
+
+06.05.2022
+
+  When Project Won't Open
+    1. Delete Cache & Generate Modules Again
+      a. Delete contents of Sandbox/Binaries/Win64 (except steam_api64.dll)
+      b. Delete Sandbox/Intermediate
+      c. Right click Sandbox.uproject > "Generate Visual Studio Project Files"
+      d. Double click Sandbox.uproject & confirm Rebuild Modules dialog
+    2. Troubleshoot Issues
+      a. Open Sandbox/Saved/Logs/<most recent>.log in text editor
+      b. There will be some indication of what went wrong
+      c. Fix the problem and repeat steps 1a-d :/
