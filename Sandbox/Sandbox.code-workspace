@@ -10,16 +10,7 @@
 		}
 	],
 	"settings": {
-		"typescript.tsc.autoDetect": "off",
-		"C_Cpp.default.forcedInclude": [
-			"${default}",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Plugins\\AdvancedSessions\\AdvancedSessions\\Intermediate\\Build\\Win64\\UE4Editor\\Development\\AdvancedSessions\\Definitions.AdvancedSessions.h",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\SandboxEditor\\Development\\Engine\\SharedPCH.Engine.ShadowErrors.h",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Plugins\\AdvancedSessions\\AdvancedSteamSessions\\Intermediate\\Build\\Win64\\UE4Editor\\Development\\AdvancedSteamSessions\\Definitions.AdvancedSteamSessions.h",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\SandboxEditor\\Development\\Engine\\SharedPCH.Engine.ShadowErrors.h",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\UE4Editor\\Development\\Sandbox\\Definitions.Sandbox.h",
-			"E:\\Game Dev\\Unreal Projects\\Sandbox\\Sandbox\\Intermediate\\Build\\Win64\\SandboxEditor\\Development\\Engine\\SharedPCH.Engine.ShadowErrors.h"
-		]
+		"typescript.tsc.autoDetect": "off"
 	},
 	"extensions": {
 		"recommendations": [

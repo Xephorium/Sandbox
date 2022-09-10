@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
@@ -24,14 +25,24 @@ class AFirstPersonCharacter : public ACharacter {
 
 	GENERATED_BODY()
 
-	/*--- Variables  ---*/
+	/*--- Constants  ---*/
 
 	private: const float STICK_MOVE_DEADZONE = 0.18f;
 
-	private: const float VERTICAL_FLIGHT_SPEED = 1.0f;
+	private: const float DEFAULT_CAPSULE_HEIGHT = 96.0f;
+	private: const float DEFAULT_CAPSULE_RADIUS = 36.0f;
+	private: const float DEFAULT_EYE_HEIGHT = 56.5f;
 
-	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
-	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
+	private: const float VERTICAL_FLIGHT_SPEED = 1.0f;
+	private: const float DEFAULT_JUMP_VELOCITY = 475.0f;
+	private: const float DEFAULT_AIR_CONTROL = 0.2f;
+
+
+	/*--- Variables ---*/
+
+	/** Whether character is currently flying */
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	bool IsFlying;
 
 	/** First person camera */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -43,9 +54,8 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGamepadLookAdapter* GamepadLookAdapter;
 
-	/** Whether character is currently flying */
-	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	bool IsFlying;
+	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
+	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
 
 	private: float VerticalForceUp = 0.0f;
 	private: float VerticalForceDown = 0.0f;

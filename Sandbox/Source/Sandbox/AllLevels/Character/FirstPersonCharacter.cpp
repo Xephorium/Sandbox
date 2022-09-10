@@ -27,20 +27,22 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 AFirstPersonCharacter::AFirstPersonCharacter() {
 
-	// Setup Character
-	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
+	// Setup Capsule & Camera
+	GetCapsuleComponent()->InitCapsuleSize(DEFAULT_CAPSULE_RADIUS, DEFAULT_CAPSULE_HEIGHT);
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 0.0f, 58.5f)); // Position the camera
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, DEFAULT_EYE_HEIGHT));
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
-	// Initialize Movement Variables
+	// Configure Movement
 	IsFlying = false;
+	GetCharacterMovement()->JumpZVelocity = DEFAULT_JUMP_VELOCITY;
+	GetCharacterMovement()->AirControl = DEFAULT_AIR_CONTROL;
 
 	// Create SteamInputComponent
 	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
 
-	// Create SteamInputComponent
+	// Create GamepadLookAdapter
 	GamepadLookAdapter = CreateDefaultSubobject<UGamepadLookAdapter>(TEXT("GamepadLookAdapter"));
 	
 }
