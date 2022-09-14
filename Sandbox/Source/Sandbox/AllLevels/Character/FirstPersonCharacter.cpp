@@ -58,8 +58,8 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
 		OnStickLook(CurrentLookInput);
-		OnStickMove(CurrentMoveInput);
 	}
+	OnStickMove(CurrentMoveInput);
 }
 
 
