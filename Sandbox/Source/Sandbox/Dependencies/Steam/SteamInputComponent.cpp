@@ -25,6 +25,7 @@
 
 void USteamInputComponent::OnTick(float DeltaTime) {
 	if (IsSteamInputAvailable()) {
+		CheckForConnectedControllers(); // Checks for Connected Controllers
 		SteamInput()->RunFrame(); // Queries Steam for Updated Inputs
 
 		// Read First Controller Input
@@ -211,17 +212,8 @@ void USteamInputComponent::SetupSteamInput() {
 		// Refresh Input
 		SteamInput()->RunFrame();
 
-		// Activate First Person Action Set
-		InputActionSetHandle_t FirstPersonSetHandle = SteamInput()->GetActionSetHandle("SandboxControls");
-
-		// Get List of Connected Controllers
-		controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];	
-		SteamInput()->GetConnectedControllers(controllers);
-
-		// Activate First Person Action Set
-		if (controllers[0]) {
-			SteamInput()->ActivateActionSet(controllers[0], FirstPersonSetHandle);
-		}
+		// Check for Connected Controllers
+		CheckForConnectedControllers();
 
 	} else {
 
@@ -240,6 +232,20 @@ void USteamInputComponent::InitializeSteamInput() {
 bool USteamInputComponent::IsSteamInputAvailable() {
 	if (IsSteamInputInitialized && SteamInput() != nullptr) return true;
 	else return false;
+}
+
+void USteamInputComponent::CheckForConnectedControllers() {
+	// Activate Sandbox Action Set
+	SandboxSetHandle = SteamInput()->GetActionSetHandle("SandboxControls");
+
+	// Get List of Connected Controllers
+	controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];	
+	SteamInput()->GetConnectedControllers(controllers);
+
+	// Activate First Person Action Set
+	if (controllers[0]) {
+		SteamInput()->ActivateActionSet(controllers[0], SandboxSetHandle);
+	}
 }
 
 InputDigitalActionData_t USteamInputComponent::GetDigitalInput(char* name) {

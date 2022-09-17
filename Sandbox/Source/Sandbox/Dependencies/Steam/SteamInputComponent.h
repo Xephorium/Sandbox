@@ -140,6 +140,9 @@ class USteamInputComponent : public UObject {
 	/** List of connected steam controllers **/
 	private: InputHandle_t *controllers;
 
+	/** Sandbox Action Set Handle **/
+	private: InputActionSetHandle_t SandboxSetHandle;
+
 	/** Prepares SteamInput library for use - to be called from BeginPlay() **/
 	public: void SetupSteamInput();
 
@@ -148,6 +151,9 @@ class USteamInputComponent : public UObject {
 
 	/** Checks SteamInput initialization state & whether class returns null */
 	public: bool IsSteamInputAvailable();
+
+	/** Checks for Connected Controllers **/
+	private: void CheckForConnectedControllers();
 
 	/** Utility Method - Gets Digital Action Data from SteamInput **/
 	private: InputDigitalActionData_t GetDigitalInput(char* name);
