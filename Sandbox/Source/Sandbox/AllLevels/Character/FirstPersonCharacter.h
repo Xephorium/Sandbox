@@ -143,6 +143,15 @@ class AFirstPersonCharacter : public ACharacter {
 	void OnDPadDownPress();
 
 
+	/*--- Event Handling Functions ---*/
+
+	protected: UFUNCTION()
+	void OnControllerConnected();
+
+	protected: UFUNCTION()
+	void OnControllerDisconnected();
+
+
 	/*--- Unreal Input State Functions ---*/
 
 	/* Note: The below functions are a workaround to unreal's input system being

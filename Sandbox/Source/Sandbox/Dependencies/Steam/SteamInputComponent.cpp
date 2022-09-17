@@ -199,6 +199,17 @@ void USteamInputComponent::BindBumperRightRelease(UObject * InUserObject, const 
 }
 
 
+/*--- Event Binding Functions ---*/
+
+void USteamInputComponent::BindControllerConnect(UObject * InUserObject, const FName & InFunctionName) {
+	ControllerConnectDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+void USteamInputComponent::BindControllerDisconnect(UObject * InUserObject, const FName & InFunctionName) {
+	ControllerDisconnectDelegate.BindUFunction(InUserObject, InFunctionName);
+}
+
+
 /*--- Steam API Functions ---*/
 
 void USteamInputComponent::SetupSteamInput() {
@@ -239,12 +250,27 @@ void USteamInputComponent::CheckForConnectedControllers() {
 	SandboxSetHandle = SteamInput()->GetActionSetHandle("SandboxControls");
 
 	// Get List of Connected Controllers
-	controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];	
+	controllers = new InputHandle_t[STEAM_INPUT_MAX_COUNT];
 	SteamInput()->GetConnectedControllers(controllers);
 
-	// Activate First Person Action Set
 	if (controllers[0]) {
+
+		// Activate First Person Action Set
 		SteamInput()->ActivateActionSet(controllers[0], SandboxSetHandle);
+
+		// Handle Connect
+		if (!WasControllerConnected) {
+			if (ControllerConnectDelegate.IsBound()) ControllerConnectDelegate.Execute();
+			WasControllerConnected = true;
+		}
+	
+	} else {
+
+		// Handle Disconnect
+		if (WasControllerConnected) {
+			if (ControllerDisconnectDelegate.IsBound()) ControllerDisconnectDelegate.Execute();
+			WasControllerConnected = false;
+		}
 	}
 }
 

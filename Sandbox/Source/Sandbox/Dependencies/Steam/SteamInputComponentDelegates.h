@@ -22,3 +22,6 @@ DECLARE_DELEGATE_OneParam(FloatInputDelegate, float);
 
 // Can bind a function w/ one FVector2D parameter
 DECLARE_DELEGATE_OneParam(VectorInputDelegate, FVector2D);
+
+// For non-input events like controller connect/disconnect.
+DECLARE_DELEGATE(EventDelegate);

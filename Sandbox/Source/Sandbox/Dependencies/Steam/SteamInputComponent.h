@@ -89,6 +89,9 @@ class USteamInputComponent : public UObject {
 	private: InputDelegate BumperRightPressDelegate = nullptr;
 	private: InputDelegate BumperRightReleaseDelegate = nullptr;
 
+	private: EventDelegate ControllerConnectDelegate = nullptr;
+	private: EventDelegate ControllerDisconnectDelegate = nullptr;
+
 
 	/*--- Action Binding Functions ---*/
 
@@ -131,6 +134,9 @@ class USteamInputComponent : public UObject {
 	public: void BindBumperRightPress(UObject * InUserObject, const FName & InFunctionName);
 	public: void BindBumperRightRelease(UObject * InUserObject, const FName & InFunctionName);
 
+	public: void BindControllerConnect(UObject * InUserObject, const FName & InFunctionName);
+	public: void BindControllerDisconnect(UObject * InUserObject, const FName & InFunctionName);
+
 
 	/*--- Steam API ---*/
 
@@ -139,6 +145,9 @@ class USteamInputComponent : public UObject {
 
 	/** List of connected steam controllers **/
 	private: InputHandle_t *controllers;
+
+	/** Whether controller was previously connected **/
+	private: bool WasControllerConnected = false;
 
 	/** Sandbox Action Set Handle **/
 	private: InputActionSetHandle_t SandboxSetHandle;

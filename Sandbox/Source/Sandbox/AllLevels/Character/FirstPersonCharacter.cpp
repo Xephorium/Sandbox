@@ -106,6 +106,9 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindDPadLeftPress(this, FName("OnDPadLeftPress"));
 	SteamInputComponent->BindDPadRightPress(this, FName("OnDPadRightPress"));
 	SteamInputComponent->BindDPadDownPress(this, FName("OnDPadDownPress"));
+
+	SteamInputComponent->BindControllerConnect(this, FName("OnControllerConnected"));
+	SteamInputComponent->BindControllerDisconnect(this, FName("OnControllerDisconnected"));
 }
 
 
@@ -214,6 +217,17 @@ void AFirstPersonCharacter::OnDPadRightPress() {
 
 void AFirstPersonCharacter::OnDPadDownPress() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
+}
+
+
+/*--- Event Handling Functions ---*/
+
+void AFirstPersonCharacter::OnControllerConnected() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
+}
+
+void AFirstPersonCharacter::OnControllerDisconnected() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
 }
 
 
