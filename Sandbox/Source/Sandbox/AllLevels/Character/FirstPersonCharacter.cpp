@@ -36,6 +36,7 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 	IsFlying = false;
 	GetCharacterMovement()->JumpZVelocity = DEFAULT_JUMP_VELOCITY;
 	GetCharacterMovement()->AirControl = DEFAULT_AIR_CONTROL;
+	GetCharacterMovement()->BrakingDecelerationFlying = 1000.0f;
 }
 
 void AFirstPersonCharacter::BeginPlay() {
@@ -80,15 +81,13 @@ void AFirstPersonCharacter::OnMouseVertical(float Input) {
 }
 
 void AFirstPersonCharacter::OnStickLeft(FVector2D Input) {
-	if (Input.Size() != 0.0f) {
-		if (IsFlying) {
-			AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Input.Y);
-			AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Input.X);
-			AddMovementInput(FirstPersonCameraComponent->GetUpVector(), VerticalForceUp + VerticalForceDown);
-		} else {
-			AddMovementInput(GetActorForwardVector(), Input.Y);
-			AddMovementInput(GetActorRightVector(), Input.X);
-		}
+	if (IsFlying) {
+		AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Input.Y);
+		AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Input.X);
+		AddMovementInput(FirstPersonCameraComponent->GetUpVector(), VerticalForceUp + VerticalForceDown);
+	} else {
+		AddMovementInput(GetActorForwardVector(), Input.Y);
+		AddMovementInput(GetActorRightVector(), Input.X);
 	}
 }
 
@@ -109,7 +108,7 @@ void AFirstPersonCharacter::OnFaceBottomRelease() {
 
 void AFirstPersonCharacter::OnBumperLeftPress() {
 	if (IsFlying) {
-		VerticalForceDown = -VERTICAL_FLIGHT_SPEED;
+		VerticalForceDown = -FLIGHT_VERTICAL_SPEED;
 	} else {
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left");
 	}
@@ -121,7 +120,7 @@ void AFirstPersonCharacter::OnBumperLeftRelease() {
 
 void AFirstPersonCharacter::OnBumperRightPress() {
 	if (IsFlying) {
-		VerticalForceUp = VERTICAL_FLIGHT_SPEED;
+		VerticalForceUp = FLIGHT_VERTICAL_SPEED;
 	} else {
 		if (IsGrabEnabled) {
 			GrabComponent->GrabObject();
@@ -136,5 +135,17 @@ void AFirstPersonCharacter::OnBumperRightRelease() {
 		if (IsGrabEnabled) {
 			GrabComponent->ReleaseObject();
 		}
+	}
+}
+
+void AFirstPersonCharacter::OnDPadUpPress() {
+	IsFlying = !IsFlying;
+
+	if (IsFlying) {
+		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Flying");
+	} else {
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Walking");
 	}
 }

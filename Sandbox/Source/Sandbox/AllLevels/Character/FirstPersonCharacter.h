@@ -29,12 +29,17 @@ class AFirstPersonCharacter : public AInputCharacter {
 	private: const float DEFAULT_CAPSULE_RADIUS = 36.0f;
 	private: const float DEFAULT_EYE_HEIGHT = 56.5f;
 
-	private: const float VERTICAL_FLIGHT_SPEED = 1.0f;
 	private: const float DEFAULT_JUMP_VELOCITY = 475.0f;
 	private: const float DEFAULT_AIR_CONTROL = 0.2f;
 
+	private: const float FLIGHT_VERTICAL_SPEED = 0.8f;
+
 
 	/*--- Variables ---*/
+
+	/** Whether character is currently flying */
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	bool IsFlyingEnabled = true;
 
 	/** Whether character is currently flying */
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -99,5 +104,7 @@ class AFirstPersonCharacter : public AInputCharacter {
 	virtual void OnBumperRightPress() override;
 
 	virtual void OnBumperRightRelease() override;
+
+	virtual void OnDPadUpPress() override;
 
 };
