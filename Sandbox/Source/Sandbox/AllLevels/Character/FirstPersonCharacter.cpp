@@ -63,23 +63,33 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 
 /*--- Input Setup Functions ---*/
 
+// APawn Override
 void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnStickMoveX);
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnStickMoveY);
-	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX);
-	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnFaceBottomPress);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnFaceBottomRelease);
+	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX); // Controller X
+	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);    // Controller Y
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);                  // Mouse X
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);              // Mouse Y
+	PlayerInputComponent->BindAxis("TriggerLeft", this, &AFirstPersonCharacter::OnTriggerLeft);
+	PlayerInputComponent->BindAxis("TriggerRight", this, &AFirstPersonCharacter::OnTriggerRight);
+	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AFirstPersonCharacter::OnStartPress);
+	PlayerInputComponent->BindAction("End", IE_Released, this, &AFirstPersonCharacter::OnEndPress);
+	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AFirstPersonCharacter::OnFaceTopPress);
+	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AFirstPersonCharacter::OnFaceLeftPress);
+	PlayerInputComponent->BindAction("FaceRight", IE_Pressed, this, &AFirstPersonCharacter::OnFaceRightPress);
+	PlayerInputComponent->BindAction("FaceBottom", IE_Pressed, this, &AFirstPersonCharacter::OnFaceBottomPress);
+	PlayerInputComponent->BindAction("FaceBottom", IE_Released, this, &AFirstPersonCharacter::OnFaceBottomRelease);
+	PlayerInputComponent->BindAction("BumperLeft", IE_Pressed, this, &AFirstPersonCharacter::OnBumperLeftPress);
+	PlayerInputComponent->BindAction("BumperLeft", IE_Released, this, &AFirstPersonCharacter::OnBumperLeftRelease);
 	PlayerInputComponent->BindAction("BumperRight", IE_Pressed, this, &AFirstPersonCharacter::OnBumperRightPress);
 	PlayerInputComponent->BindAction("BumperRight", IE_Released, this, &AFirstPersonCharacter::OnBumperRightRelease);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAction("DPadUp", IE_Pressed, this, &AFirstPersonCharacter::OnDPadUpPress);
+	PlayerInputComponent->BindAction("DPadLeft", IE_Pressed, this, &AFirstPersonCharacter::OnDPadLeftPress);
+	PlayerInputComponent->BindAction("DPadRight", IE_Pressed, this, &AFirstPersonCharacter::OnDPadRightPress);
+	PlayerInputComponent->BindAction("DPadDown", IE_Pressed, this, &AFirstPersonCharacter::OnDPadDownPress);
 }
 
 void AFirstPersonCharacter::SetupSteamInputComponent() {
@@ -117,7 +127,7 @@ void AFirstPersonCharacter::SetupGamepadLookAdapter() {
 }
 
 void AFirstPersonCharacter::SetupControllerDiagnosticWidget() {
-	// Nothing - yet
+	// Nothing... Yet.
 }
 
 void AFirstPersonCharacter::SetupGrabComponent() {

@@ -62,8 +62,8 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGrabComponent* GrabComponent;
 
-	// protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	// TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
+	protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
 
 	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
