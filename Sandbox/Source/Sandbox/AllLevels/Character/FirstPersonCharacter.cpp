@@ -1,10 +1,10 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FirstPersonCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "ControllerDiagnosticWidget.h"
 #include "GameFramework/InputSettings.h"
 #include "GrabComponent.h"
 #include "GrabbableComponent.h"
@@ -40,24 +40,15 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 	IsFlying = false;
 	GetCharacterMovement()->JumpZVelocity = DEFAULT_JUMP_VELOCITY;
 	GetCharacterMovement()->AirControl = DEFAULT_AIR_CONTROL;
-
-	// Create SteamInputComponent
-	SteamInputComponent = CreateDefaultSubobject<USteamInputComponent>(TEXT("SteamInputComponent"));
-
-	// Create GamepadLookAdapter
-	GamepadLookAdapter = CreateDefaultSubobject<UGamepadLookAdapter>(TEXT("GamepadLookAdapter"));
-
-	// Create & Setup GrabComponent
-	UPhysicsHandleComponent *PhysicsComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("Physics Component"));
-	this->AddOwnedComponent(PhysicsComponent);
-	GrabComponent = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
-	this->AddOwnedComponent(GrabComponent);
 }
 
 void AFirstPersonCharacter::BeginPlay() {
 	Super::BeginPlay();
 
 	SetupSteamInputComponent();
+	SetupGamepadLookAdapter();
+	SetupControllerDiagnosticWidget();
+	SetupGrabComponent();
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
@@ -81,6 +72,8 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::OnFaceBottomPress);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::OnFaceBottomRelease);
+	PlayerInputComponent->BindAction("BumperRight", IE_Pressed, this, &AFirstPersonCharacter::OnBumperRightPress);
+	PlayerInputComponent->BindAction("BumperRight", IE_Released, this, &AFirstPersonCharacter::OnBumperRightRelease);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -90,6 +83,7 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 }
 
 void AFirstPersonCharacter::SetupSteamInputComponent() {
+	SteamInputComponent = NewObject<USteamInputComponent>(this);
 	SteamInputComponent->SetupSteamInput();
 
 	SteamInputComponent->BindStickLeft(this, FName("OnStickMove"));
@@ -116,6 +110,21 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 
 	SteamInputComponent->BindControllerConnect(this, FName("OnControllerConnected"));
 	SteamInputComponent->BindControllerDisconnect(this, FName("OnControllerDisconnected"));
+}
+
+void AFirstPersonCharacter::SetupGamepadLookAdapter() {
+	GamepadLookAdapter = NewObject<UGamepadLookAdapter>(this);
+}
+
+void AFirstPersonCharacter::SetupControllerDiagnosticWidget() {
+	// Nothing - yet
+}
+
+void AFirstPersonCharacter::SetupGrabComponent() {
+	UPhysicsHandleComponent *PhysicsComponent = NewObject<UPhysicsHandleComponent>(this);
+	PhysicsComponent->RegisterComponent();
+	GrabComponent = NewObject<UGrabComponent>(this);
+	GrabComponent->RegisterComponent();
 }
 
 
@@ -202,7 +211,7 @@ void AFirstPersonCharacter::OnBumperRightPress() {
 	if (IsFlying) {
 		VerticalForceUp = VERTICAL_FLIGHT_SPEED;
 	} else {
-		if (GrabComponent && IsGrabEnabled) {
+		if (IsGrabEnabled) {
 			GrabComponent->GrabObject();
 		}
 	}
@@ -212,7 +221,7 @@ void AFirstPersonCharacter::OnBumperRightRelease() {
 	if (IsFlying) {
 		VerticalForceUp = 0.0f;
 	} else {
-		if (GrabComponent && IsGrabEnabled) {
+		if (IsGrabEnabled) {
 			GrabComponent->ReleaseObject();
 		}
 	}

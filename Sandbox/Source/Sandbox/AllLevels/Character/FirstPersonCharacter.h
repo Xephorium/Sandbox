@@ -1,4 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -9,6 +8,7 @@
 
 class UInputComponent;
 class UCameraComponent;
+class UControllerDiagnosticWidget;
 class UGamepadLookAdapter;
 class UGrabComponent;
 class USteamInputComponent;
@@ -62,6 +62,9 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGrabComponent* GrabComponent;
 
+	// protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	// TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
+
 	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
 
@@ -79,10 +82,16 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Input Setup Functions ---*/
 
-	/** APawn Override **/
+	// APawn Override
 	protected: virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 	protected: void SetupSteamInputComponent();
+
+	protected: void SetupGamepadLookAdapter();
+
+	protected: void SetupControllerDiagnosticWidget();
+
+	protected: void SetupGrabComponent();
 
 
 	/*--- Input Handling Functions ---*/

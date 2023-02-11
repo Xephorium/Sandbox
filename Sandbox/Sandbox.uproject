@@ -10,7 +10,8 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"AdvancedSessions",
-				"Engine"
+				"Engine",
+				"UMG"
 			]
 		}
 	],

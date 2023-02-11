@@ -599,3 +599,12 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
       a. Open Sandbox/Saved/Logs/<most recent>.log in text editor
       b. There will be some indication of what went wrong
       c. Fix the problem and repeat steps 1a-d :/
+
+
+02.10.2023
+
+  Functions declared in a cpp header with the UFUNCTION(BlueprintImplementableEvent) macro
+  CANNOT be defined in the corresponding cpp file! The "BlueprintImplementableEvent" means
+  the function is to be defined by blueprint only.
+
+  controller_xbox360.vdf should be placed in C:\Games\Steam\SteamApps\common\Steam Controller Configs\<userid>\config\480
