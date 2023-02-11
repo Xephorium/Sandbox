@@ -11,7 +11,6 @@ class UCameraComponent;
 class CharacterMovementComponent;
 class UControllerDiagnosticWidget;
 class UGamepadLookAdapter;
-class UGrabComponent;
 class USteamInputComponent;
 
 /*
@@ -28,48 +27,17 @@ class AInputCharacter : public ACharacter {
 
 	/*--- Constants  ---*/
 
-	private: const float STICK_MOVE_DEADZONE = 0.18f;
-
-	private: const float DEFAULT_CAPSULE_HEIGHT = 96.0f;
-	private: const float DEFAULT_CAPSULE_RADIUS = 36.0f;
-	private: const float DEFAULT_EYE_HEIGHT = 56.5f;
-
-	private: const float VERTICAL_FLIGHT_SPEED = 1.0f;
-	private: const float DEFAULT_JUMP_VELOCITY = 475.0f;
-	private: const float DEFAULT_AIR_CONTROL = 0.2f;
+	private: const float STICK_LEFT_DEADZONE = 0.18f;
+	private: const float STICK_RIGHT_DEADZONE = 0.18f;
 
 
 	/*--- Variables ---*/
 
-	/** Whether character is currently flying */
-	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	bool IsFlying;
-
-	/** Whether character is capable of grabbing objects */
-	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	bool IsGrabEnabled = true;
-
-	/** First person camera */
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
-
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USteamInputComponent* SteamInputComponent;
 
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UGamepadLookAdapter* GamepadLookAdapter;
-
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UGrabComponent* GrabComponent;
-
-	protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
-
-	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
-	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
-
-	private: float VerticalForceUp = 0.0f;
-	private: float VerticalForceDown = 0.0f;
+	private: FVector2D CurrentLeftStickInput = FVector2D::ZeroVector;
+	private: FVector2D CurrentRightStickInput = FVector2D::ZeroVector;
 
 
 	/*--- Lifecycle Functions ---*/
@@ -80,96 +48,90 @@ class AInputCharacter : public ACharacter {
 	protected: virtual void Tick(float DeltaSeconds) override;
 
 
-	/*--- Input Setup Functions ---*/
+	/*--- Setup Functions ---*/
 
 	// APawn Override
 	protected: virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 	protected: void SetupSteamInputComponent();
 
-	protected: void SetupGamepadLookAdapter();
 
-	protected: void SetupControllerDiagnosticWidget();
-
-	protected: void SetupGrabComponent();
-
-
-	/*--- Input Handling Functions ---*/
+	/*--- Overridable Input Handling Functions ---*/
 
 	protected: UFUNCTION()
-	void OnStickMove(FVector2D Input);
+	virtual void OnStickLeft(FVector2D Input);
 
 	protected: UFUNCTION()
-	void OnStickLook(FVector2D Input);
+	virtual void OnStickRight(FVector2D Input);
 
 	protected: UFUNCTION()
-	void OnTriggerRight(float Input);
+	virtual void OnTriggerRight(float Input);
 
 	protected: UFUNCTION()
-	void OnTriggerLeft(float Input);
+	virtual void OnTriggerLeft(float Input);
 
 	protected: UFUNCTION()
-	void OnStickLeftPress();
+	virtual void OnStickLeftPress();
 
 	protected: UFUNCTION()
-	void OnStickRightPress();
+	virtual void OnStickRightPress();
 
 	protected: UFUNCTION()
-	void OnStartPress();
+	virtual void OnStartPress();
 
 	protected: UFUNCTION()
-	void OnEndPress();
+	virtual void OnEndPress();
 
 	protected: UFUNCTION()
-	void OnFaceTopPress();
+	virtual void OnFaceTopPress();
 
 	protected: UFUNCTION()
-	void OnFaceLeftPress();
+	virtual void OnFaceLeftPress();
 
 	protected: UFUNCTION()
-	void OnFaceRightPress();
+	virtual void OnFaceRightPress();
 
 	protected: UFUNCTION()
-	void OnFaceBottomPress();
+	virtual void OnFaceBottomPress();
 
 	protected: UFUNCTION()
-	void OnFaceBottomRelease();
+	virtual void OnFaceBottomRelease();
 
 	protected: UFUNCTION()
-	void OnBumperLeftPress();
+	virtual void OnBumperLeftPress();
 
 	protected: UFUNCTION()
-	void OnBumperLeftRelease();
+	virtual void OnBumperLeftRelease();
 
 	protected: UFUNCTION()
-	void OnBumperRightPress();
+	virtual void OnBumperRightPress();
 
 	protected: UFUNCTION()
-	void OnBumperRightRelease();
+	virtual void OnBumperRightRelease();
 
 	protected: UFUNCTION()
-	void OnDPadUpPress();
+	virtual void OnDPadUpPress();
 
 	protected: UFUNCTION()
-	void OnDPadLeftPress();
+	virtual void OnDPadLeftPress();
 	
 	protected: UFUNCTION()
-	void OnDPadRightPress();
+	virtual void OnDPadRightPress();
 
 	protected: UFUNCTION()
-	void OnDPadDownPress();
+	virtual void OnDPadDownPress();
 
 
-	/*--- Event Handling Functions ---*/
-
-	protected: UFUNCTION()
-	void OnControllerConnected();
+	/*--- Overridable Event Handling Functions ---*/
 
 	protected: UFUNCTION()
-	void OnControllerDisconnected();
+	virtual void OnControllerConnected();
+
+	protected: UFUNCTION()
+	virtual void OnControllerDisconnected();
 
 
-	/*--- Unreal Input State Functions ---*/
+	/*--- Private Input Handling Functions ---*/
 
 	/* Note: The below functions are a workaround to unreal's input system being
 	 *       dumb. Ideally, we could bind OnStickLook(FVector Input) to both the
@@ -181,19 +143,19 @@ class AInputCharacter : public ACharacter {
 	 *       of trying to diagnose something that would just work in any game
 	 *       engine that wasn't build by baboons. For now, I've just setup two
 	 *       functions, one for each axial input, to store the values so that I
-	 *       can call OnStickLook() with them on Tick(). Same for OnStickMove().
+	 *       can call OnStickLeft() with them on Tick(). Same for OnStickRight().
 	 */
 
 	protected: UFUNCTION()
-	void OnStickMoveX(float Val);
+	void OnStickLeftX(float Val);
 
 	protected: UFUNCTION()
-	void OnStickMoveY(float Val);
+	void OnStickLeftY(float Val);
 
 	protected: UFUNCTION()
-	void OnStickLookX(float Input);
+	void OnStickRightX(float Input);
 
 	protected: UFUNCTION()
-	void OnStickLookY(float Input);
+	void OnStickRightY(float Input);
 
 };
