@@ -1,9 +1,10 @@
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "FirstPersonCharacter.generated.h"
+#include "InputCharacter.generated.h"
 
 class UInputComponent;
 class UCameraComponent;
@@ -14,15 +15,14 @@ class UGrabComponent;
 class USteamInputComponent;
 
 /*
- *  FirstPersonCharacter.h                          Chris Cruzen
- *  Sandbox                                           05.29.2022
+ *  InputCharacter.h                                      Chris Cruzen
+ *  Sandbox                                                 02.11.2023
  *
- *  Header file for FirstPersonCharacter.cpp.
+ *  Header file for InputCharacter.cpp.
  */
 
-
 UCLASS(Blueprintable, config=Game)
-class AFirstPersonCharacter : public ACharacter {
+class AInputCharacter : public ACharacter {
 
 	GENERATED_BODY()
 
@@ -74,7 +74,7 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Lifecycle Functions ---*/
 
-	public: AFirstPersonCharacter();
+	public: AInputCharacter();
 
 	protected: virtual void BeginPlay() override;
 	protected: virtual void Tick(float DeltaSeconds) override;

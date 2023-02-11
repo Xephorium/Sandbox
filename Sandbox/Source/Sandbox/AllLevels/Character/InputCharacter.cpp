@@ -1,5 +1,5 @@
 
-#include "FirstPersonCharacter.h"
+#include "InputCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -14,21 +14,17 @@
 #include "AllLevels/Input/GamepadLookAdapter.h"
 #include "Dependencies/Steam/SteamInputComponent.h"
 
-DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
-
 /*
- *  FirstPersonCharacter.cpp                           Chris Cruzen
- *  Sandbox                                              05.29.2022
+ *  InputCharacter.cpp                                    Chris Cruzen
+ *  Sandbox                                                 02.11.2023
  *
- *    FirstPersonCharacter is the base character class of the first
- *  person levels of Sandbox. It handles common logic for input and
- *  player movement.
+ *    InputCharacter is one of Sandbox's most base character classes.
+ *  It reads all input events from both Steam and Unreal Engine before
+ *  delegating to more specific character subclasses.
  */
 
 
-/*--- Lifecycle Functions ---*/
-
-AFirstPersonCharacter::AFirstPersonCharacter() {
+AInputCharacter::AInputCharacter() {
 
 	// Setup Capsule & Camera
 	GetCapsuleComponent()->InitCapsuleSize(DEFAULT_CAPSULE_RADIUS, DEFAULT_CAPSULE_HEIGHT);
@@ -43,7 +39,7 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 	GetCharacterMovement()->AirControl = DEFAULT_AIR_CONTROL;
 }
 
-void AFirstPersonCharacter::BeginPlay() {
+void AInputCharacter::BeginPlay() {
 	Super::BeginPlay();
 
 	SetupSteamInputComponent();
@@ -52,7 +48,7 @@ void AFirstPersonCharacter::BeginPlay() {
 	SetupGrabComponent();
 }
 
-void AFirstPersonCharacter::Tick(float DeltaSeconds) {
+void AInputCharacter::Tick(float DeltaSeconds) {
 	if (SteamInputComponent->IsSteamInputAvailable()) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
@@ -65,35 +61,35 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 /*--- Input Setup Functions ---*/
 
 // APawn Override
-void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
+void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::OnStickMoveX);
-	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::OnStickMoveY);
-	PlayerInputComponent->BindAxis("StickLookRight", this, &AFirstPersonCharacter::OnStickLookX); // Controller X
-	PlayerInputComponent->BindAxis("StickLookUp", this, &AFirstPersonCharacter::OnStickLookY);    // Controller Y
+	PlayerInputComponent->BindAxis("MoveRight", this, &AInputCharacter::OnStickMoveX);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AInputCharacter::OnStickMoveY);
+	PlayerInputComponent->BindAxis("StickLookRight", this, &AInputCharacter::OnStickLookX); // Controller X
+	PlayerInputComponent->BindAxis("StickLookUp", this, &AInputCharacter::OnStickLookY);    // Controller Y
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);                  // Mouse X
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);              // Mouse Y
-	PlayerInputComponent->BindAxis("TriggerLeft", this, &AFirstPersonCharacter::OnTriggerLeft);
-	PlayerInputComponent->BindAxis("TriggerRight", this, &AFirstPersonCharacter::OnTriggerRight);
-	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AFirstPersonCharacter::OnStartPress);
-	PlayerInputComponent->BindAction("End", IE_Released, this, &AFirstPersonCharacter::OnEndPress);
-	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AFirstPersonCharacter::OnFaceTopPress);
-	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AFirstPersonCharacter::OnFaceLeftPress);
-	PlayerInputComponent->BindAction("FaceRight", IE_Pressed, this, &AFirstPersonCharacter::OnFaceRightPress);
-	PlayerInputComponent->BindAction("FaceBottom", IE_Pressed, this, &AFirstPersonCharacter::OnFaceBottomPress);
-	PlayerInputComponent->BindAction("FaceBottom", IE_Released, this, &AFirstPersonCharacter::OnFaceBottomRelease);
-	PlayerInputComponent->BindAction("BumperLeft", IE_Pressed, this, &AFirstPersonCharacter::OnBumperLeftPress);
-	PlayerInputComponent->BindAction("BumperLeft", IE_Released, this, &AFirstPersonCharacter::OnBumperLeftRelease);
-	PlayerInputComponent->BindAction("BumperRight", IE_Pressed, this, &AFirstPersonCharacter::OnBumperRightPress);
-	PlayerInputComponent->BindAction("BumperRight", IE_Released, this, &AFirstPersonCharacter::OnBumperRightRelease);
-	PlayerInputComponent->BindAction("DPadUp", IE_Pressed, this, &AFirstPersonCharacter::OnDPadUpPress);
-	PlayerInputComponent->BindAction("DPadLeft", IE_Pressed, this, &AFirstPersonCharacter::OnDPadLeftPress);
-	PlayerInputComponent->BindAction("DPadRight", IE_Pressed, this, &AFirstPersonCharacter::OnDPadRightPress);
-	PlayerInputComponent->BindAction("DPadDown", IE_Pressed, this, &AFirstPersonCharacter::OnDPadDownPress);
+	PlayerInputComponent->BindAxis("TriggerLeft", this, &AInputCharacter::OnTriggerLeft);
+	PlayerInputComponent->BindAxis("TriggerRight", this, &AInputCharacter::OnTriggerRight);
+	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AInputCharacter::OnStartPress);
+	PlayerInputComponent->BindAction("End", IE_Released, this, &AInputCharacter::OnEndPress);
+	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AInputCharacter::OnFaceTopPress);
+	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AInputCharacter::OnFaceLeftPress);
+	PlayerInputComponent->BindAction("FaceRight", IE_Pressed, this, &AInputCharacter::OnFaceRightPress);
+	PlayerInputComponent->BindAction("FaceBottom", IE_Pressed, this, &AInputCharacter::OnFaceBottomPress);
+	PlayerInputComponent->BindAction("FaceBottom", IE_Released, this, &AInputCharacter::OnFaceBottomRelease);
+	PlayerInputComponent->BindAction("BumperLeft", IE_Pressed, this, &AInputCharacter::OnBumperLeftPress);
+	PlayerInputComponent->BindAction("BumperLeft", IE_Released, this, &AInputCharacter::OnBumperLeftRelease);
+	PlayerInputComponent->BindAction("BumperRight", IE_Pressed, this, &AInputCharacter::OnBumperRightPress);
+	PlayerInputComponent->BindAction("BumperRight", IE_Released, this, &AInputCharacter::OnBumperRightRelease);
+	PlayerInputComponent->BindAction("DPadUp", IE_Pressed, this, &AInputCharacter::OnDPadUpPress);
+	PlayerInputComponent->BindAction("DPadLeft", IE_Pressed, this, &AInputCharacter::OnDPadLeftPress);
+	PlayerInputComponent->BindAction("DPadRight", IE_Pressed, this, &AInputCharacter::OnDPadRightPress);
+	PlayerInputComponent->BindAction("DPadDown", IE_Pressed, this, &AInputCharacter::OnDPadDownPress);
 }
 
-void AFirstPersonCharacter::SetupSteamInputComponent() {
+void AInputCharacter::SetupSteamInputComponent() {
 	SteamInputComponent = NewObject<USteamInputComponent>(this);
 	SteamInputComponent->SetupSteamInput();
 
@@ -123,15 +119,15 @@ void AFirstPersonCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindControllerDisconnect(this, FName("OnControllerDisconnected"));
 }
 
-void AFirstPersonCharacter::SetupGamepadLookAdapter() {
+void AInputCharacter::SetupGamepadLookAdapter() {
 	GamepadLookAdapter = NewObject<UGamepadLookAdapter>(this);
 }
 
-void AFirstPersonCharacter::SetupControllerDiagnosticWidget() {
+void AInputCharacter::SetupControllerDiagnosticWidget() {
 	// Nothing... Yet.
 }
 
-void AFirstPersonCharacter::SetupGrabComponent() {
+void AInputCharacter::SetupGrabComponent() {
 	UPhysicsHandleComponent *PhysicsComponent = NewObject<UPhysicsHandleComponent>(this);
 	PhysicsComponent->RegisterComponent();
 	GrabComponent = NewObject<UGrabComponent>(this);
@@ -141,7 +137,7 @@ void AFirstPersonCharacter::SetupGrabComponent() {
 
 /*--- Input Handlong Functions ---*/
 
-void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
+void AInputCharacter::OnStickMove(FVector2D Input) {
 	if (Input.Size() != 0.0f) {
 		FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_MOVE_DEADZONE);
 		if (IsFlying) {
@@ -155,58 +151,58 @@ void AFirstPersonCharacter::OnStickMove(FVector2D Input) {
 	}
 }
 
-void AFirstPersonCharacter::OnStickLook(FVector2D Input) {
+void AInputCharacter::OnStickLook(FVector2D Input) {
 	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input, GetWorld()->GetDeltaSeconds());
 
 	AddControllerYawInput(Rotation.X);
 	AddControllerPitchInput(Rotation.Y);
 }
 
-void AFirstPersonCharacter::OnTriggerRight(float Input) {
+void AInputCharacter::OnTriggerRight(float Input) {
 	if (GEngine && Input > 0.5f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
-void AFirstPersonCharacter::OnTriggerLeft(float Input) {
+void AInputCharacter::OnTriggerLeft(float Input) {
 	if (GEngine && Input > 0.5f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
-void AFirstPersonCharacter::OnStickLeftPress() {
+void AInputCharacter::OnStickLeftPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left");
 }
 
-void AFirstPersonCharacter::OnStickRightPress() {
+void AInputCharacter::OnStickRightPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right");
 }
 
-void AFirstPersonCharacter::OnStartPress() {
+void AInputCharacter::OnStartPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start");
 }
 
-void AFirstPersonCharacter::OnEndPress() {
+void AInputCharacter::OnEndPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End");
 }
 
-void AFirstPersonCharacter::OnFaceTopPress() {
+void AInputCharacter::OnFaceTopPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y");
 }
 
-void AFirstPersonCharacter::OnFaceLeftPress() {
+void AInputCharacter::OnFaceLeftPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X");
 }
 
-void AFirstPersonCharacter::OnFaceRightPress() {
+void AInputCharacter::OnFaceRightPress() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B");
 }
 
-void AFirstPersonCharacter::OnFaceBottomPress() {
+void AInputCharacter::OnFaceBottomPress() {
 	Jump();
 }
 
-void AFirstPersonCharacter::OnFaceBottomRelease() {
+void AInputCharacter::OnFaceBottomRelease() {
 	StopJumping();
 }
 
-void AFirstPersonCharacter::OnBumperLeftPress() {
+void AInputCharacter::OnBumperLeftPress() {
 	if (IsFlying) {
 		VerticalForceDown = -VERTICAL_FLIGHT_SPEED;
 	} else {
@@ -214,11 +210,11 @@ void AFirstPersonCharacter::OnBumperLeftPress() {
 	}
 }
 
-void AFirstPersonCharacter::OnBumperLeftRelease() {
+void AInputCharacter::OnBumperLeftRelease() {
 	VerticalForceDown = 0.0f;
 }
 
-void AFirstPersonCharacter::OnBumperRightPress() {
+void AInputCharacter::OnBumperRightPress() {
 	if (IsFlying) {
 		VerticalForceUp = VERTICAL_FLIGHT_SPEED;
 	} else {
@@ -228,7 +224,7 @@ void AFirstPersonCharacter::OnBumperRightPress() {
 	}
 }
 
-void AFirstPersonCharacter::OnBumperRightRelease() {
+void AInputCharacter::OnBumperRightRelease() {
 	if (IsFlying) {
 		VerticalForceUp = 0.0f;
 	} else {
@@ -239,48 +235,48 @@ void AFirstPersonCharacter::OnBumperRightRelease() {
 	
 }
 
-void AFirstPersonCharacter::OnDPadUpPress() {
+void AInputCharacter::OnDPadUpPress() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up");
 }
 
-void AFirstPersonCharacter::OnDPadLeftPress() {
+void AInputCharacter::OnDPadLeftPress() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left");
 }
 
-void AFirstPersonCharacter::OnDPadRightPress() {
+void AInputCharacter::OnDPadRightPress() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right");
 }
 
-void AFirstPersonCharacter::OnDPadDownPress() {
+void AInputCharacter::OnDPadDownPress() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
 }
 
 
 /*--- Event Handling Functions ---*/
 
-void AFirstPersonCharacter::OnControllerConnected() {
+void AInputCharacter::OnControllerConnected() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
 }
 
-void AFirstPersonCharacter::OnControllerDisconnected() {
+void AInputCharacter::OnControllerDisconnected() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
 }
 
 
 /*--- Unreal Input State Functions ---*/
 
-void AFirstPersonCharacter::OnStickMoveX(float Value) {
+void AInputCharacter::OnStickMoveX(float Value) {
 	CurrentMoveInput.X = Value;
 }
 
-void AFirstPersonCharacter::OnStickMoveY(float Value) {
+void AInputCharacter::OnStickMoveY(float Value) {
 	CurrentMoveInput.Y = Value;
 }
 
-void AFirstPersonCharacter::OnStickLookX(float Input) {
+void AInputCharacter::OnStickLookX(float Input) {
 	CurrentLookInput.X = Input;
 }
 
-void AFirstPersonCharacter::OnStickLookY(float Input) {
+void AInputCharacter::OnStickLookY(float Input) {
 	CurrentLookInput.Y = Input;
 }
