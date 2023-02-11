@@ -37,9 +37,9 @@ void AInputCharacter::Tick(float DeltaSeconds) {
 	if (SteamInputComponent->IsSteamInputAvailable()) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
-		OnStickRight(CurrentRightStickInput);
+		OnStickRightInput(CurrentRightStickInput);
 	}
-	OnStickLeft(CurrentLeftStickInput);
+	OnStickLeftInput(CurrentLeftStickInput);
 }
 
 
@@ -50,8 +50,8 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	check(PlayerInputComponent);
 
 	// Unreal Keyboard/Mouse
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("Turn", this, &AInputCharacter::OnMouseHorizontal);
+	PlayerInputComponent->BindAxis("LookUp", this, &AInputCharacter::OnMouseVertical);
 
 	// Unreal Controller
 	PlayerInputComponent->BindAxis("MoveRight", this, &AInputCharacter::OnStickLeftX);
@@ -82,8 +82,8 @@ void AInputCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->SetupSteamInput();
 
 	// Steam Controller
-	SteamInputComponent->BindStickLeft(this, FName("OnStickLeft"));
-	SteamInputComponent->BindStickRight(this, FName("OnStickRight"));
+	SteamInputComponent->BindStickLeft(this, FName("OnStickLeftInput"));
+	SteamInputComponent->BindStickRight(this, FName("OnStickRightInput"));
 	SteamInputComponent->BindTriggerLeft(this, FName("OnTriggerLeft"));
 	SteamInputComponent->BindTriggerRight(this, FName("OnTriggerRight"));
 	SteamInputComponent->BindStickLeftPress(this, FName("OnStickLeftPress"));
@@ -110,6 +110,14 @@ void AInputCharacter::SetupSteamInputComponent() {
 
 
 /*--- Overridable Input Handling Functions ---*/
+
+void AInputCharacter::OnMouseHorizontal(float Input) {
+	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse X: " + FString::SanitizeFloat(Input));
+}
+
+void AInputCharacter::OnMouseVertical(float Input) {
+	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse Y: " + FString::SanitizeFloat(Input));
+}
 
 void AInputCharacter::OnStickLeft(FVector2D Input) {
 	if (Input.Size() != 0.0f) {
@@ -227,4 +235,16 @@ void AInputCharacter::OnStickRightX(float Input) {
 
 void AInputCharacter::OnStickRightY(float Input) {
 	CurrentRightStickInput.Y = Input;
+}
+
+void AInputCharacter::OnStickLeftInput(FVector2D Input) {
+	if (Input.Size() != 0.0f) {
+		OnStickLeft(UInputUtility::AccommodateDeadzone(Input, STICK_LEFT_DEADZONE));
+	}
+}
+
+void AInputCharacter::OnStickRightInput(FVector2D Input) { 
+		if (Input.Size() != 0.0f) {
+		OnStickRight(UInputUtility::AccommodateDeadzone(Input, STICK_RIGHT_DEADZONE));
+	}
 }

@@ -59,6 +59,12 @@ class AInputCharacter : public ACharacter {
 	/*--- Overridable Input Handling Functions ---*/
 
 	protected: UFUNCTION()
+	virtual void OnMouseHorizontal(float Input);
+
+	protected: UFUNCTION()
+	virtual void OnMouseVertical(float Input);
+
+	protected: UFUNCTION()
 	virtual void OnStickLeft(FVector2D Input);
 
 	protected: UFUNCTION()
@@ -158,4 +164,13 @@ class AInputCharacter : public ACharacter {
 	protected: UFUNCTION()
 	void OnStickRightY(float Input);
 
+	/* Note: The below functions account for deadzone before delegating to the
+	 *       final, overridable OnStickLeft() and OnStickRight() methods.
+	 */
+	
+	protected: UFUNCTION()
+	void OnStickLeftInput(FVector2D Input);
+
+	protected: UFUNCTION()
+	void OnStickRightInput(FVector2D Input);
 };
