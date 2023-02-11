@@ -1,17 +1,8 @@
 
 #include "InputCharacter.h"
-#include "Animation/AnimInstance.h"
-#include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
-#include "ControllerDiagnosticWidget.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/InputSettings.h"
-#include "GrabComponent.h"
-#include "GrabbableComponent.h"
 #include "AllLevels/Input/InputUtility.h"
-#include "AllLevels/Utility/LogUtility.h"
-#include "AllLevels/Input/GamepadLookAdapter.h"
 #include "Dependencies/Steam/SteamInputComponent.h"
 
 /*
@@ -60,8 +51,10 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("StickLookUp", this, &AInputCharacter::OnStickRightY);
 	PlayerInputComponent->BindAxis("TriggerLeft", this, &AInputCharacter::OnTriggerLeft);
 	PlayerInputComponent->BindAxis("TriggerRight", this, &AInputCharacter::OnTriggerRight);
+	PlayerInputComponent->BindAction("StickLeftClick", IE_Pressed, this, &AInputCharacter::OnStickLeftPress);
+	PlayerInputComponent->BindAction("StickRightClick", IE_Pressed, this, &AInputCharacter::OnStickRightPress);
 	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AInputCharacter::OnStartPress);
-	PlayerInputComponent->BindAction("End", IE_Released, this, &AInputCharacter::OnEndPress);
+	PlayerInputComponent->BindAction("End", IE_Pressed, this, &AInputCharacter::OnEndPress);
 	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AInputCharacter::OnFaceTopPress);
 	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AInputCharacter::OnFaceLeftPress);
 	PlayerInputComponent->BindAction("FaceRight", IE_Pressed, this, &AInputCharacter::OnFaceRightPress);

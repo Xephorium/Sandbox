@@ -1,17 +1,14 @@
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "InputCharacter.h"
 #include "FirstPersonCharacter.generated.h"
 
-class UInputComponent;
 class UCameraComponent;
 class CharacterMovementComponent;
 class UControllerDiagnosticWidget;
 class UGamepadLookAdapter;
 class UGrabComponent;
-class USteamInputComponent;
 
 /*
  *  FirstPersonCharacter.h                          Chris Cruzen
@@ -22,13 +19,11 @@ class USteamInputComponent;
 
 
 UCLASS(Blueprintable, config=Game)
-class AFirstPersonCharacter : public ACharacter {
+class AFirstPersonCharacter : public AInputCharacter {
 
 	GENERATED_BODY()
 
 	/*--- Constants  ---*/
-
-	private: const float STICK_MOVE_DEADZONE = 0.18f;
 
 	private: const float DEFAULT_CAPSULE_HEIGHT = 96.0f;
 	private: const float DEFAULT_CAPSULE_RADIUS = 36.0f;
@@ -54,9 +49,6 @@ class AFirstPersonCharacter : public ACharacter {
 	UCameraComponent* FirstPersonCameraComponent;
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USteamInputComponent* SteamInputComponent;
-
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGamepadLookAdapter* GamepadLookAdapter;
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -64,9 +56,6 @@ class AFirstPersonCharacter : public ACharacter {
 
 	protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
-
-	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
-	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
 
 	private: float VerticalForceUp = 0.0f;
 	private: float VerticalForceDown = 0.0f;
@@ -82,11 +71,6 @@ class AFirstPersonCharacter : public ACharacter {
 
 	/*--- Input Setup Functions ---*/
 
-	// APawn Override
-	protected: virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-
-	protected: void SetupSteamInputComponent();
-
 	protected: void SetupGamepadLookAdapter();
 
 	protected: void SetupControllerDiagnosticWidget();
@@ -94,106 +78,26 @@ class AFirstPersonCharacter : public ACharacter {
 	protected: void SetupGrabComponent();
 
 
-	/*--- Input Handling Functions ---*/
+	/*--- Input Handling Overrides ---*/
 
-	protected: UFUNCTION()
-	void OnStickMove(FVector2D Input);
+	virtual void OnMouseHorizontal(float Input) override;
 
-	protected: UFUNCTION()
-	void OnStickLook(FVector2D Input);
+	virtual void OnMouseVertical(float Input) override;
 
-	protected: UFUNCTION()
-	void OnTriggerRight(float Input);
+	virtual void OnStickLeft(FVector2D Input) override;
 
-	protected: UFUNCTION()
-	void OnTriggerLeft(float Input);
+	virtual void OnStickRight(FVector2D Input) override;
 
-	protected: UFUNCTION()
-	void OnStickLeftPress();
+	virtual void OnFaceBottomPress() override;
 
-	protected: UFUNCTION()
-	void OnStickRightPress();
+	virtual void OnFaceBottomRelease() override;
 
-	protected: UFUNCTION()
-	void OnStartPress();
+	virtual void OnBumperLeftPress() override;
 
-	protected: UFUNCTION()
-	void OnEndPress();
+	virtual void OnBumperLeftRelease() override;
 
-	protected: UFUNCTION()
-	void OnFaceTopPress();
+	virtual void OnBumperRightPress() override;
 
-	protected: UFUNCTION()
-	void OnFaceLeftPress();
-
-	protected: UFUNCTION()
-	void OnFaceRightPress();
-
-	protected: UFUNCTION()
-	void OnFaceBottomPress();
-
-	protected: UFUNCTION()
-	void OnFaceBottomRelease();
-
-	protected: UFUNCTION()
-	void OnBumperLeftPress();
-
-	protected: UFUNCTION()
-	void OnBumperLeftRelease();
-
-	protected: UFUNCTION()
-	void OnBumperRightPress();
-
-	protected: UFUNCTION()
-	void OnBumperRightRelease();
-
-	protected: UFUNCTION()
-	void OnDPadUpPress();
-
-	protected: UFUNCTION()
-	void OnDPadLeftPress();
-	
-	protected: UFUNCTION()
-	void OnDPadRightPress();
-
-	protected: UFUNCTION()
-	void OnDPadDownPress();
-
-
-	/*--- Event Handling Functions ---*/
-
-	protected: UFUNCTION()
-	void OnControllerConnected();
-
-	protected: UFUNCTION()
-	void OnControllerDisconnected();
-
-
-	/*--- Unreal Input State Functions ---*/
-
-	/* Note: The below functions are a workaround to unreal's input system being
-	 *       dumb. Ideally, we could bind OnStickLook(FVector Input) to both the
-	 *       PlayerInputComponent and SteamInputComponent, letting that one
-	 *       function manage all stick input regardless of origin. That said,
-	 *       unreal's input system refuses to recognize inputs sent via the
-	 *       Gamepad Right Thumbstick Axis-2D configuration. The FVector always
-	 *       just comes back as (0.0, 0.0, 0.0). I have no clue why and am tired
-	 *       of trying to diagnose something that would just work in any game
-	 *       engine that wasn't build by baboons. For now, I've just setup two
-	 *       functions, one for each axial input, to store the values so that I
-	 *       can call OnStickLook() with them on Tick(). Same for OnStickMove().
-	 */
-
-	protected: UFUNCTION()
-	void OnStickMoveX(float Val);
-
-	protected: UFUNCTION()
-	void OnStickMoveY(float Val);
-
-	protected: UFUNCTION()
-	void OnStickLookX(float Input);
-
-	protected: UFUNCTION()
-	void OnStickLookY(float Input);
+	virtual void OnBumperRightRelease() override;
 
 };

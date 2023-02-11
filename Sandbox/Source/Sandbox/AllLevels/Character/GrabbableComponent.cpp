@@ -1,6 +1,7 @@
+
+#include "GrabbableComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
-#include "GrabbableComponent.h"
 
 /*
  *  GrabbableComponent.cpp                              Chris Cruzen

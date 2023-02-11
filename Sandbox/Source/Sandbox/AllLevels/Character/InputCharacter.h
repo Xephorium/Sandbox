@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,10 +5,6 @@
 #include "InputCharacter.generated.h"
 
 class UInputComponent;
-class UCameraComponent;
-class CharacterMovementComponent;
-class UControllerDiagnosticWidget;
-class UGamepadLookAdapter;
 class USteamInputComponent;
 
 /*
