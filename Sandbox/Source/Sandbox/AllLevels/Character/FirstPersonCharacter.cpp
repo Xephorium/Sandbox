@@ -6,6 +6,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "GrabComponent.h"
+#include "GrabbableComponent.h"
 #include "AllLevels/Input/InputUtility.h"
 #include "AllLevels/Utility/LogUtility.h"
 #include "AllLevels/Input/GamepadLookAdapter.h"
@@ -44,7 +46,12 @@ AFirstPersonCharacter::AFirstPersonCharacter() {
 
 	// Create GamepadLookAdapter
 	GamepadLookAdapter = CreateDefaultSubobject<UGamepadLookAdapter>(TEXT("GamepadLookAdapter"));
-	
+
+	// Create & Setup GrabComponent
+	UPhysicsHandleComponent *PhysicsComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("Physics Component"));
+	this->AddOwnedComponent(PhysicsComponent);
+	GrabComponent = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
+	this->AddOwnedComponent(GrabComponent);
 }
 
 void AFirstPersonCharacter::BeginPlay() {
@@ -195,12 +202,21 @@ void AFirstPersonCharacter::OnBumperRightPress() {
 	if (IsFlying) {
 		VerticalForceUp = VERTICAL_FLIGHT_SPEED;
 	} else {
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right");
+		if (GrabComponent && IsGrabEnabled) {
+			GrabComponent->GrabObject();
+		}
 	}
 }
 
 void AFirstPersonCharacter::OnBumperRightRelease() {
-	VerticalForceUp = 0.0f;
+	if (IsFlying) {
+		VerticalForceUp = 0.0f;
+	} else {
+		if (GrabComponent && IsGrabEnabled) {
+			GrabComponent->ReleaseObject();
+		}
+	}
+	
 }
 
 void AFirstPersonCharacter::OnDPadUpPress() {

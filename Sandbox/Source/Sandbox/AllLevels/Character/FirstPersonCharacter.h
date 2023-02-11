@@ -10,6 +10,7 @@
 class UInputComponent;
 class UCameraComponent;
 class UGamepadLookAdapter;
+class UGrabComponent;
 class USteamInputComponent;
 
 /*
@@ -44,6 +45,10 @@ class AFirstPersonCharacter : public ACharacter {
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsFlying;
 
+	/** Whether character is capable of grabbing objects */
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	bool IsGrabEnabled = true;
+
 	/** First person camera */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -53,6 +58,9 @@ class AFirstPersonCharacter : public ACharacter {
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGamepadLookAdapter* GamepadLookAdapter;
+
+	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UGrabComponent* GrabComponent;
 
 	private: FVector2D CurrentMoveInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentLookInput = FVector2D::ZeroVector;
