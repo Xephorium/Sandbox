@@ -22,7 +22,7 @@ class UGrabComponent : public UActorComponent {
 	public: UPROPERTY(EditAnywhere) float PlayerReach = 300.f;
 	public: UPROPERTY(EditAnywhere) float HoldDistance = 170.f;
 	public: UPROPERTY(EditAnywhere) float HoldAngularDamping = 7.0f;
-	public: bool IsHolding = false;
+	public: bool IsGrabbing = false;
 
 	private: UPhysicsHandleComponent *PhysicsHandleComponent = nullptr;
 	private: UInputComponent *InputComponent = nullptr;

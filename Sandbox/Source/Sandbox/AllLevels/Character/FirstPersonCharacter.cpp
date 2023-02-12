@@ -43,7 +43,6 @@ void AFirstPersonCharacter::BeginPlay() {
 	Super::BeginPlay();
 
 	SetupGamepadLookAdapter();
-	SetupControllerDiagnosticWidget();
 	SetupGrabComponent();
 }
 
@@ -52,14 +51,10 @@ void AFirstPersonCharacter::Tick(float DeltaSeconds) {
 }
 
 
-/*--- Input Setup Functions ---*/
+/*--- First Person Setup Functions ---*/
 
 void AFirstPersonCharacter::SetupGamepadLookAdapter() {
 	GamepadLookAdapter = NewObject<UGamepadLookAdapter>(this);
-}
-
-void AFirstPersonCharacter::SetupControllerDiagnosticWidget() {
-	// Nothing... Yet.
 }
 
 void AFirstPersonCharacter::SetupGrabComponent() {
@@ -106,6 +101,16 @@ void AFirstPersonCharacter::OnFaceBottomRelease() {
 	StopJumping();
 }
 
+void AFirstPersonCharacter::OnFaceRightPress() {
+	if (IsGrabEnabled) {
+		if (GrabComponent->IsGrabbing) {
+			GrabComponent->ReleaseObject();
+		} else {
+			GrabComponent->GrabObject();
+		}
+	}
+}
+
 void AFirstPersonCharacter::OnBumperLeftPress() {
 	if (IsFlying) {
 		VerticalForceDown = -FLIGHT_VERTICAL_SPEED;
@@ -121,20 +126,12 @@ void AFirstPersonCharacter::OnBumperLeftRelease() {
 void AFirstPersonCharacter::OnBumperRightPress() {
 	if (IsFlying) {
 		VerticalForceUp = FLIGHT_VERTICAL_SPEED;
-	} else {
-		if (IsGrabEnabled) {
-			GrabComponent->GrabObject();
-		}
 	}
 }
 
 void AFirstPersonCharacter::OnBumperRightRelease() {
 	if (IsFlying) {
 		VerticalForceUp = 0.0f;
-	} else {
-		if (IsGrabEnabled) {
-			GrabComponent->ReleaseObject();
-		}
 	}
 }
 

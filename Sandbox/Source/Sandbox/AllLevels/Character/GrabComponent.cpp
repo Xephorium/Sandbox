@@ -53,11 +53,11 @@ void UGrabComponent::GrabObject() {
 	AActor * RaycastHitActor = GetActorInView();
 
 	// If Actor Found, Grab
-	if (RaycastHitActor && !IsHolding) {
+	if (RaycastHitActor && !IsGrabbing) {
 		ObjectPrimitiveComponent = Cast<UPrimitiveComponent>(
 			RaycastHitActor->GetComponentByClass(UPrimitiveComponent::StaticClass())
 		);
-		IsHolding = true;
+		IsGrabbing = true;
 
 		// Grab Object
 		PhysicsHandleComponent->GrabComponentAtLocation(
@@ -73,8 +73,8 @@ void UGrabComponent::GrabObject() {
 }
 
 void UGrabComponent::ReleaseObject() {
-	if (IsHolding) {
-		IsHolding = false;
+	if (IsGrabbing) {
+		IsGrabbing = false;
 
 		// Release Object
 		PhysicsHandleComponent->ReleaseComponent();

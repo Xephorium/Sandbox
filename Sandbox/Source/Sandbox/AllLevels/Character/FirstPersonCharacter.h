@@ -40,19 +40,15 @@ class AFirstPersonCharacter : public AInputCharacter {
 
 	/*--- Variables ---*/
 
-	/** Whether character is currently flying */
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsFlyingEnabled = true;
 
-	/** Whether character is currently flying */
 	public: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Gameplay)
 	bool IsFlying;
 
-	/** Whether character is capable of grabbing objects */
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsGrabEnabled = true;
 
-	/** First person camera */
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
@@ -61,9 +57,6 @@ class AFirstPersonCharacter : public AInputCharacter {
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGrabComponent* GrabComponent;
-
-	protected: UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidget;
 
 	private: float VerticalForceUp = 0.0f;
 	private: float VerticalForceDown = 0.0f;
@@ -77,11 +70,9 @@ class AFirstPersonCharacter : public AInputCharacter {
 	protected: virtual void Tick(float DeltaSeconds) override;
 
 
-	/*--- Input Setup Functions ---*/
+	/*--- First Person Setup Functions ---*/
 
 	protected: void SetupGamepadLookAdapter();
-
-	protected: void SetupControllerDiagnosticWidget();
 
 	protected: void SetupGrabComponent();
 
@@ -99,6 +90,8 @@ class AFirstPersonCharacter : public AInputCharacter {
 	virtual void OnFaceBottomPress() override;
 
 	virtual void OnFaceBottomRelease() override;
+
+	virtual void OnFaceRightPress() override;
 
 	virtual void OnBumperLeftPress() override;
 
