@@ -5,6 +5,7 @@
 #include "FirstPersonCharacter.generated.h"
 
 class UCameraComponent;
+class UCapsuleComponent;
 class CharacterMovementComponent;
 class UControllerDiagnosticWidget;
 class UGamepadLookAdapter;
@@ -32,6 +33,8 @@ class AFirstPersonCharacter : public AInputCharacter {
 	private: const float DEFAULT_JUMP_VELOCITY = 475.0f;
 	private: const float DEFAULT_AIR_CONTROL = 0.2f;
 
+	private: const float HOME_CAPSULE_RADIUS = 18.0f;
+
 	private: const float FLIGHT_VERTICAL_SPEED = 0.8f;
 
 
@@ -42,7 +45,7 @@ class AFirstPersonCharacter : public AInputCharacter {
 	bool IsFlyingEnabled = true;
 
 	/** Whether character is currently flying */
-	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	public: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Gameplay)
 	bool IsFlying;
 
 	/** Whether character is capable of grabbing objects */

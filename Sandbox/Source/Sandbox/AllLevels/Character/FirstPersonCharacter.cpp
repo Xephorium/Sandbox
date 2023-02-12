@@ -142,10 +142,26 @@ void AFirstPersonCharacter::OnDPadUpPress() {
 	IsFlying = !IsFlying;
 
 	if (IsFlying) {
+
 		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Flying");
+		GetCapsuleComponent()->SetCapsuleHalfHeight(DEFAULT_CAPSULE_RADIUS);
+		GetCapsuleComponent()->SetRelativeLocation(FVector(
+			GetCapsuleComponent()->GetRelativeLocation().X, 
+			GetCapsuleComponent()->GetRelativeLocation().Y, 
+			GetCapsuleComponent()->GetRelativeLocation().Z + DEFAULT_EYE_HEIGHT
+		));
+		FirstPersonCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	} else {
+
 		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Walking");
+		GetCapsuleComponent()->SetCapsuleHalfHeight(DEFAULT_CAPSULE_HEIGHT);
+		GetCapsuleComponent()->SetRelativeLocation(FVector(
+			GetCapsuleComponent()->GetRelativeLocation().X, 
+			GetCapsuleComponent()->GetRelativeLocation().Y, 
+			GetCapsuleComponent()->GetRelativeLocation().Z - DEFAULT_EYE_HEIGHT
+		));
+		FirstPersonCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, DEFAULT_EYE_HEIGHT));
 	}
 }
