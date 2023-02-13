@@ -99,16 +99,14 @@ void AFirstPersonCharacter::OnStickRight(FVector2D Input) {
 	AddControllerPitchInput(Rotation.Y);
 }
 
-void AFirstPersonCharacter::OnFaceTopPress() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceTopPress();
-}
-
-void AFirstPersonCharacter::OnFaceTopRelease() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceTopRelease();
+void AFirstPersonCharacter::OnStickLeftPress() {
+	if (IsControllerDiagnosticEnabled && FirstPersonHUD) {
+		FirstPersonHUD->ToggleControllerDiagnosticWidget();
+	}
 }
 
 void AFirstPersonCharacter::OnFaceRightPress() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceRightPress();
+	AInputCharacter::OnFaceRightPress();
 	if (IsGrabEnabled) {
 		if (GrabComponent->IsGrabbing) {
 			GrabComponent->ReleaseObject();
@@ -118,25 +116,13 @@ void AFirstPersonCharacter::OnFaceRightPress() {
 	}
 }
 
-void AFirstPersonCharacter::OnFaceRightRelease() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceRightRelease();
-}
-
-void AFirstPersonCharacter::OnFaceLeftPress() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceLeftPress();
-}
-
-void AFirstPersonCharacter::OnFaceLeftRelease() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceLeftRelease();
-}
-
 void AFirstPersonCharacter::OnFaceBottomPress() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceBottomPress();
+	AInputCharacter::OnFaceBottomPress();
 	Jump();
 }
 
 void AFirstPersonCharacter::OnFaceBottomRelease() {
-	if (FirstPersonHUD) FirstPersonHUD->OnFaceBottomRelease();
+	AInputCharacter::OnFaceBottomRelease();
 	StopJumping();
 }
 

@@ -92,17 +92,9 @@ class AFirstPersonCharacter : public AInputCharacter {
 
 	virtual void OnStickRight(FVector2D Input) override;
 
-	virtual void OnFaceTopPress() override;
-
-	virtual void OnFaceTopRelease() override;
+	virtual void OnStickLeftPress() override;
 
 	virtual void OnFaceRightPress() override;
-
-	virtual void OnFaceRightRelease() override;
-
-	virtual void OnFaceLeftPress() override;
-
-	virtual void OnFaceLeftRelease() override;
 
 	virtual void OnFaceBottomPress() override;
 

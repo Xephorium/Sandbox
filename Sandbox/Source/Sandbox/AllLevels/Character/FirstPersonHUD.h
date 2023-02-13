@@ -26,32 +26,20 @@ class SANDBOX_API AFirstPersonHUD : public AHUD {
 
 	private: UControllerDiagnosticWidget* ControllerDiagnosticWidget;
 
+	private: bool IsControllerDiagnosticShown = false;
+
 
 	/*--- Lifecycle Functions ---*/
 
 	public: virtual void BeginPlay() override;
 
-	public: virtual void DrawHUD() override;
 
-	public: virtual void Tick(float DeltaSeconds) override;
+	/*--- HUD Control Functions ---*/
 
+	public: void ToggleControllerDiagnosticWidget();
 
-	/*--- Behavior Functions ---*/
+	public: void ShowControllerDiagnosticWidget();
 
-	public: void OnFaceTopPress();
-
-	public: void OnFaceTopRelease();
-
-	public: void OnFaceRightPress();
-
-	public: void OnFaceRightRelease();
-
-	public: void OnFaceLeftPress();
-
-	public: void OnFaceLeftRelease();
-
-	public: void OnFaceBottomPress();
-
-	public: void OnFaceBottomRelease();
+	public: void HideControllerDiagnosticWidget();
 
 };

@@ -1,9 +1,11 @@
 
 #include "InputCharacter.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/InputSettings.h"
 #include "AllLevels/Input/InputUtility.h"
+#include "Components/InputComponent.h"
+#include "ControllerDiagnosticWidget.h"
 #include "Dependencies/Steam/SteamInputComponent.h"
+#include "GameFramework/InputSettings.h"
+#include "Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h"
 
 /*
  *  InputCharacter.cpp                                    Chris Cruzen
@@ -108,14 +110,32 @@ void AInputCharacter::SetupSteamInputComponent() {
 }
 
 
+/*--- Diagnostic Functions ---*/
+
+bool AInputCharacter::CheckForControllerDiagnosticWidget() {
+	TArray<UUserWidget*> FoundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(
+		GetWorld(),
+		FoundWidgets,
+		UControllerDiagnosticWidget::StaticClass()
+	);
+
+	if (FoundWidgets.Num() > 0 && Cast<UControllerDiagnosticWidget>(FoundWidgets[0])) {
+		ControllerDiagnosticWidget = Cast<UControllerDiagnosticWidget>(FoundWidgets[0]);
+	}
+
+	return ControllerDiagnosticWidget != nullptr;
+}
+
+
 /*--- Overridable Input Handling Functions ---*/
 
 void AInputCharacter::OnMouseHorizontal(float Input) {
-	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse X: " + FString::SanitizeFloat(Input));
+	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse X: " + FString::SanitizeFloat(Input));
 }
 
 void AInputCharacter::OnMouseVertical(float Input) {
-	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse Y: " + FString::SanitizeFloat(Input));
+	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, "Mouse Y: " + FString::SanitizeFloat(Input));
 }
 
 void AInputCharacter::OnStickLeft(FVector2D Input) {
@@ -131,102 +151,110 @@ void AInputCharacter::OnStickRight(FVector2D Input) {
 }
 
 void AInputCharacter::OnTriggerRight(float Input) {
-	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
+	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
 void AInputCharacter::OnTriggerLeft(float Input) {
-	if (GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
+	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
 void AInputCharacter::OnStickLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left");
 }
 
 void AInputCharacter::OnStickRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right");
 }
 
 void AInputCharacter::OnStartPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start");
 }
 
 void AInputCharacter::OnEndPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End");
 }
 
 void AInputCharacter::OnFaceTopPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Press");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceTopPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Press");
 }
 
 void AInputCharacter::OnFaceTopRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Release");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceTopRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Release");
 }
 
 void AInputCharacter::OnFaceLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Press");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceLeftPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Press");
 }
 
 void AInputCharacter::OnFaceLeftRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Release");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceLeftRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Release");
 }
 
 void AInputCharacter::OnFaceRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Press");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceRightPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Press");
 }
 
 void AInputCharacter::OnFaceRightRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Release");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceRightRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Release");
 }
 
 void AInputCharacter::OnFaceBottomPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "A Press");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceBottomPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "A Press");
 }
 
 void AInputCharacter::OnFaceBottomRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "A Release");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnFaceBottomRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "A Release");
 }
 
 void AInputCharacter::OnBumperLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Press");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Press");
 }
 
 void AInputCharacter::OnBumperLeftRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Release");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Release");
 }
 
 void AInputCharacter::OnBumperRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Press");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Press");
 }
 
 void AInputCharacter::OnBumperRightRelease() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Release");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Release");
 }
 
 void AInputCharacter::OnDPadUpPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up");
 }
 
 void AInputCharacter::OnDPadLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left");
 }
 
 void AInputCharacter::OnDPadRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right");
 }
 
 void AInputCharacter::OnDPadDownPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
 }
 
 
 /*--- Overridable Event Handling Functions ---*/
 
 void AInputCharacter::OnControllerConnected() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
 }
 
 void AInputCharacter::OnControllerDisconnected() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
 }
 
 

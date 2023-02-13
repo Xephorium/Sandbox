@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "InputCharacter.generated.h"
 
+class UControllerDiagnosticWidget;
 class UInputComponent;
 class USteamInputComponent;
 
@@ -30,6 +31,14 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USteamInputComponent* SteamInputComponent;
 
+	public: UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (Category=Debug))
+	bool IsDebugLoggingEnabled = true;
+
+	public: UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (Category=Debug))
+	bool IsControllerDiagnosticEnabled = true;
+
+	private: UControllerDiagnosticWidget* ControllerDiagnosticWidget;
+
 	private: FVector2D CurrentLeftStickInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentRightStickInput = FVector2D::ZeroVector;
 
@@ -48,6 +57,11 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	protected: virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 	protected: void SetupSteamInputComponent();
+
+
+	/*--- Diagnostic Functions ---*/
+
+	private: bool CheckForControllerDiagnosticWidget();
 
 
 	/*--- Overridable Input Handling Functions ---*/
