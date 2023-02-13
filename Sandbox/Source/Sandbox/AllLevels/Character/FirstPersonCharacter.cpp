@@ -127,6 +127,7 @@ void AFirstPersonCharacter::OnFaceBottomRelease() {
 }
 
 void AFirstPersonCharacter::OnBumperLeftPress() {
+	AInputCharacter::OnBumperLeftPress();
 	if (IsFlying) {
 		VerticalForceDown = -FLIGHT_VERTICAL_SPEED;
 	} else {
@@ -135,22 +136,26 @@ void AFirstPersonCharacter::OnBumperLeftPress() {
 }
 
 void AFirstPersonCharacter::OnBumperLeftRelease() {
+	AInputCharacter::OnBumperLeftRelease();
 	VerticalForceDown = 0.0f;
 }
 
 void AFirstPersonCharacter::OnBumperRightPress() {
+	AInputCharacter::OnBumperRightPress();
 	if (IsFlying) {
 		VerticalForceUp = FLIGHT_VERTICAL_SPEED;
 	}
 }
 
 void AFirstPersonCharacter::OnBumperRightRelease() {
+	AInputCharacter::OnBumperRightRelease();
 	if (IsFlying) {
 		VerticalForceUp = 0.0f;
 	}
 }
 
 void AFirstPersonCharacter::OnDPadUpPress() {
+	AInputCharacter::OnDPadUpPress();
 	IsFlying = !IsFlying;
 
 	if (IsFlying) {

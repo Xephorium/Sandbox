@@ -54,9 +54,13 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("TriggerLeft", this, &AInputCharacter::OnTriggerLeft);
 	PlayerInputComponent->BindAxis("TriggerRight", this, &AInputCharacter::OnTriggerRight);
 	PlayerInputComponent->BindAction("StickLeftClick", IE_Pressed, this, &AInputCharacter::OnStickLeftPress);
+	PlayerInputComponent->BindAction("StickLeftClick", IE_Released, this, &AInputCharacter::OnStickLeftRelease);
 	PlayerInputComponent->BindAction("StickRightClick", IE_Pressed, this, &AInputCharacter::OnStickRightPress);
+	PlayerInputComponent->BindAction("StickRightClick", IE_Released, this, &AInputCharacter::OnStickRightRelease);
 	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AInputCharacter::OnStartPress);
+	PlayerInputComponent->BindAction("Start", IE_Released, this, &AInputCharacter::OnStartRelease);
 	PlayerInputComponent->BindAction("End", IE_Pressed, this, &AInputCharacter::OnEndPress);
+	PlayerInputComponent->BindAction("End", IE_Released, this, &AInputCharacter::OnEndRelease);
 	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AInputCharacter::OnFaceTopPress);
 	PlayerInputComponent->BindAction("FaceTop", IE_Released, this, &AInputCharacter::OnFaceTopRelease);
 	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AInputCharacter::OnFaceLeftPress);
@@ -70,9 +74,13 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("BumperRight", IE_Pressed, this, &AInputCharacter::OnBumperRightPress);
 	PlayerInputComponent->BindAction("BumperRight", IE_Released, this, &AInputCharacter::OnBumperRightRelease);
 	PlayerInputComponent->BindAction("DPadUp", IE_Pressed, this, &AInputCharacter::OnDPadUpPress);
+	PlayerInputComponent->BindAction("DPadUp", IE_Released, this, &AInputCharacter::OnDPadUpRelease);
 	PlayerInputComponent->BindAction("DPadLeft", IE_Pressed, this, &AInputCharacter::OnDPadLeftPress);
+	PlayerInputComponent->BindAction("DPadLeft", IE_Released, this, &AInputCharacter::OnDPadLeftRelease);
 	PlayerInputComponent->BindAction("DPadRight", IE_Pressed, this, &AInputCharacter::OnDPadRightPress);
+	PlayerInputComponent->BindAction("DPadRight", IE_Released, this, &AInputCharacter::OnDPadRightRelease);
 	PlayerInputComponent->BindAction("DPadDown", IE_Pressed, this, &AInputCharacter::OnDPadDownPress);
+	PlayerInputComponent->BindAction("DPadDown", IE_Released, this, &AInputCharacter::OnDPadDownRelease);
 }
 
 void AInputCharacter::SetupSteamInputComponent() {
@@ -85,9 +93,13 @@ void AInputCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindTriggerLeft(this, FName("OnTriggerLeft"));
 	SteamInputComponent->BindTriggerRight(this, FName("OnTriggerRight"));
 	SteamInputComponent->BindStickLeftPress(this, FName("OnStickLeftPress"));
+	SteamInputComponent->BindStickLeftRelease(this, FName("OnStickLeftRelease"));
 	SteamInputComponent->BindStickRightPress(this, FName("OnStickRightPress"));
+	SteamInputComponent->BindStickRightRelease(this, FName("OnStickRightRelease"));
 	SteamInputComponent->BindStartPress(this, FName("OnStartPress"));
+	SteamInputComponent->BindStartRelease(this, FName("OnStartRelease"));
 	SteamInputComponent->BindEndPress(this, FName("OnEndPress"));
+	SteamInputComponent->BindEndRelease(this, FName("OnEndRelease"));
 	SteamInputComponent->BindFaceTopPress(this, FName("OnFaceTopPress"));
 	SteamInputComponent->BindFaceTopRelease(this, FName("OnFaceTopRelease"));
 	SteamInputComponent->BindFaceLeftPress(this, FName("OnFaceLeftPress"));
@@ -101,9 +113,13 @@ void AInputCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindBumperRightPress(this, FName("OnBumperRightPress"));
 	SteamInputComponent->BindBumperRightRelease(this, FName("OnBumperRightRelease"));
 	SteamInputComponent->BindDPadUpPress(this, FName("OnDPadUpPress"));
+	SteamInputComponent->BindDPadUpRelease(this, FName("OnDPadUpRelease"));
 	SteamInputComponent->BindDPadLeftPress(this, FName("OnDPadLeftPress"));
+	SteamInputComponent->BindDPadLeftRelease(this, FName("OnDPadLeftRelease"));
 	SteamInputComponent->BindDPadRightPress(this, FName("OnDPadRightPress"));
+	SteamInputComponent->BindDPadRightRelease(this, FName("OnDPadRightRelease"));
 	SteamInputComponent->BindDPadDownPress(this, FName("OnDPadDownPress"));
+	SteamInputComponent->BindDPadDownRelease(this, FName("OnDPadDownRelease"));
 
 	SteamInputComponent->BindControllerConnect(this, FName("OnControllerConnected"));
 	SteamInputComponent->BindControllerDisconnect(this, FName("OnControllerDisconnected"));
@@ -159,19 +175,43 @@ void AInputCharacter::OnTriggerLeft(float Input) {
 }
 
 void AInputCharacter::OnStickLeftPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickLeftPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left Press");
+}
+
+void AInputCharacter::OnStickLeftRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickLeftRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left Release");
 }
 
 void AInputCharacter::OnStickRightPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickRightPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right Press");
+}
+
+void AInputCharacter::OnStickRightRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickRightRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Right Release");
 }
 
 void AInputCharacter::OnStartPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStartPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start Press");
+}
+
+void AInputCharacter::OnStartRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStartRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Start Release");
 }
 
 void AInputCharacter::OnEndPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnEndPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End Press");
+}
+
+void AInputCharacter::OnEndRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnEndRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "End Release");
 }
 
 void AInputCharacter::OnFaceTopPress() {
@@ -215,36 +255,65 @@ void AInputCharacter::OnFaceBottomRelease() {
 }
 
 void AInputCharacter::OnBumperLeftPress() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnBumperLeftPress();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Press");
 }
 
 void AInputCharacter::OnBumperLeftRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnBumperLeftRelease();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Left Release");
 }
 
 void AInputCharacter::OnBumperRightPress() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnBumperRightPress();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Press");
 }
 
 void AInputCharacter::OnBumperRightRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnBumperRightRelease();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Bumper Right Release");
 }
 
 void AInputCharacter::OnDPadUpPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadUpPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up Press");
+}
+
+void AInputCharacter::OnDPadUpRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadUpRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Up Release");
 }
 
 void AInputCharacter::OnDPadLeftPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadLeftPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left Press");
+}
+
+void AInputCharacter::OnDPadLeftRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadLeftRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Left Release");
 }
 
 void AInputCharacter::OnDPadRightPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadRightPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right Press");
+}
+
+void AInputCharacter::OnDPadRightRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadRightRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Right Release");
 }
 
 void AInputCharacter::OnDPadDownPress() {
-	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down");
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadDownPress();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down Press");
 }
+
+void AInputCharacter::OnDPadDownRelease() {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnDPadDownRelease();
+	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down Release");
+}
+
 
 
 /*--- Overridable Event Handling Functions ---*/

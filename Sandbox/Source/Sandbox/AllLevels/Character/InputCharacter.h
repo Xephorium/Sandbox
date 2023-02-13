@@ -88,13 +88,25 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	virtual void OnStickLeftPress();
 
 	protected: UFUNCTION()
+	virtual void OnStickLeftRelease();
+
+	protected: UFUNCTION()
 	virtual void OnStickRightPress();
+
+	protected: UFUNCTION()
+	virtual void OnStickRightRelease();
 
 	protected: UFUNCTION()
 	virtual void OnStartPress();
 
 	protected: UFUNCTION()
+	virtual void OnStartRelease();
+
+	protected: UFUNCTION()
 	virtual void OnEndPress();
+
+	protected: UFUNCTION()
+	virtual void OnEndRelease();
 
 	protected: UFUNCTION()
 	virtual void OnFaceTopPress();
@@ -136,13 +148,25 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	virtual void OnDPadUpPress();
 
 	protected: UFUNCTION()
+	virtual void OnDPadUpRelease();
+
+	protected: UFUNCTION()
 	virtual void OnDPadLeftPress();
+
+	protected: UFUNCTION()
+	virtual void OnDPadLeftRelease();
 	
 	protected: UFUNCTION()
 	virtual void OnDPadRightPress();
 
 	protected: UFUNCTION()
+	virtual void OnDPadRightRelease();
+
+	protected: UFUNCTION()
 	virtual void OnDPadDownPress();
+
+	protected: UFUNCTION()
+	virtual void OnDPadDownRelease();
 
 
 	/*--- Overridable Event Handling Functions ---*/
