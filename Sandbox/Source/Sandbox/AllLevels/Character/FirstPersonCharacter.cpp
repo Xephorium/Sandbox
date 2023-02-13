@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "ControllerDiagnosticWidget.h"
+#include "FirstPersonHUD.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GrabComponent.h"
 #include "GrabbableComponent.h"
@@ -44,6 +45,7 @@ void AFirstPersonCharacter::BeginPlay() {
 
 	SetupGamepadLookAdapter();
 	SetupGrabComponent();
+	SetupFirstPersonHUD();
 }
 
 void AFirstPersonCharacter::Tick(float DeltaSeconds) {
@@ -62,6 +64,10 @@ void AFirstPersonCharacter::SetupGrabComponent() {
 	PhysicsComponent->RegisterComponent();
 	GrabComponent = NewObject<UGrabComponent>(this);
 	GrabComponent->RegisterComponent();
+}
+
+void AFirstPersonCharacter::SetupFirstPersonHUD() {
+	FirstPersonHUD = Cast<AFirstPersonHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 }
 
 
@@ -93,15 +99,16 @@ void AFirstPersonCharacter::OnStickRight(FVector2D Input) {
 	AddControllerPitchInput(Rotation.Y);
 }
 
-void AFirstPersonCharacter::OnFaceBottomPress() {
-	Jump();
+void AFirstPersonCharacter::OnFaceTopPress() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceTopPress();
 }
 
-void AFirstPersonCharacter::OnFaceBottomRelease() {
-	StopJumping();
+void AFirstPersonCharacter::OnFaceTopRelease() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceTopRelease();
 }
 
 void AFirstPersonCharacter::OnFaceRightPress() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceRightPress();
 	if (IsGrabEnabled) {
 		if (GrabComponent->IsGrabbing) {
 			GrabComponent->ReleaseObject();
@@ -109,6 +116,28 @@ void AFirstPersonCharacter::OnFaceRightPress() {
 			GrabComponent->GrabObject();
 		}
 	}
+}
+
+void AFirstPersonCharacter::OnFaceRightRelease() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceRightRelease();
+}
+
+void AFirstPersonCharacter::OnFaceLeftPress() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceLeftPress();
+}
+
+void AFirstPersonCharacter::OnFaceLeftRelease() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceLeftRelease();
+}
+
+void AFirstPersonCharacter::OnFaceBottomPress() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceBottomPress();
+	Jump();
+}
+
+void AFirstPersonCharacter::OnFaceBottomRelease() {
+	if (FirstPersonHUD) FirstPersonHUD->OnFaceBottomRelease();
+	StopJumping();
 }
 
 void AFirstPersonCharacter::OnBumperLeftPress() {

@@ -15,7 +15,7 @@ class USteamInputComponent;
  */
 
 UCLASS(Blueprintable, config=Game)
-class AInputCharacter : public ACharacter {
+class SANDBOX_API AInputCharacter : public ACharacter {
 
 	GENERATED_BODY()
 
@@ -86,10 +86,19 @@ class AInputCharacter : public ACharacter {
 	virtual void OnFaceTopPress();
 
 	protected: UFUNCTION()
+	virtual void OnFaceTopRelease();
+
+	protected: UFUNCTION()
 	virtual void OnFaceLeftPress();
 
 	protected: UFUNCTION()
+	virtual void OnFaceLeftRelease();
+
+	protected: UFUNCTION()
 	virtual void OnFaceRightPress();
+
+	protected: UFUNCTION()
+	virtual void OnFaceRightRelease();
 
 	protected: UFUNCTION()
 	virtual void OnFaceBottomPress();

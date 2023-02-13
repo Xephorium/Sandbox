@@ -15,6 +15,4 @@
 
 void UControllerDiagnosticWidget::NativeConstruct() {
     Super::NativeConstruct();
-
-    // Bind delegates here.
 }

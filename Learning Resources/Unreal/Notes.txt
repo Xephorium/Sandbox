@@ -102,7 +102,7 @@ Networking 2
 - Project Classes Revisited
   > Source: https://docs.unrealengine.com/en-US/InteractiveExperiences/Networking/Blueprints/index.html
   > Main Classes
-    + GameInstance     - Exist on server & clients. Do not communicate with each other.
+    + GameInstance     - Exists on server & clients. Do not communicate with each other.
     + GameMode         - Exists only on server. Info clients don't need (like server map weapon settings).
     + GameState        - Exists on server & clients. Synced! Place for score replication from server to clients.
                          Contains PlayerArray with PlayerState objects for each connected player.

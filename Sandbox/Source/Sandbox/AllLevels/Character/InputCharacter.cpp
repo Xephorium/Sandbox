@@ -56,8 +56,11 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Start", IE_Pressed, this, &AInputCharacter::OnStartPress);
 	PlayerInputComponent->BindAction("End", IE_Pressed, this, &AInputCharacter::OnEndPress);
 	PlayerInputComponent->BindAction("FaceTop", IE_Pressed, this, &AInputCharacter::OnFaceTopPress);
+	PlayerInputComponent->BindAction("FaceTop", IE_Released, this, &AInputCharacter::OnFaceTopRelease);
 	PlayerInputComponent->BindAction("FaceLeft", IE_Pressed, this, &AInputCharacter::OnFaceLeftPress);
+	PlayerInputComponent->BindAction("FaceLeft", IE_Released, this, &AInputCharacter::OnFaceLeftRelease);
 	PlayerInputComponent->BindAction("FaceRight", IE_Pressed, this, &AInputCharacter::OnFaceRightPress);
+	PlayerInputComponent->BindAction("FaceRight", IE_Released, this, &AInputCharacter::OnFaceRightRelease);
 	PlayerInputComponent->BindAction("FaceBottom", IE_Pressed, this, &AInputCharacter::OnFaceBottomPress);
 	PlayerInputComponent->BindAction("FaceBottom", IE_Released, this, &AInputCharacter::OnFaceBottomRelease);
 	PlayerInputComponent->BindAction("BumperLeft", IE_Pressed, this, &AInputCharacter::OnBumperLeftPress);
@@ -84,8 +87,11 @@ void AInputCharacter::SetupSteamInputComponent() {
 	SteamInputComponent->BindStartPress(this, FName("OnStartPress"));
 	SteamInputComponent->BindEndPress(this, FName("OnEndPress"));
 	SteamInputComponent->BindFaceTopPress(this, FName("OnFaceTopPress"));
+	SteamInputComponent->BindFaceTopRelease(this, FName("OnFaceTopRelease"));
 	SteamInputComponent->BindFaceLeftPress(this, FName("OnFaceLeftPress"));
+	SteamInputComponent->BindFaceLeftRelease(this, FName("OnFaceLeftRelease"));
 	SteamInputComponent->BindFaceRightPress(this, FName("OnFaceRightPress"));
+	SteamInputComponent->BindFaceRightRelease(this, FName("OnFaceRightRelease"));
 	SteamInputComponent->BindFaceBottomPress(this, FName("OnFaceBottomPress"));
 	SteamInputComponent->BindFaceBottomRelease(this, FName("OnFaceBottomRelease"));
 	SteamInputComponent->BindBumperLeftPress(this, FName("OnBumperLeftPress"));
@@ -149,15 +155,27 @@ void AInputCharacter::OnEndPress() {
 }
 
 void AInputCharacter::OnFaceTopPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y");
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Press");
+}
+
+void AInputCharacter::OnFaceTopRelease() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Y Release");
 }
 
 void AInputCharacter::OnFaceLeftPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X");
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Press");
+}
+
+void AInputCharacter::OnFaceLeftRelease() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "X Release");
 }
 
 void AInputCharacter::OnFaceRightPress() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B");
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Press");
+}
+
+void AInputCharacter::OnFaceRightRelease() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "B Release");
 }
 
 void AInputCharacter::OnFaceBottomPress() {

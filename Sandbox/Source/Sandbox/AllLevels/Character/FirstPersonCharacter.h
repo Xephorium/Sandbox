@@ -4,9 +4,9 @@
 #include "InputCharacter.h"
 #include "FirstPersonCharacter.generated.h"
 
+class AFirstPersonHUD;
 class UCameraComponent;
 class UCapsuleComponent;
-class CharacterMovementComponent;
 class UControllerDiagnosticWidget;
 class UGamepadLookAdapter;
 class UGrabComponent;
@@ -58,6 +58,9 @@ class AFirstPersonCharacter : public AInputCharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGrabComponent* GrabComponent;
 
+	public: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=UI)
+	AFirstPersonHUD* FirstPersonHUD;
+
 	private: float VerticalForceUp = 0.0f;
 	private: float VerticalForceDown = 0.0f;
 
@@ -76,6 +79,8 @@ class AFirstPersonCharacter : public AInputCharacter {
 
 	protected: void SetupGrabComponent();
 
+	protected: void SetupFirstPersonHUD();
+
 
 	/*--- Input Handling Overrides ---*/
 
@@ -87,11 +92,21 @@ class AFirstPersonCharacter : public AInputCharacter {
 
 	virtual void OnStickRight(FVector2D Input) override;
 
+	virtual void OnFaceTopPress() override;
+
+	virtual void OnFaceTopRelease() override;
+
+	virtual void OnFaceRightPress() override;
+
+	virtual void OnFaceRightRelease() override;
+
+	virtual void OnFaceLeftPress() override;
+
+	virtual void OnFaceLeftRelease() override;
+
 	virtual void OnFaceBottomPress() override;
 
 	virtual void OnFaceBottomRelease() override;
-
-	virtual void OnFaceRightPress() override;
 
 	virtual void OnBumperLeftPress() override;
 

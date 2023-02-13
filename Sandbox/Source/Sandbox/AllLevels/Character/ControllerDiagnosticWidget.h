@@ -23,13 +23,29 @@ class SANDBOX_API UControllerDiagnosticWidget : public UUserWidget {
 	public: virtual void NativeConstruct() override;
 
 
-
 	/*--- Update Functions ---*/
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceTopPress();
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceTopRelease();
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceRightPress();
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceRightRelease();
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceLeftPress();
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnFaceLeftRelease();
 
 	public: UFUNCTION(BlueprintImplementableEvent)
 	void OnFaceBottomPress();
 
 	public: UFUNCTION(BlueprintImplementableEvent)
 	void OnFaceBottomRelease();
-
 };
