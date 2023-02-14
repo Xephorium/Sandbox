@@ -162,11 +162,13 @@ void AInputCharacter::OnStickRight(FVector2D Input) {
 	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickRight(Input);
 }
 
-void AInputCharacter::OnTriggerRight(float Input) {
+void AInputCharacter::OnTriggerLeft(float Input) {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnTriggerLeft(Input);
 	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 
-void AInputCharacter::OnTriggerLeft(float Input) {
+void AInputCharacter::OnTriggerRight(float Input) {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnTriggerRight(Input);
 	if (IsDebugLoggingEnabled && GEngine && Input > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, FString::SanitizeFloat(Input));
 }
 

@@ -32,6 +32,12 @@ class SANDBOX_API UControllerDiagnosticWidget : public UUserWidget {
 	void OnStickRight(FVector2D Input);
 
 	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnTriggerLeft(float Input);
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnTriggerRight(float Input);
+
+	public: UFUNCTION(BlueprintImplementableEvent)
 	void OnStickLeftPress();
 
 	public: UFUNCTION(BlueprintImplementableEvent)

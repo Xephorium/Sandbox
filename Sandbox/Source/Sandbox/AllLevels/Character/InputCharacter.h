@@ -77,12 +77,12 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	protected: UFUNCTION()
 	virtual void OnStickRight(FVector2D Input);
+	
+	protected: UFUNCTION()
+	virtual void OnTriggerLeft(float Input);
 
 	protected: UFUNCTION()
 	virtual void OnTriggerRight(float Input);
-
-	protected: UFUNCTION()
-	virtual void OnTriggerLeft(float Input);
 
 	protected: UFUNCTION()
 	virtual void OnStickLeftPress();
