@@ -82,6 +82,8 @@ void AFirstPersonCharacter::OnMouseVertical(float Input) {
 }
 
 void AFirstPersonCharacter::OnStickLeft(FVector2D Input) {
+	AInputCharacter::OnStickLeft(Input);
+
 	if (IsFlying) {
 		AddMovementInput(FirstPersonCameraComponent->GetForwardVector(), Input.Y);
 		AddMovementInput(FirstPersonCameraComponent->GetRightVector(), Input.X);
@@ -93,8 +95,9 @@ void AFirstPersonCharacter::OnStickLeft(FVector2D Input) {
 }
 
 void AFirstPersonCharacter::OnStickRight(FVector2D Input) {
-	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input, GetWorld()->GetDeltaSeconds());
+	AInputCharacter::OnStickRight(Input);
 
+	FVector2D Rotation = GamepadLookAdapter->calculatePlayerRotation(Input, GetWorld()->GetDeltaSeconds());
 	AddControllerYawInput(Rotation.X);
 	AddControllerPitchInput(Rotation.Y);
 }

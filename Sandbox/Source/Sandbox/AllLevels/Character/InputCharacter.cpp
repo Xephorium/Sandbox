@@ -155,15 +155,11 @@ void AInputCharacter::OnMouseVertical(float Input) {
 }
 
 void AInputCharacter::OnStickLeft(FVector2D Input) {
-	if (Input.Size() != 0.0f) {
-		FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_LEFT_DEADZONE);
-	}
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickLeft(Input);
 }
 
-void AInputCharacter::OnStickRight(FVector2D Input) { 
-	if (Input.Size() != 0.0f) {
-		FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_RIGHT_DEADZONE);
-	}
+void AInputCharacter::OnStickRight(FVector2D Input) {
+	if (IsControllerDiagnosticEnabled && CheckForControllerDiagnosticWidget()) ControllerDiagnosticWidget->OnStickRight(Input);
 }
 
 void AInputCharacter::OnTriggerRight(float Input) {
