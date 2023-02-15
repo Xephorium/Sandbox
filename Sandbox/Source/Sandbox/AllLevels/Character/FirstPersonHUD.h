@@ -21,13 +21,6 @@ class SANDBOX_API AFirstPersonHUD : public AHUD {
 
 	/*--- Variables ---*/
 
-	public: UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidgetClass;
-
-	private: UControllerDiagnosticWidget* ControllerDiagnosticWidget;
-
-	private: bool IsControllerDiagnosticShown = false;
-
 
 	/*--- Lifecycle Functions ---*/
 
@@ -36,10 +29,5 @@ class SANDBOX_API AFirstPersonHUD : public AHUD {
 
 	/*--- HUD Control Functions ---*/
 
-	public: void ToggleControllerDiagnosticWidget();
-
-	public: void ShowControllerDiagnosticWidget();
-
-	public: void HideControllerDiagnosticWidget();
 
 };

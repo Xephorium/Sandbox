@@ -28,14 +28,17 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	/*--- Variables ---*/
 
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	protected: UPROPERTY()
 	USteamInputComponent* SteamInputComponent;
 
-	public: UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (Category=Debug))
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category="Input Debugging"))
 	bool IsDebugLoggingEnabled = true;
 
-	public: UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (Category=Debug))
+	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category="Input Debugging"))
 	bool IsControllerDiagnosticEnabled = true;
+
+	public: UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category="Input Debugging"))
+	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidgetClass;
 
 	private: UControllerDiagnosticWidget* ControllerDiagnosticWidget;
 
@@ -61,7 +64,11 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	/*--- Diagnostic Functions ---*/
 
-	private: bool CheckForControllerDiagnosticWidget();
+	private: void SetupControllerDiagnosticWidget();
+
+	private: void ShowControllerDiagnosticWidget();
+
+	private: void HideControllerDiagnosticWidget();
 
 
 	/*--- Overridable Input Handling Functions ---*/

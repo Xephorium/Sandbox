@@ -102,12 +102,6 @@ void AFirstPersonCharacter::OnStickRight(FVector2D Input) {
 	AddControllerPitchInput(Rotation.Y);
 }
 
-void AFirstPersonCharacter::OnStickLeftPress() {
-	if (IsControllerDiagnosticEnabled && FirstPersonHUD) {
-		FirstPersonHUD->ToggleControllerDiagnosticWidget();
-	}
-}
-
 void AFirstPersonCharacter::OnFaceRightPress() {
 	AInputCharacter::OnFaceRightPress();
 	if (IsGrabEnabled) {

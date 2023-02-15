@@ -43,7 +43,7 @@ class AFirstPersonCharacter : public AInputCharacter {
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	bool IsFlyingEnabled = true;
 
-	public: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Gameplay)
+	public: UPROPERTY()
 	bool IsFlying;
 
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -52,13 +52,13 @@ class AFirstPersonCharacter : public AInputCharacter {
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
-	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	protected: UPROPERTY()
 	UGamepadLookAdapter* GamepadLookAdapter;
 
 	protected: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UGrabComponent* GrabComponent;
 
-	public: UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=UI)
+	public: UPROPERTY()
 	AFirstPersonHUD* FirstPersonHUD;
 
 	private: float VerticalForceUp = 0.0f;
@@ -91,8 +91,6 @@ class AFirstPersonCharacter : public AInputCharacter {
 	virtual void OnStickLeft(FVector2D Input) override;
 
 	virtual void OnStickRight(FVector2D Input) override;
-
-	virtual void OnStickLeftPress() override;
 
 	virtual void OnFaceRightPress() override;
 

@@ -608,3 +608,22 @@ Solution - Component missing. Install new component for "Unreal Games Launcher".
   the function is to be defined by blueprint only.
 
   controller_xbox360.vdf should be placed in C:\Games\Steam\SteamApps\common\Steam Controller Configs\<userid>\config\480
+
+
+02.15.2023
+
+// Finding widget of a particular class type if displayed
+bool AInputCharacter::CheckForControllerDiagnosticWidget() {
+	TArray<UUserWidget*> FoundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(
+		GetWorld(),
+		FoundWidgets,
+		UControllerDiagnosticWidget::StaticClass()
+	);
+
+	if (FoundWidgets.Num() > 0 && Cast<UControllerDiagnosticWidget>(FoundWidgets[0])) {
+		ControllerDiagnosticWidget = Cast<UControllerDiagnosticWidget>(FoundWidgets[0]);
+	}
+
+	return ControllerDiagnosticWidget != nullptr;
+}
