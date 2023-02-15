@@ -62,14 +62,14 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	check(PlayerInputComponent);
 
 	// Unreal Keyboard/Mouse
-	PlayerInputComponent->BindAxis("Turn", this, &AInputCharacter::OnMouseHorizontal);
-	PlayerInputComponent->BindAxis("LookUp", this, &AInputCharacter::OnMouseVertical);
+	PlayerInputComponent->BindAxis("MouseX", this, &AInputCharacter::OnMouseHorizontal);
+	PlayerInputComponent->BindAxis("MouseY", this, &AInputCharacter::OnMouseVertical);
 
 	// Unreal Controller
-	PlayerInputComponent->BindAxis("MoveRight", this, &AInputCharacter::OnStickLeftX);
-	PlayerInputComponent->BindAxis("MoveForward", this, &AInputCharacter::OnStickLeftY);
-	PlayerInputComponent->BindAxis("StickLookRight", this, &AInputCharacter::OnStickRightX);
-	PlayerInputComponent->BindAxis("StickLookUp", this, &AInputCharacter::OnStickRightY);
+	PlayerInputComponent->BindAxis("StickLeftX", this, &AInputCharacter::OnStickLeftX);
+	PlayerInputComponent->BindAxis("StickLeftY", this, &AInputCharacter::OnStickLeftY);
+	PlayerInputComponent->BindAxis("StickRightX", this, &AInputCharacter::OnStickRightX);
+	PlayerInputComponent->BindAxis("StickRightY", this, &AInputCharacter::OnStickRightY);
 	PlayerInputComponent->BindAxis("TriggerLeft", this, &AInputCharacter::OnTriggerLeft);
 	PlayerInputComponent->BindAxis("TriggerRight", this, &AInputCharacter::OnTriggerRight);
 	PlayerInputComponent->BindAction("StickLeftClick", IE_Pressed, this, &AInputCharacter::OnStickLeftPress);
