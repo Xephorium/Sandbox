@@ -22,6 +22,8 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	/*--- Constants  ---*/
 
+	private: const float TOGGLE_CONTROLLER_DIAGNOSTIC_HOLD_TIME = 3.0f;
+
 	private: const float STICK_LEFT_DEADZONE = 0.18f;
 	private: const float STICK_RIGHT_DEADZONE = 0.18f;
 
@@ -44,6 +46,9 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	private: FVector2D CurrentLeftStickInput = FVector2D::ZeroVector;
 	private: FVector2D CurrentRightStickInput = FVector2D::ZeroVector;
+
+	private: bool IsHoldingToToggleControllerDiagnostic = false;
+	private: float ToggleControllerDiagnosticCurrentTime = 0.0f;
 
 
 	/*--- Lifecycle Functions ---*/

@@ -29,12 +29,29 @@ void AInputCharacter::BeginPlay() {
 }
 
 void AInputCharacter::Tick(float DeltaSeconds) {
+
+	// Process Input
 	if (SteamInputComponent->IsSteamInputAvailable()) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
 		OnStickRightInput(CurrentRightStickInput);
 	}
 	OnStickLeftInput(CurrentLeftStickInput);
+
+	// Handle Controller Diagnostic Display
+	if (IsControllerDiagnosticEnabled && IsHoldingToToggleControllerDiagnostic) {
+		ToggleControllerDiagnosticCurrentTime += DeltaSeconds;
+		if (ToggleControllerDiagnosticCurrentTime >= TOGGLE_CONTROLLER_DIAGNOSTIC_HOLD_TIME) {
+			IsHoldingToToggleControllerDiagnostic = false;
+			ToggleControllerDiagnosticCurrentTime = 0.0f;
+			if (ControllerDiagnosticWidget->IsVisible()) {
+				HideControllerDiagnosticWidget();
+			} else {
+				ShowControllerDiagnosticWidget();
+			}
+			
+		}
+	}
 }
 
 
@@ -179,13 +196,11 @@ void AInputCharacter::OnTriggerRight(float Input) {
 }
 
 void AInputCharacter::OnStickLeftPress() {
-	ShowControllerDiagnosticWidget();
 	if (ControllerDiagnosticWidget && ControllerDiagnosticWidget->IsVisible()) ControllerDiagnosticWidget->OnStickLeftPress();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left Press");
 }
 
 void AInputCharacter::OnStickLeftRelease() {
-	HideControllerDiagnosticWidget();
 	if (ControllerDiagnosticWidget && ControllerDiagnosticWidget->IsVisible()) ControllerDiagnosticWidget->OnStickLeftRelease();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Stick Left Release");
 }
@@ -313,11 +328,16 @@ void AInputCharacter::OnDPadRightRelease() {
 void AInputCharacter::OnDPadDownPress() {
 	if (ControllerDiagnosticWidget && ControllerDiagnosticWidget->IsVisible()) ControllerDiagnosticWidget->OnDPadDownPress();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down Press");
+
+	IsHoldingToToggleControllerDiagnostic = true;
 }
 
 void AInputCharacter::OnDPadDownRelease() {
 	if (ControllerDiagnosticWidget && ControllerDiagnosticWidget->IsVisible()) ControllerDiagnosticWidget->OnDPadDownRelease();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "D-Pad Down Release");
+	
+	IsHoldingToToggleControllerDiagnostic = false;
+	ToggleControllerDiagnosticCurrentTime = 0.0f;
 }
 
 
