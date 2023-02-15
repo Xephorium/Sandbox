@@ -372,13 +372,9 @@ void AInputCharacter::OnStickRightY(float Input) {
 }
 
 void AInputCharacter::OnStickLeftInput(FVector2D Input) {
-	if (Input.Size() != 0.0f) {
-		OnStickLeft(UInputUtility::AccommodateDeadzone(Input, STICK_LEFT_DEADZONE));
-	}
+	OnStickLeft(UInputUtility::AccommodateDeadzone(Input, STICK_LEFT_DEADZONE));
 }
 
 void AInputCharacter::OnStickRightInput(FVector2D Input) { 
-		if (Input.Size() != 0.0f) {
-		OnStickRight(UInputUtility::AccommodateDeadzone(Input, STICK_RIGHT_DEADZONE));
-	}
+	OnStickRight(UInputUtility::AccommodateDeadzone(Input, STICK_RIGHT_DEADZONE));
 }
