@@ -44,8 +44,8 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	private: UControllerDiagnosticWidget* ControllerDiagnosticWidget;
 
-	private: FVector2D CurrentLeftStickInput = FVector2D::ZeroVector;
-	private: FVector2D CurrentRightStickInput = FVector2D::ZeroVector;
+	private: FVector2D CurrentUnrealStickLeftInput = FVector2D::ZeroVector;
+	private: FVector2D CurrentUnrealStickRightInput = FVector2D::ZeroVector;
 
 	private: bool IsHoldingToToggleControllerDiagnostic = false;
 	private: float ToggleControllerDiagnosticCurrentTime = 0.0f;
@@ -206,16 +206,25 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	 */
 
 	protected: UFUNCTION()
-	void OnStickLeftX(float Val);
+	void OnUnrealStickLeftX(float Val);
 
 	protected: UFUNCTION()
-	void OnStickLeftY(float Val);
+	void OnUnrealStickLeftY(float Val);
 
 	protected: UFUNCTION()
-	void OnStickRightX(float Input);
+	void OnUnrealStickRightX(float Input);
 
 	protected: UFUNCTION()
-	void OnStickRightY(float Input);
+	void OnUnrealStickRightY(float Input);
+
+
+	/* Note: The below function normalizes unreal's very noisy, axis-specific
+	 *       input to actually reflect a valid circular 2D input range. >_>
+	 */
+
+	protected: UFUNCTION()
+	FVector2D NormalizeStickInput(FVector2D Input);
+
 
 	/* Note: The below functions account for deadzone before delegating to the
 	 *       final, overridable OnStickLeft() and OnStickRight() methods.

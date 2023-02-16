@@ -34,9 +34,9 @@ void AInputCharacter::Tick(float DeltaSeconds) {
 	if (SteamInputComponent->IsSteamInputAvailable()) {
 		SteamInputComponent->OnTick(DeltaSeconds);
 	} else {
-		OnStickRightInput(CurrentRightStickInput);
+		OnStickLeftInput(NormalizeStickInput(CurrentUnrealStickLeftInput));
+		OnStickRightInput(NormalizeStickInput(CurrentUnrealStickRightInput));
 	}
-	OnStickLeftInput(CurrentLeftStickInput);
 
 	// Handle Controller Diagnostic Display
 	if (IsControllerDiagnosticEnabled && IsHoldingToToggleControllerDiagnostic) {
@@ -66,10 +66,10 @@ void AInputCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("MouseY", this, &AInputCharacter::OnMouseVertical);
 
 	// Unreal Controller
-	PlayerInputComponent->BindAxis("StickLeftX", this, &AInputCharacter::OnStickLeftX);
-	PlayerInputComponent->BindAxis("StickLeftY", this, &AInputCharacter::OnStickLeftY);
-	PlayerInputComponent->BindAxis("StickRightX", this, &AInputCharacter::OnStickRightX);
-	PlayerInputComponent->BindAxis("StickRightY", this, &AInputCharacter::OnStickRightY);
+	PlayerInputComponent->BindAxis("StickLeftX", this, &AInputCharacter::OnUnrealStickLeftX);
+	PlayerInputComponent->BindAxis("StickLeftY", this, &AInputCharacter::OnUnrealStickLeftY);
+	PlayerInputComponent->BindAxis("StickRightX", this, &AInputCharacter::OnUnrealStickRightX);
+	PlayerInputComponent->BindAxis("StickRightY", this, &AInputCharacter::OnUnrealStickRightY);
 	PlayerInputComponent->BindAxis("TriggerLeft", this, &AInputCharacter::OnTriggerLeft);
 	PlayerInputComponent->BindAxis("TriggerRight", this, &AInputCharacter::OnTriggerRight);
 	PlayerInputComponent->BindAction("StickLeftClick", IE_Pressed, this, &AInputCharacter::OnStickLeftPress);
@@ -355,20 +355,26 @@ void AInputCharacter::OnControllerDisconnected() {
 
 /*--- Private Input Handling Functions ---*/
 
-void AInputCharacter::OnStickLeftX(float Value) {
-	CurrentLeftStickInput.X = Value;
+void AInputCharacter::OnUnrealStickLeftX(float Value) {
+	CurrentUnrealStickLeftInput.X = Value;
 }
 
-void AInputCharacter::OnStickLeftY(float Value) {
-	CurrentLeftStickInput.Y = Value;
+void AInputCharacter::OnUnrealStickLeftY(float Value) {
+	CurrentUnrealStickLeftInput.Y = Value;
 }
 
-void AInputCharacter::OnStickRightX(float Input) {
-	CurrentRightStickInput.X = Input;
+void AInputCharacter::OnUnrealStickRightX(float Input) {
+	CurrentUnrealStickRightInput.X = Input;
 }
 
-void AInputCharacter::OnStickRightY(float Input) {
-	CurrentRightStickInput.Y = Input;
+void AInputCharacter::OnUnrealStickRightY(float Input) {
+	CurrentUnrealStickRightInput.Y = Input;
+}
+
+FVector2D AInputCharacter::NormalizeStickInput(FVector2D Input) {
+	FVector2D NormalizedInput = Input;
+	NormalizedInput.Normalize();
+	return NormalizedInput * (FMath::Clamp(Input.Size(), 0.0f, 1.0f) / NormalizedInput.Size());
 }
 
 void AInputCharacter::OnStickLeftInput(FVector2D Input) {
