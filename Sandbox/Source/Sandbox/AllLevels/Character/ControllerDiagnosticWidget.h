@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "AllLevels/Input/GamepadType.h"
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "ControllerDiagnosticWidget.generated.h"
@@ -24,6 +25,9 @@ class SANDBOX_API UControllerDiagnosticWidget : public UUserWidget {
 
 
 	/*--- Update Functions ---*/
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnControllerChange(EGamepadType GamepadType);
 
 	public: UFUNCTION(BlueprintImplementableEvent)
 	void OnPlatformChange(bool IsSteam);

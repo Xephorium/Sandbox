@@ -167,45 +167,15 @@ void AInputCharacter::HideControllerDiagnosticWidget() {
 
 void AInputCharacter::UpdatePlatformAndGamepadType() {
 	if (ControllerDiagnosticWidget && IsControllerDiagnosticShown) {
-		ControllerDiagnosticWidget->OnPlatformChange(SteamInputComponent->IsSteamInputAvailable());
-		EGamepadType GamepadType = SteamInputComponent->GetFirstConnectedGamepadType();
-		switch (GamepadType) {
-			case EGamepadType::Generic:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Generic Gamepad"));
-				break;
-			case EGamepadType::Steam:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Steam Controller"));
-				break;
-			case EGamepadType::SteamDeck:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Steam Deck Controller"));
-				break;
-			case EGamepadType::Xbox360:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Xbox 360 Controller"));
-				break;
-			case EGamepadType::XboxOne:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Xbox One Controller"));
-				break;
-			case EGamepadType::PlayStation3:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("PlayStation 3 Controller"));
-				break;
-			case EGamepadType::PlayStation4:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("PlayStation 4 Controller"));
-				break;
-			case EGamepadType::PlayStation5:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("PlayStation 5 Controller"));
-				break;
-			case EGamepadType::SwitchPro:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Switch Pro Controller"));
-				break;
-			case EGamepadType::SwitchJoyConSingle:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Switch Single Joycon"));
-				break;
-			case EGamepadType::SwitchJoyConPair:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Switch Joycon Pair"));
-				break;
-			default:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Disconnected"));
-		}
+		ControllerDiagnosticWidget->OnControllerChange(GetCurrentGamepadType());
+	}
+}
+
+EGamepadType AInputCharacter::GetCurrentGamepadType() {
+	if (SteamInputComponent->IsSteamInputAvailable()) {
+		return SteamInputComponent->GetFirstConnectedGamepadType();
+	} else {
+		return EGamepadType::GenericUnreal;
 	}
 }
 

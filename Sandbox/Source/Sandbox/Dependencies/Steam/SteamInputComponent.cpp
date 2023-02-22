@@ -291,7 +291,7 @@ EGamepadType USteamInputComponent::GetFirstConnectedGamepadType() {
 				case ESteamInputType::k_ESteamInputType_SwitchJoyConPair:
 					return EGamepadType::SwitchJoyConPair;
 				default:
-					return EGamepadType::Generic;
+					return EGamepadType::GenericSteam;
 			}
 		}
 	}

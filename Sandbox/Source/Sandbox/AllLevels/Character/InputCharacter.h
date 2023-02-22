@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AllLevels/Input/GamepadType.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputCharacter.generated.h"
@@ -77,6 +78,8 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	private: void HideControllerDiagnosticWidget();
 
 	private: void UpdatePlatformAndGamepadType();
+
+	private: EGamepadType GetCurrentGamepadType();
 
 
 	/*--- Overridable Input Handling Functions ---*/

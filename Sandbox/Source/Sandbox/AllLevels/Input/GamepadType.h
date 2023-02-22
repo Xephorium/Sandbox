@@ -6,7 +6,8 @@
 
 UENUM(BlueprintType)
 enum class EGamepadType : uint8 {
-	Generic             UMETA(DisplayName = "Generic"),
+    GenericUnreal       UMETA(DisplayName = "Generic Unreal"),
+	GenericSteam        UMETA(DisplayName = "Generic Steam"),
     Steam               UMETA(DisplayName = "Steam"),
     SteamDeck           UMETA(DisplayName = "Steam Deck"),
     Xbox360             UMETA(DisplayName = "Xbox 360"),
