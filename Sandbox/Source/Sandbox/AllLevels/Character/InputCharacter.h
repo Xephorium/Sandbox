@@ -77,8 +77,6 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 	private: void HideControllerDiagnosticWidget();
 
-	private: void UpdatePlatformAndGamepadType();
-
 	private: EGamepadType GetCurrentGamepadType();
 
 

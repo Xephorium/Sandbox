@@ -153,7 +153,7 @@ void AInputCharacter::ShowControllerDiagnosticWidget() {
         ControllerDiagnosticWidget->AddToViewport();
         GetWorld()->GetFirstPlayerController()->SetInputMode(FInputModeGameOnly());
 		IsControllerDiagnosticShown = true;
-		UpdatePlatformAndGamepadType();
+		ControllerDiagnosticWidget->OnControllerChange(GetCurrentGamepadType());
     }
 }
 
@@ -163,12 +163,6 @@ void AInputCharacter::HideControllerDiagnosticWidget() {
         ControllerDiagnosticWidget->RemoveFromViewport();
 		ControllerDiagnosticWidget = nullptr;
     }
-}
-
-void AInputCharacter::UpdatePlatformAndGamepadType() {
-	if (ControllerDiagnosticWidget && IsControllerDiagnosticShown) {
-		ControllerDiagnosticWidget->OnControllerChange(GetCurrentGamepadType());
-	}
 }
 
 EGamepadType AInputCharacter::GetCurrentGamepadType() {
@@ -358,12 +352,12 @@ void AInputCharacter::OnDPadDownRelease() {
 /*--- Overridable Event Handling Functions ---*/
 
 void AInputCharacter::OnControllerConnected() {
-	UpdatePlatformAndGamepadType();
+	if (ControllerDiagnosticWidget && IsControllerDiagnosticShown) ControllerDiagnosticWidget->OnControllerChange(GetCurrentGamepadType());
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
 }
 
 void AInputCharacter::OnControllerDisconnected() {
-	UpdatePlatformAndGamepadType();
+	if (ControllerDiagnosticWidget && IsControllerDiagnosticShown) ControllerDiagnosticWidget->OnControllerChange(GetCurrentGamepadType());
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
 }
 
