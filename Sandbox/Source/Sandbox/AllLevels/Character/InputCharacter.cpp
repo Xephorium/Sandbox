@@ -170,6 +170,9 @@ void AInputCharacter::UpdatePlatformAndGamepadType() {
 		ControllerDiagnosticWidget->OnPlatformChange(SteamInputComponent->IsSteamInputAvailable());
 		EGamepadType GamepadType = SteamInputComponent->GetFirstConnectedGamepadType();
 		switch (GamepadType) {
+			case EGamepadType::Generic:
+				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Generic Gamepad"));
+				break;
 			case EGamepadType::Steam:
 				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Steam Controller"));
 				break;
@@ -201,7 +204,7 @@ void AInputCharacter::UpdatePlatformAndGamepadType() {
 				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Switch Joycon Pair"));
 				break;
 			default:
-				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Generic Gamepad"));
+				ControllerDiagnosticWidget->OnInputTypeChange(TEXT("Disconnected"));
 		}
 	}
 }
@@ -385,10 +388,12 @@ void AInputCharacter::OnDPadDownRelease() {
 /*--- Overridable Event Handling Functions ---*/
 
 void AInputCharacter::OnControllerConnected() {
+	UpdatePlatformAndGamepadType();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Connected");
 }
 
 void AInputCharacter::OnControllerDisconnected() {
+	UpdatePlatformAndGamepadType();
 	if (IsDebugLoggingEnabled && GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, "Controller Disconnected");
 }
 

@@ -217,20 +217,9 @@ void USteamInputComponent::SetupSteamInput() {
 
 	InitializeSteamInput();
 	if (IsSteamInputAvailable()) {
-
-		// Print Status
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Active");
-
-		// Refresh Input
+		 // Refresh Input
 		SteamInput()->RunFrame();
-
-		// Check for Connected Controllers
 		CheckForConnectedControllers();
-
-	} else {
-
-		// Print Status
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::White, "Steam Input - Unavailable (Reverting to UE4 Input)");
 	}
 }
 
@@ -276,13 +265,10 @@ void USteamInputComponent::CheckForConnectedControllers() {
 }
 
 EGamepadType USteamInputComponent::GetFirstConnectedGamepadType() {
-
 	if (SteamInput()) {
-		InputHandle_t InputHandle = SteamInput()->GetControllerForGamepadIndex(0);
-	
-		if (InputHandle) {
-			ESteamInputType InputType = SteamInput()->GetInputTypeForHandle(InputHandle);
-		
+		if (controllers[0]) {
+			ESteamInputType InputType = SteamInput()->GetInputTypeForHandle(controllers[0]);
+
 			switch (InputType) {
 				case ESteamInputType::k_ESteamInputType_SteamController:
 					return EGamepadType::Steam;
@@ -310,7 +296,7 @@ EGamepadType USteamInputComponent::GetFirstConnectedGamepadType() {
 		}
 	}
 
-	return EGamepadType::Generic;
+	return EGamepadType::Disconnected;
 }
 
 InputDigitalActionData_t USteamInputComponent::GetDigitalInput(char* name) {

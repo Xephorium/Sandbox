@@ -16,5 +16,6 @@ enum class EGamepadType : uint8 {
     PlayStation5        UMETA(DisplayName = "PlayStation 5"),
     SwitchPro           UMETA(DisplayName = "Switch Pro"),
     SwitchJoyConSingle  UMETA(DisplayName = "Switch JoyCon Single"),
-    SwitchJoyConPair    UMETA(DisplayName = "Switch JoyCon Pair")
+    SwitchJoyConPair    UMETA(DisplayName = "Switch JoyCon Pair"),
+    Disconnected        UMETA(DisplayName = "Disconnected")
 };
