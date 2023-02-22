@@ -26,6 +26,12 @@ class SANDBOX_API UControllerDiagnosticWidget : public UUserWidget {
 	/*--- Update Functions ---*/
 
 	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnPlatformChange(bool IsSteam);
+
+	public: UFUNCTION(BlueprintImplementableEvent)
+	void OnInputTypeChange(const FString& InputType);
+
+	public: UFUNCTION(BlueprintImplementableEvent)
 	void OnStickLeft(FVector2D Input);
 
 	public: UFUNCTION(BlueprintImplementableEvent)

@@ -1,5 +1,6 @@
 
 #include "SteamInputComponent.h"
+#include "AllLevels/Input/GamepadType.h"
 #include <iostream>
 #include <string>
 
@@ -272,6 +273,44 @@ void USteamInputComponent::CheckForConnectedControllers() {
 			WasControllerConnected = false;
 		}
 	}
+}
+
+EGamepadType USteamInputComponent::GetFirstConnectedGamepadType() {
+
+	if (SteamInput()) {
+		InputHandle_t InputHandle = SteamInput()->GetControllerForGamepadIndex(0);
+	
+		if (InputHandle) {
+			ESteamInputType InputType = SteamInput()->GetInputTypeForHandle(InputHandle);
+		
+			switch (InputType) {
+				case ESteamInputType::k_ESteamInputType_SteamController:
+					return EGamepadType::Steam;
+				case ESteamInputType::k_ESteamInputType_SteamDeckController:
+					return EGamepadType::SteamDeck;
+				case ESteamInputType::k_ESteamInputType_XBox360Controller:
+					return EGamepadType::Xbox360;
+				case ESteamInputType::k_ESteamInputType_XBoxOneController:
+					return EGamepadType::XboxOne;
+				case ESteamInputType::k_ESteamInputType_PS3Controller:
+					return EGamepadType::PlayStation3;
+				case ESteamInputType::k_ESteamInputType_PS4Controller:
+					return EGamepadType::PlayStation4;
+				case ESteamInputType::k_ESteamInputType_PS5Controller:
+					return EGamepadType::PlayStation5;
+				case ESteamInputType::k_ESteamInputType_SwitchProController:
+					return EGamepadType::SwitchPro;
+				case ESteamInputType::k_ESteamInputType_SwitchJoyConSingle:
+					return EGamepadType::SwitchJoyConSingle;
+				case ESteamInputType::k_ESteamInputType_SwitchJoyConPair:
+					return EGamepadType::SwitchJoyConPair;
+				default:
+					return EGamepadType::Generic;
+			}
+		}
+	}
+
+	return EGamepadType::Generic;
 }
 
 InputDigitalActionData_t USteamInputComponent::GetDigitalInput(char* name) {

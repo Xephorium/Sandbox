@@ -5,6 +5,7 @@
 #pragma warning(disable: 4996)
 #include "Dependencies/Steam/Library/steam_api.h"
 #pragma warning(pop)
+#include "AllLevels/Input/GamepadType.h"
 #include "SteamInputComponentDelegates.h"
 #include "SteamInputComponent.generated.h"
 
@@ -163,6 +164,9 @@ class USteamInputComponent : public UObject {
 
 	/** Checks for Connected Controllers **/
 	private: void CheckForConnectedControllers();
+
+	/** Determine type of first connected controller **/
+	public: EGamepadType GetFirstConnectedGamepadType(); 
 
 	/** Utility Method - Gets Digital Action Data from SteamInput **/
 	private: InputDigitalActionData_t GetDigitalInput(char* name);
