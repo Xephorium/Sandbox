@@ -39,6 +39,9 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 	public: UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category="Input Debugging"))
 	bool IsControllerDiagnosticEnabled = true;
 
+	private: UPROPERTY()
+	bool IsControllerDiagnosticShown = false;
+
 	public: UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category="Input Debugging"))
 	TSubclassOf<UControllerDiagnosticWidget> ControllerDiagnosticWidgetClass;
 
@@ -68,8 +71,6 @@ class SANDBOX_API AInputCharacter : public ACharacter {
 
 
 	/*--- Diagnostic Functions ---*/
-
-	private: void SetupControllerDiagnosticWidget();
 
 	private: void ShowControllerDiagnosticWidget();
 
