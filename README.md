@@ -1,7 +1,10 @@
-<img align="left" width="120" src="Project Resources/Interface/Project Icon/Sandbox Icon 2022.png" alt="Sandbox Icon">
+<img align="left" width="130" src="Project Resources/Interface/Project Icon/Sandbox Icon 2022.png" alt="Sandbox Icon">
 
-# Sandbox
+### Sandbox
+------
 A found family's journey toward building our own universe.
+
+<br/>
 
 ### Resources & Credits
 - [mordentral](https://github.com/mordentral)'s [AdvancedSessions](https://github.com/mordentral/AdvancedSessionsPlugin) plugin, an extension library for Unreal's multiplayer blueprints.
