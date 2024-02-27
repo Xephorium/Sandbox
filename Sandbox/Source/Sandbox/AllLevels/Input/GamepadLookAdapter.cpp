@@ -25,7 +25,7 @@
  *
  *  "Look" simply rotates the camera based on an acceleration curve.
  *  This area makes up the majority of the stick. However, input of greater
- *  magnitude than _______________________ along the right and left edges
+ *  magnitude than STICK_TURN_THRESHOLD along the right and left edges
  *  of the stick assumes the player's intention to "Turn" and accelerates
  *  the player's rotation. The turn strength is also clamped to a radial
  *  falloff, where the turn speed decreases as input strays from the
