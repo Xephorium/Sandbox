@@ -7,7 +7,7 @@
 
 /*
  *  GrabberComponent.cpp                               Chris Cruzen
- *  Sandbox                                              09.22.2022
+ *  Sandbox                                              02.12.2023
  *
  *    GrabberComponent gives its actor the ability to grab and move
  *  other objects in the scene.
@@ -121,7 +121,7 @@ AActor *UGrabComponent::GetActorInView() {
 	// Initialize Raycast Variables
 	FHitResult RaycastHit;
 	FCollisionQueryParams RaycastParams = FCollisionQueryParams(
-		FName(TEXT("")), // ???
+		FName(TEXT("")),
 		false, // Whether to use Visibility Collision
 		GetOwner()// Any Actor to ignore? (Player!)
 	);

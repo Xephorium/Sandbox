@@ -6,7 +6,7 @@
 
 /*
  *  GamepadLookAdapter.cpp                           Chris Cruzen
- *  Sandbox                                            05.31.2022
+ *  Sandbox                                            06.04.2022
  * 
  *  This class contains the logic required to translate analog toggle stick
  *  input to satisfying first person look motion. It does this by treating

@@ -14,7 +14,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 /*
  *  FirstPersonCharacter.cpp                           Chris Cruzen
- *  Sandbox                                              05.29.2022
+ *  Sandbox                                              02.15.2023
  *
  *    FirstPersonCharacter is the base character class of the first
  *  person levels of Sandbox. It handles common logic for input and
