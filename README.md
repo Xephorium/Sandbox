@@ -6,6 +6,10 @@ A found family's journey toward building our own universe.
 
 <br/>
 
+![Screenshot Preview](Project%20Resources/GitHub/GitHub%20Preview.png)
+
+<br/>
+
 ### Resources & Credits
 - [mordentral](https://github.com/mordentral)'s [AdvancedSessions](https://github.com/mordentral/AdvancedSessionsPlugin) plugin, an extension library for Unreal's multiplayer blueprints.
 - [3D Assets One](https://www.3dassets.one/), a massive database of Creative Commons PBR materials.
