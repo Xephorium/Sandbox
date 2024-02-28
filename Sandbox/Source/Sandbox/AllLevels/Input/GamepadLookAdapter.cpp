@@ -75,9 +75,9 @@ bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
 
     // Look angle must be < STICK_TURN_FALLOFF_ANGLE.
     float Angle = abs(atan(Input.Y / Input.X) * RAD2DEG);
-    bool angleCheck = Angle <= STICK_TURN_FALLOFF_ANGLE;
+    bool AngleCheck = Angle <= STICK_TURN_FALLOFF_ANGLE;
 
-    return MagnitudeCheck && angleCheck;
+    return MagnitudeCheck && AngleCheck;
 }
 
 float UGamepadLookAdapter::GetRadialFalloff(FVector2D Input) {
