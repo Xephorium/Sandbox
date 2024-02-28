@@ -22,10 +22,10 @@ class UGamepadLookAdapter : public UObject {
 
 	private: const float STICK_DEADZONE = 0.19f;
 	private: const float STICK_LOOK_SPEED = 40.0f;
-	private: const float STICK_TURN_STRENGTH = 1.15f;
+	private: const float STICK_TURN_STRENGTH = 1.20f;
 	private: const float STICK_TURN_THRESHOLD = 0.975f;
 	private: const float STICK_TURN_FALLOFF_ANGLE = 55.0f;
-	private: const float STICK_TURN_ACCELERATION_LENGTH = 0.6f;
+	private: const float STICK_TURN_ACCELERATION_LENGTH = 0.65f;
 
 	private: const float STICK_LOOK_VERTICAL_MULTIPLIER = 0.77f;
 

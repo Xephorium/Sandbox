@@ -39,7 +39,7 @@ FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input, float Ti
 
     // Accommodate Deadzone & Apply Easing Curve
     FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_DEADZONE);
-    FVector2D EasedInput = ValidInput * ((UGamepadLookAdapter::CircleEaseIn(ValidInput.Size()) + ValidInput.Size()) / 2.0f);
+    FVector2D EasedInput = ValidInput * ((UGamepadLookAdapter::CircleEaseIn(ValidInput.Size()) + ValidInput.Size() + ValidInput.Size()) / 3.0f);
     
     // Calculate Turn Strength & Direction
     float TurnFactor = CalculateTurnFactor(EasedInput, TimeDelta);
