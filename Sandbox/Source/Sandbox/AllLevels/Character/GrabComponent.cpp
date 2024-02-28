@@ -66,7 +66,7 @@ void UGrabComponent::GrabObject() {
 			RaycastHitActor->GetActorLocation()
 		);
 
-		// Reduce Angular Damping
+		// Increase Angular Damping to Avoid Uncontrolled Twirling
 		ObjectAngularDamping = ObjectPrimitiveComponent->GetAngularDamping();
 		ObjectPrimitiveComponent->SetAngularDamping(HoldAngularDamping);
 	}
@@ -79,7 +79,7 @@ void UGrabComponent::ReleaseObject() {
 		// Release Object
 		PhysicsHandleComponent->ReleaseComponent();
 
-		// Restore Angular Damping
+		// Restore Previous Angular Damping
 		ObjectPrimitiveComponent->SetAngularDamping(ObjectAngularDamping);
 	} 
 }

@@ -21,11 +21,11 @@ class UGamepadLookAdapter : public UObject {
 	private: const float RAD2DEG = (360.0f / (PI * 2.0f));
 
 	private: const float STICK_DEADZONE = 0.19f;
-	private: const float STICK_LOOK_SPEED = 35.0f;
+	private: const float STICK_LOOK_SPEED = 40.0f;
 	private: const float STICK_TURN_STRENGTH = 1.15f;
-	private: const float STICK_TURN_THRESHOLD = 0.95f;
+	private: const float STICK_TURN_THRESHOLD = 0.975f;
 	private: const float STICK_TURN_FALLOFF_ANGLE = 55.0f;
-	private: const float STICK_TURN_ACCELERATION_LENGTH = 0.8f;
+	private: const float STICK_TURN_ACCELERATION_LENGTH = 0.6f;
 
 	private: const float STICK_LOOK_VERTICAL_MULTIPLIER = 0.77f;
 
@@ -51,6 +51,7 @@ class UGamepadLookAdapter : public UObject {
 
 	private: float GetRadialFalloff(FVector2D Input);
 
+
 	/*--- Interpolation Functions ---*/
 
 	private: float CubicEaseIn(float Input);
@@ -61,5 +62,6 @@ class UGamepadLookAdapter : public UObject {
 
 	private: float SinEaseOut(float Input);
 
+	private: float CircleEaseIn(float Input);
 };
 
