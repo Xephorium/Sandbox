@@ -3,7 +3,6 @@
 #include <math.h>
 #include <cmath>
 #include "AllLevels/Input/InputUtility.h"
-#include "AllLevels/Utility/LogUtility.h"
 
 /*
  *  GamepadLookAdapter.cpp                           Chris Cruzen
@@ -38,29 +37,24 @@
 
 FVector2D UGamepadLookAdapter::calculatePlayerRotation(FVector2D Input, float TimeDelta) {
 
-    // Disregard Input Within Deadzone
+    // Accommodate Deadzone & Apply Easing Curve
     FVector2D ValidInput = UInputUtility::AccommodateDeadzone(Input, STICK_DEADZONE);
-    
-    // Apply Easing Curve
-    FVector2D ScaledInput = ValidInput * ((UGamepadLookAdapter::CircleEaseIn(ValidInput.Size()) + ValidInput.Size()) / 2.0f);
+    FVector2D EasedInput = ValidInput * ((UGamepadLookAdapter::CircleEaseIn(ValidInput.Size()) + ValidInput.Size()) / 2.0f);
     
     // Calculate Turn Strength & Direction
-    float TurnFactor = CalculateTurnFactor(ScaledInput, TimeDelta);
-    float InputDirection = ScaledInput.X / abs(ScaledInput.X);
+    float TurnFactor = CalculateTurnFactor(EasedInput, TimeDelta);
+    float InputDirection = EasedInput.X / abs(EasedInput.X);
 
     // Build Final Rotation Vector
     return FVector2D(
-        ScaledInput.X + (InputDirection * TurnFactor * STICK_TURN_STRENGTH),
-        ScaledInput.Y * STICK_LOOK_VERTICAL_MULTIPLIER
+        EasedInput.X + (InputDirection * TurnFactor * STICK_TURN_STRENGTH),
+        EasedInput.Y * STICK_LOOK_VERTICAL_MULTIPLIER
     ) * STICK_LOOK_SPEED * TimeDelta;
 }
 
 
 /*--- Calculation Functions ---*/
 
-/* Returns a float [0,1] representing the strenth of the camera's current turn,
- * which gradually increases the longer look magnitude > STICK_TURN_THRESHOLD.
- */
 float UGamepadLookAdapter::CalculateTurnFactor(FVector2D Input, float TimeDelta) {
     if (IsInTurnZone(Input)) {
         TargetTurnFactor = GetRadialFalloff(Input);
@@ -91,11 +85,6 @@ bool UGamepadLookAdapter::IsInTurnZone(FVector2D Input) {
     return MagnitudeCheck && AngleCheck;
 }
 
-/* Returns a float [0,1] representing how close to the horizontal axis the
- * current stick input is. When the stick is directly left or right, the 
- * returned value is 1. When the stick is STICK_TURN_FALLOFF_ANGLE above or
- * below the axis, the returned value is 0.
- */
 float UGamepadLookAdapter::GetRadialFalloff(FVector2D Input) {
     float Angle = abs(atan(Input.Y / Input.X) * RAD2DEG);
     float RadialPercent = FMath::Clamp(1.0f - (Angle / STICK_TURN_FALLOFF_ANGLE), 0.0f, 1.0f);

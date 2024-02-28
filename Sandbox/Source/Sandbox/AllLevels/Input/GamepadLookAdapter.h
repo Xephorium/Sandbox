@@ -45,10 +45,18 @@ class UGamepadLookAdapter : public UObject {
 
 	/*--- Calculation Functions ---*/
 
+	/* Returns a float [0,1] representing the strenth of the camera's current turn,
+     * which gradually increases the longer look magnitude > STICK_TURN_THRESHOLD.
+     */
 	private: float CalculateTurnFactor(FVector2D Input, float TimeDelta);
 
 	private: bool IsInTurnZone(FVector2D Input);
 
+	/* Returns a float [0,1] representing how close to the horizontal axis the
+ 	 * current stick input is. When the stick is directly left or right, the 
+ 	 * returned value is 1. When the stick is STICK_TURN_FALLOFF_ANGLE above or
+ 	 * below the axis, the returned value is 0.
+	 */
 	private: float GetRadialFalloff(FVector2D Input);
 
 
