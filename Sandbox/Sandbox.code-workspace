@@ -25,7 +25,8 @@
 			"typeindex": "cpp",
 			"xlocale": "cpp",
 			"typeinfo": "cpp"
-		}
+		},
+		"dotnet.defaultSolution": "disable"
 	},
 	"extensions": {
 		"recommendations": [
