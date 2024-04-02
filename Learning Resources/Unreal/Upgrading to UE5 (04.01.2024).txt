@@ -1,0 +1,34 @@
+
+/// UE5 Upgrade Journey ///
+
+  Problem 1
+    Error
+      E:\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\AdvancedSteamSessions.Build.cs(16,105): error CS0117: 'UnrealTargetPlatform' does not contain a definition for 'Win32'
+      Expecting to find a type to be declared in a target rules named 'SandboxTarget'.  This type must derive from the 'TargetRules' type defined by Unreal Build Tool.
+    Solution
+      UE5 ends support for Win32 builds of games. The AdvancedSessions plugin's build file contained a reference to Win32 I needed to remove for the plugin's C++ to compile.
+
+  Reminder
+    Unreal's equivalent of "Invalidate Caches and Restart" is to delete (or backup) the project's Binaries, Build, Intermediate, and Saved folders, then right click Sandbox.uproject in Explorer and "Generate Visual Studio Project Files."
+
+  Problem 2
+    Error
+      E:\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\Classes\AdvancedSteamFriendsLibrary.h(200): error C2660: 'FUniqueNetId::GetTypeHash': function does not take 1 arguments
+      E:\Game Dev\Unreal Engine\UE_5.3\Engine\Source\Runtime\CoreOnline\Public\Online\CoreOnline.h(188): note: see declaration of 'FUniqueNetId::GetTypeHash'
+      E:\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\Classes\AdvancedSteamFriendsLibrary.h(200): note: while trying to match the argument list '(const uint64)'
+      E:\Game Dev\Unreal Projects\Sandbox\Sandbox\Plugins\AdvancedSessions\AdvancedSteamSessions\Source\AdvancedSteamSessions\Classes\AdvancedSteamFriendsLibrary.h(276): warning C4996: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+      ...
+      (More AdvancedSteamSessions compile issues)
+    Solution
+      Find, download, and replace Sandbox's plugin source files with the newest versions of AdvancedSessions, which is built for Unreal Engine 5.
+
+  Problem 3
+    Issue
+      After enabling Lumen, scene lighting is still WAY too dark with broken shadows and blotchy lighting/reflections.
+    Solution
+      1. Set all lights to Movable (Lumen doesn't use static lights) to fix shadows
+      2. Turn up graphics settings for Global Illumination & Reflections to address blotchy lighting/rreflections
+      3. Play with PostProcessingVolume settings to get desired look
+         - Exposure > Min/Max Brightness
+      4. Tweak light settings to eliminate corner bleed
+         - Problem Light > Light > Advanced > Shadow Bias/Shadow Slope Bias
